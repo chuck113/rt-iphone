@@ -1,0 +1,5 @@
+build/*
+*.pbxuser
+*.model1v3
+
+.DS_Store
