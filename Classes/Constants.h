@@ -8,7 +8,9 @@
 #define kLinesWidth				300.0
 
 // html styles
-#define kResultTableLineStyle	@"style=\"font-family:Helvetica;font-size:14px\""
+#define kResultTableLineStyle	@"style=\"font-family:Helvetica;font-size:14px;color:white\""
 #define kDetailLineStyle		@"style=\"font-family:Helvetica;font-size:18px\""
 
 #define kResultTableArtistStyle @"style=\"text-align:right;font-family:Arial;font-size:12px;color:darkblue\""
+
+#define kResultTableHtmlStyle	@"style=\"background-color:black\""

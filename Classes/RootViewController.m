@@ -31,10 +31,15 @@
 @synthesize cellCache;
 
 // DOMAIN METHODS
--(void)setSearchBarText:(NSString *)text{
-	[searchBar setText:text];
-	
+-(void)setSearchTextAndDoSearch:(NSString *)text{
+	[self.searchBar setText:text];	
 	[self searchPopulateAndReload:text];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBarRef {	
+	// Make the keyboard go away.
+	[searchBarRef resignFirstResponder];
+	[self searchPopulateAndReload:searchBarRef.text];
 }
 
 -(void)searchPopulateAndReload:(NSString*)text{
@@ -43,14 +48,6 @@
 	
 	// Tell the UITableView to reload its data.	
 	[self.searchResultTableView reloadData];
-}
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBarRef {
-	NSLog(@"search button pressed");
-	
-	// Make the keyboard go away.
-	[searchBarRef resignFirstResponder];
-	[self searchPopulateAndReload:searchBarRef.text];
 }
 
 /**
@@ -72,13 +69,17 @@
 		//TODO do we need to pass height in here?
 		CGFloat height = [self heightOfString:part.rhymeLines];
 		TableCellView* cell = [[[TableCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"NEVER" height:height] autorelease];
-		NSString* html = [htmlBuilder buildStyledHtml:part];
+		NSString* html = [htmlBuilder buildTableResult:part];
 		[cell setLabelText:html];
 		cell.delegate = self;
 		[cellBuffer addObject:cell];
 	}
 	
-	return[NSArray arrayWithArray:cellBuffer];
+//	NSArray *result = [NSArray arrayWithArray:cellBuffer];
+//	[cellBuffer dealloc];
+//	return result;
+	
+	return [NSArray arrayWithArray:cellBuffer]; 
 }
 
 // END DOMAIN METHODS
@@ -102,10 +103,6 @@
 	self.navigationItem.titleView = temp;
 	self.searchBar = temp;
 	[temp release];
-}
-
-- (void)setSearchTextAndDoSearch:(NSString *)text{
-	NSLog(@"performing search with %@", text);
 }
 
 
@@ -137,7 +134,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 	RhymePart* rhymePart = (RhymePart*)[self.searchResult objectAtIndex:indexPath.row];
-	NSLog(@"called heightForRowAtIndexPath, returend %f", [self heightOfString:rhymePart.rhymeLines]); 
+	//NSLog(@"called heightForRowAtIndexPath, returend %f", [self heightOfString:rhymePart.rhymeLines]); 
 	
 	return [self heightOfString:rhymePart.rhymeLines];
 }
@@ -146,12 +143,13 @@
 - (CGFloat)heightOfString:(NSString *)string{
 	struct CGSize size;
 	size = [string sizeWithFont:[UIFont fontWithName:@"Helvetica-Bold" size:14] constrainedToSize:CGSizeMake(kLinesWidth, kLinesWidth) lineBreakMode:UILineBreakModeCharacterWrap];
-	NSLog(@"heightOfString %f for %@", size.height, string); 
+	//NSLog(@"heightOfString %f for %@", size.height, string); 
 	return size.height +15.0f + 15.0f;
 }
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	NSLog(@"cell is %@", [cellCache objectAtIndex:indexPath.row]);
 	return [cellCache objectAtIndex:indexPath.row];
 }
 
@@ -164,46 +162,6 @@
 	RhymeDetailViewController *targetViewController = [[RhymeDetailViewController alloc] initWithNibName:@"RhymeDetailViewController" bundle:nil searchCallback:self searchResult:[self.searchResult objectAtIndex:indexPath.row]];
     [self.navigationController pushViewController:targetViewController animated:YES];
 }
-
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source.
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-    }   
-}
-*/
-
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 
 - (void)dealloc {

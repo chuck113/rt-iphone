@@ -14,17 +14,17 @@
 typedef enum {
     HtmlBuilderLinesAndArtistNoLinks,
 	HtmlBuilderLinesAndLinks
-//    UITableViewCellAccessoryDisclosureIndicator,    // regular chevron. doesn't track
-//    UITableViewCellAccessoryDetailDisclosureButton, // blue button w/ chevron. tracks
-//    UITableViewCellAccessoryCheckmark               // checkmark. doesn't track
 } HtmlType;
 
 @interface HtmlBuilder : NSObject {
 
 }
 
-- (NSString*)buildStyledHtml:(RhymePart*)rhymePart;
-- (NSString*)buildStyledHtmlWithLinks:(RhymePart*)rhymePart;
+- (NSString *)linesForTableView:(RhymePart*)rhymePart;
 - (NSString *)buildHtmlLines:(RhymePart*)rhymePart styleString:(NSString*)styleString withLinks:(BOOL)withLinks;
+- (NSString*)linesForDetailView:(RhymePart*)rhymePart;
+- (NSString*)buildTableResult:(RhymePart*)rhymePart;
+- (NSString*)buildStyledHtmlWithLinks:(RhymePart*)rhymePart;
+//- (NSString *)linesForDetail:(RhymePart*)rhymePart :(NSString*)styleString :(BOOL)withLinks;
 
 @end

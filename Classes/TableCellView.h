@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol SearchBarCallback;
+@protocol SearchCallback;
 
-@interface TableCellView : UITableViewCell {
+@interface TableCellView : UITableViewCell<UIWebViewDelegate> {
 	UILabel *cellText;
 	//IBOutlet UILabel *lines;
 	//IBOutlet UILabel *artist;
@@ -18,20 +18,15 @@
 
 	NSString *rawText;
 	UIWebView *webView;
-	id delegate;
+	id<SearchCallback> delegate;
 }
 
 @property (nonatomic, retain) UIWebView* webView;
 @property (nonatomic, retain) NSString* rawText;
-@property (nonatomic,assign) id<SearchBarCallback>  delegate;
+@property (nonatomic,assign) id<SearchCallback>  delegate;
 
 - (void)setLabelText:(NSString *)_text;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier height:(CGFloat)height;
-
-//- (void)setLinesText:(NSString *)_lines;
-//- (void)setArtistText:(NSString *)_artist;
-//- (void)setTitleText:(NSString *)_title;
-
 
 @end
 

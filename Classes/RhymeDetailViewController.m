@@ -14,7 +14,7 @@
         return nil;
 
 	HtmlBuilder *htmlBuilder = [HtmlBuilder alloc]; 
-	NSString *html = [htmlBuilder buildHtmlLines:searchResult styleString:kDetailLineStyle withLinks:YES];
+	NSString *html = [htmlBuilder linesForDetailView:searchResult];
 	self.searchCallbackDelegate = searchCallback;
     self.title = searchResult.word;
 	UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
@@ -26,17 +26,13 @@
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
-	//NSString* baseURL = [[request URL] baseURL];
-	NSLog(@"[request URL] %@", [request URL] );
-	NSLog(@"[[request URL] baseURL] %@", [[request URL] baseURL] );
 	
 	if([[[request URL] absoluteString] isEqualToString:@"about:blank"]){
 		return TRUE;
 	}else{	
-		//RootViewController *targetViewController = [[RootViewController alloc] initWithNibName:@"RootViewController" bundle:nil];
 		[self.navigationController popViewControllerAnimated:YES];
 		[searchCallbackDelegate setSearchTextAndDoSearch:@"me"];
-	return FALSE;
+		return FALSE;
 	}
 }
 

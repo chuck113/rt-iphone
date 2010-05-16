@@ -12,11 +12,12 @@
 @protocol SearchCallback<NSObject>
 
 @required
+
 - (void)setSearchTextAndDoSearch:(NSString *)text;
 
 @end
 
-@interface RootViewController : UITableViewController<SearchCallback> {
+@interface RootViewController : UITableViewController<SearchCallback, UISearchBarDelegate> {
 	NSArray *searchResult;	
 	HtmlBuilder* htmlBuilder;	
 	NSArray* cellCache;

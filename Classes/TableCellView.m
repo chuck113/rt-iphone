@@ -12,8 +12,6 @@
 
 @implementation TableCellView
 
-
-//@synthesize lines, artist, title;
 @synthesize webView, rawText, delegate;
 
 
@@ -22,6 +20,7 @@
         webView = [[[UIWebView alloc] initWithFrame:CGRectMake(0, 0, kLinesWidth, height)] autorelease];
 		[webView setDelegate:self];
 		[self addSubview:webView];
+		self.backgroundColor = [UIColor blackColor];
 		self.accessoryType = UITableViewCellAccessoryDisclosureIndicator; 
     }
     return self;
@@ -29,18 +28,14 @@
 
 
 - (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType {
-	NSLog(@"got request %@", [[request URL]absoluteString]);
-	NSLog(@"got request base %@", [[request URL]baseURL]);
-	
 	if([[[request URL]absoluteString] isEqualToString:@"about:blank"]){
 		return TRUE;
 	}else{
-	
 		NSArray* elements = [[[request URL] path] componentsSeparatedByString:@"/"];
 		NSString* lastPathElement = [elements lastObject];
 		NSLog(@"lastPathElement %@", lastPathElement);
 	
-		[self.delegate setSearchBarText:lastPathElement];
+		[self.delegate setSearchTextAndDoSearch:lastPathElement];
 		return FALSE;
 	}
 }
@@ -53,8 +48,10 @@
 
 - (void)dealloc {
 	// set webView delegate to nill before deallocation webView
-	webView.delegate = nil;
-	[webView dealloc];
+	//webView.delegate = nil;
+	//[webView dealloc];
+	// removing these lines resulted in sending msg to object that has been freed
+	
     [super dealloc];
 }
 	

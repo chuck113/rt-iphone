@@ -84,13 +84,13 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				468576AE11A0255900814B9E /* dao */,
+				468576A511A0255800814B9E /* dto */,
 				4685788411A02F8500814B9E /* Constants.h */,
 				468576B111A0255900814B9E /* HtmlBuilder.m */,
 				468576B211A0255900814B9E /* HtmlBuilder.h */,
 				468576B311A0255900814B9E /* TableCellView.m */,
 				468576B411A0255900814B9E /* TableCellView.h */,
-				468576AE11A0255900814B9E /* dao */,
-				468576A511A0255800814B9E /* dto */,
 				46321233119EA15300222659 /* RhymeDetailViewController.h */,
 				46321234119EA15300222659 /* RhymeDetailViewController.m */,
 				28C286DF0D94DF7D0034E888 /* RootViewController.h */,

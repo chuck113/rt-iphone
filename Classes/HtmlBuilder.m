@@ -10,7 +10,7 @@
 #import "Constants.h"
 
 @interface HtmlBuilder() 
-- (NSString *)buildHtml:(RhymePart*)rhymePart withLinks:(BOOL)withLinks;
+- (NSString *)buildHtml:(RhymePart*)rhymePart withLinks:(BOOL)withLinks htmlStyle:(NSString *)htmlStyle;
 
 @end
 
@@ -73,18 +73,26 @@
 
 
 - (NSString *)buildStyledHtmlWithLinks:(RhymePart*)rhymePart{
-	return [self buildHtml:rhymePart withLinks:YES];
+	return [self buildHtml:rhymePart withLinks:YES htmlStyle:@""];
 }
 
-- (NSString *)buildStyledHtml:(RhymePart*)rhymePart{
-	return [self buildHtml:rhymePart withLinks:NO];
+- (NSString *)buildTableResult:(RhymePart*)rhymePart{
+	return [self buildHtml:rhymePart withLinks:NO htmlStyle:kResultTableHtmlStyle];
+}
+
+- (NSString *)linesForDetailView:(RhymePart*)rhymePart{
+	return [self buildHtmlLines: rhymePart styleString:kDetailLineStyle withLinks:YES];
+}
+
+- (NSString *)linesForTableView:(RhymePart*)rhymePart{
+	return [self buildHtmlLines: rhymePart styleString:kResultTableLineStyle withLinks:NO];
 }
 
 - (NSString *)buildHtmlLines:(RhymePart*)rhymePart styleString:(NSString*)styleString withLinks:(BOOL)withLinks{
 	NSArray *parts = [rhymePart partsDeserialised];
 	NSArray *lines = [rhymePart linesDeserialised];
 	NSArray *partLinks = withLinks ? [NSArray arrayWithObject:@"ME"] : [NSArray array];
-	NSString* line = [self buildLines:lines];
+	NSString* line = [NSString stringWithFormat:@"<b>\"</b>%@<b>\"</b>", [self buildLines:lines]];
 	
 	NSString* divAndStyle = [NSString stringWithFormat:@"<div id=\"lines\" %@>", styleString];
 	NSString* linesWithFormatting = [self applyFormatToRhymeParts:line parts:parts partLinks:partLinks prefix:@"<b>" suffix:@"</b>"];
@@ -103,9 +111,9 @@
 	return [NSString stringWithFormat:@"%@%@</div>", divAndStyle, artistAndTite];
 }
 
-- (NSString *)buildHtml:(RhymePart*)rhymePart withLinks:(BOOL)withLinks{
-	return [NSString stringWithFormat:@"<html><head><title>/title></head><body>%@%@</body></html>",
-			[self buildHtmlLines:rhymePart styleString:kResultTableLineStyle withLinks:withLinks],
+- (NSString *)buildHtml:(RhymePart*)rhymePart withLinks:(BOOL)withLinks htmlStyle:(NSString *)htmlStyle{
+	return [NSString stringWithFormat:@"<html><head><title>/title></head><body %@>%@%@</body></html>", htmlStyle,
+			[self linesForTableView:rhymePart],
 			[self buildHtmlArtistAndTitle:rhymePart]];
 }
 
