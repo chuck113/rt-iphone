@@ -74,11 +74,7 @@
 		cell.delegate = self;
 		[cellBuffer addObject:cell];
 	}
-	
-//	NSArray *result = [NSArray arrayWithArray:cellBuffer];
-//	[cellBuffer dealloc];
-//	return result;
-	
+
 	return [NSArray arrayWithArray:cellBuffer]; 
 }
 
@@ -142,9 +138,9 @@
 // TODO needs refinement
 - (CGFloat)heightOfString:(NSString *)string{
 	struct CGSize size;
-	size = [string sizeWithFont:[UIFont fontWithName:@"Helvetica-Bold" size:14] constrainedToSize:CGSizeMake(kLinesWidth, kLinesWidth) lineBreakMode:UILineBreakModeCharacterWrap];
+	size = [string sizeWithFont:[UIFont fontWithName:@"Helvetica-Bold" size:14] constrainedToSize:CGSizeMake(kLinesWidth-20, kLinesWidth-20) lineBreakMode:UILineBreakModeCharacterWrap];
 	//NSLog(@"heightOfString %f for %@", size.height, string); 
-	return size.height +15.0f + 15.0f;
+	return size.height +15.0f + 30.0f;
 }
 
 // Customize the appearance of table view cells.

@@ -8,6 +8,7 @@
 
 #import "TableCellView.h"
 #import "Constants.h"
+#import <QuartzCore/QuartzCore.h>
 
 
 @implementation TableCellView
@@ -19,9 +20,19 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         webView = [[[UIWebView alloc] initWithFrame:CGRectMake(0, 0, kLinesWidth, height)] autorelease];
 		[webView setDelegate:self];
-		[self addSubview:webView];
+		webView.backgroundColor = [UIColor clearColor];
+		webView.opaque = FALSE;
+		[self insertSubview:webView atIndex:0];
 		self.backgroundColor = [UIColor blackColor];
-		self.accessoryType = UITableViewCellAccessoryDisclosureIndicator; 
+		//self.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+		self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+		
+		
+		CAGradientLayer *gradient = [CAGradientLayer layer];
+		gradient.frame = CGRectMake(0, 0, 320, height);
+		UIColor* darkterGrey = [UIColor colorWithRed:.10 green:.10 blue:.10 alpha:1];
+		gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor blackColor] CGColor], (id)[darkterGrey CGColor], nil];
+		[self.layer insertSublayer:gradient atIndex:0];
     }
     return self;
 }

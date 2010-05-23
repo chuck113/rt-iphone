@@ -32,9 +32,8 @@
 }
 
 //FIXME does not apply formatting to rhymes such as 'me' that rhyme with B.I.G - needs to break down words
-- (NSString *)applyFormatToRhymeParts:(NSString *)lines parts:(NSArray *)parts partLinks:(NSArray *)partLinks prefix:(NSString  *)prefix suffix:(NSString *)suffix{
+- (NSString *)applyFormatToRhymeParts:(NSString *)lines parts:(NSArray *)parts withLinks:(BOOL)withLinks unIndexedWords:(NSSet *)unIndexedWords prefix:(NSString  *)prefix suffix:(NSString *)suffix{
 	NSSet* partSet = [NSSet setWithArray:parts];
-	NSSet* partLinkSet = [NSSet setWithArray:partLinks];
 	NSArray* words = [lines componentsSeparatedByString:@" "];
 	NSMutableArray* wordBuffer = [[NSMutableArray alloc] init];
 	
@@ -44,7 +43,7 @@
 		NSString* upperCaseCleanedWord = [self removePunctuation:[word uppercaseString]];
 		NSString* cleanedWord = [self removePunctuation:word];
 
-		if([partLinkSet containsObject:upperCaseCleanedWord]){
+		if(withLinks && !([unIndexedWords containsObject:upperCaseCleanedWord])){
 			decoratedWord = [NSString stringWithFormat:@"<a href=rhymetime://local/lookup/%@>%@</a>", cleanedWord, word];
 		}
 		
@@ -80,7 +79,12 @@
 	return [self buildHtml:rhymePart withLinks:NO htmlStyle:kResultTableHtmlStyle];
 }
 
+- (NSString *)buildTableResultWithLinesOnly:(RhymePart*)rhymePart{
+	return [self buildHtml:rhymePart htmlStyle:kResultTableHtmlStyle linesDiv:[self buildHtmlLines:rhymePart styleString:kResultTableLineStyle withLinks:NO] titleDiv:@""];
+}
+
 - (NSString *)linesForDetailView:(RhymePart*)rhymePart{
+	NSLog(@"built html: %@", [self buildHtmlLines: rhymePart styleString:kDetailLineStyle withLinks:YES]);
 	return [self buildHtmlLines: rhymePart styleString:kDetailLineStyle withLinks:YES];
 }
 
@@ -91,11 +95,17 @@
 - (NSString *)buildHtmlLines:(RhymePart*)rhymePart styleString:(NSString*)styleString withLinks:(BOOL)withLinks{
 	NSArray *parts = [rhymePart partsDeserialised];
 	NSArray *lines = [rhymePart linesDeserialised];
-	NSArray *partLinks = withLinks ? [NSArray arrayWithObject:@"ME"] : [NSArray array];
-	NSString* line = [NSString stringWithFormat:@"<b>\"</b>%@<b>\"</b>", [self buildLines:lines]];
+	//NSString* line = [NSString stringWithFormat:@"<b>\"</b>%@<b>\"</b>", [self buildLines:lines]];
+	NSString* line = [self buildLines:lines];
 	
 	NSString* divAndStyle = [NSString stringWithFormat:@"<div id=\"lines\" %@>", styleString];
-	NSString* linesWithFormatting = [self applyFormatToRhymeParts:line parts:parts partLinks:partLinks prefix:@"<b>" suffix:@"</b>"];
+	
+	NSSet* unindexedWords = [[NSSet alloc] init];
+	if(withLinks){
+		unindexedWords = [rhymePart wordsNotInIndexDeserialised]; 
+	}
+	
+	NSString* linesWithFormatting = [self applyFormatToRhymeParts:line parts:parts withLinks:withLinks unIndexedWords:unindexedWords prefix:@"<b>" suffix:@"</b>"];
 
 	return [NSString stringWithFormat:@"%@%@</div>", divAndStyle, linesWithFormatting];
 }
@@ -111,10 +121,13 @@
 	return [NSString stringWithFormat:@"%@%@</div>", divAndStyle, artistAndTite];
 }
 
+- (NSString *)buildHtml:(RhymePart*)rhymePart htmlStyle:(NSString *)htmlStyle linesDiv:(NSString*)linesDiv titleDiv:(NSString*)titleDiv{
+	return [NSString stringWithFormat:@"<html><head><title>/title></head><body %@>%@%@</body></html>", htmlStyle, linesDiv, titleDiv];
+
+}
+
 - (NSString *)buildHtml:(RhymePart*)rhymePart withLinks:(BOOL)withLinks htmlStyle:(NSString *)htmlStyle{
-	return [NSString stringWithFormat:@"<html><head><title>/title></head><body %@>%@%@</body></html>", htmlStyle,
-			[self linesForTableView:rhymePart],
-			[self buildHtmlArtistAndTitle:rhymePart]];
+	return [self buildHtml:rhymePart htmlStyle:htmlStyle linesDiv:[self linesForTableView:rhymePart] titleDiv:[self buildHtmlArtistAndTitle:rhymePart]];
 }
 
 

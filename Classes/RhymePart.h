@@ -16,7 +16,10 @@
 
 -(NSArray *)linesDeserialised;
 -(NSArray *)partsDeserialised;
+-(NSString *)linesDeserialisedAsString;
+-(NSSet *)wordsNotInIndexDeserialised;
 
+@property (nonatomic, retain) NSString * wordsNotInIndex;
 @property (nonatomic, retain) NSString * word;
 @property (nonatomic, retain) NSString * rhymeParts;
 @property (nonatomic, retain) NSString * rhymeLines;
