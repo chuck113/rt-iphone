@@ -44,7 +44,7 @@
 		NSString* cleanedWord = [self removePunctuation:word];
 
 		if(withLinks && !([unIndexedWords containsObject:upperCaseCleanedWord])){
-			decoratedWord = [NSString stringWithFormat:@"<a href=rhymetime://local/lookup/%@>%@</a>", cleanedWord, word];
+			decoratedWord = [NSString stringWithFormat:@"<a href=\"rhymetime://local/lookup/%@\">%@</a>", cleanedWord, word];
 		}
 		
 		if([partSet containsObject:upperCaseCleanedWord]){

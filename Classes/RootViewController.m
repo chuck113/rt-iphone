@@ -47,6 +47,7 @@
 	self.cellCache = [self buildResultCells:self.searchResult];
 	
 	// Tell the UITableView to reload its data.	
+	[self.searchResultTableView setContentOffset:CGPointMake(0, 0) animated:NO];
 	[self.searchResultTableView reloadData];
 }
 

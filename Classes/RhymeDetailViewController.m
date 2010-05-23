@@ -46,8 +46,12 @@
 	if([[[request URL] absoluteString] isEqualToString:@"about:blank"]){
 		return TRUE;
 	}else{	
+		NSArray* elements = [[[request URL] path] componentsSeparatedByString:@"/"];
+		NSString* lastPathElement = [elements lastObject];
+		NSLog(@"lastPathElement %@", lastPathElement);
+		
 		[self.navigationController popViewControllerAnimated:YES];
-		[searchCallbackDelegate setSearchTextAndDoSearch:@"me"];
+		[searchCallbackDelegate setSearchTextAndDoSearch:lastPathElement];
 		return FALSE;
 	}
 }

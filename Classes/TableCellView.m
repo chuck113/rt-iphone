@@ -38,18 +38,19 @@
 }
 
 
-- (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType {
-	if([[[request URL]absoluteString] isEqualToString:@"about:blank"]){
-		return TRUE;
-	}else{
-		NSArray* elements = [[[request URL] path] componentsSeparatedByString:@"/"];
-		NSString* lastPathElement = [elements lastObject];
-		NSLog(@"lastPathElement %@", lastPathElement);
-	
-		[self.delegate setSearchTextAndDoSearch:lastPathElement];
-		return FALSE;
-	}
-}
+//- (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType {
+//	NSLog(@"got request %@", [request URL]);
+//	if([[[request URL]absoluteString] isEqualToString:@"about:blank"]){
+//		return TRUE;
+//	}else{
+//		NSArray* elements = [[[request URL] path] componentsSeparatedByString:@"/"];
+//		NSString* lastPathElement = [elements lastObject];
+//		NSLog(@"lastPathElement %@", lastPathElement);
+//	
+//		[self.delegate setSearchTextAndDoSearch:lastPathElement];
+//		return FALSE;
+//	}
+//}
 
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
