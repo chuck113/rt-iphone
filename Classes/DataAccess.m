@@ -36,19 +36,16 @@
 	//rhymeTimeIPhoneUIAppDelegate *appDelegate = (rhymeTimeIPhoneUIAppDelegate*)[[UIApplication sharedApplication] delegate]; 
 	//NSManagedObjectContext *managedObjectContext = appDelegate.managedObjectContext;
 	
-	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-	
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"RhymePart"  
-											  inManagedObjectContext:self.managedObjectContext];
-	[fetchRequest setEntity:entity];
+	NSFetchRequest *req = [[NSFetchRequest alloc] init];
+	[req setEntity:[NSEntityDescription entityForName:@"RhymePart" inManagedObjectContext:self.managedObjectContext]];
 	
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"word like[cd] %@", toFind];
-	[fetchRequest setPredicate:predicate];
+	[req setPredicate:predicate];
 	
 	NSError *error;
-	NSArray *items = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
+	NSArray *items = [managedObjectContext executeFetchRequest:req error:&error];
 	
-	[fetchRequest release];
+	[req release];
 	
 	NSLog(@"found rhymes: %i", items.count);
 	
@@ -58,6 +55,40 @@
     }
 	
 	return [self buildResultsArray:items maxResults:20.0];
+}
+
+-(NSSet *)rhymingWordsContainedIn:(NSString *)words{
+	NSMutableSet* buffer = [[NSMutableSet alloc] init];
+	NSArray* wordsArray = [words componentsSeparatedByString:@" "];
+	
+	for(NSString *st in wordsArray){
+		if([self containsWord:st]){
+			[buffer addObject:st];
+		}
+	}
+	NSSet* result =	[NSSet setWithSet:buffer];
+	[buffer dealloc];
+	return result;	
+}
+
+-(BOOL)containsWord:(NSString *)word{
+	NSFetchRequest *req = [[NSFetchRequest alloc] init];
+	[req setEntity:[NSEntityDescription entityForName:@"RhymePart" inManagedObjectContext:self.managedObjectContext]];
+	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"word like[cd] %@", word];
+	[req setPredicate:predicate];
+	
+	[req setIncludesSubentities:NO]; //Omit subentities. Default is YES (i.e. include subentities)
+	
+	NSError *err;
+	NSUInteger count = [managedObjectContext countForFetchRequest:req error:&err];
+	if(count == NSNotFound) {
+		//Handle error
+	}	
+	[req release];
+	NSLog(@"count for %@ was %i", word, count);
+	
+	return count != 0;
 }
 
 -(NSArray *)buildResultsArray:(NSArray *)items maxResults:(double)maxResults{
@@ -102,6 +133,15 @@
 			abort();
         } 
     }
+}
+
+-(void)installTestData{
+
+	RhymePart* part = [[RhymePart alloc] init];
+	part.word = @"crack";
+	part.rhymeParts=@"mack%%%attack";
+	part.rhymeLines=@"some sill words that someone once said";
+	//part.
 }
 
 #pragma mark -
@@ -150,10 +190,10 @@
         return persistentStoreCoordinator;
     }
 	//NSString* applicationDocumentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];	
-    //NSURL *storeUrl = [NSURL fileURLWithPath: [applicationDocumentsDirectory stringByAppendingPathComponent: @"rhymeTimeIPhonePrototype.sqlite"]];
+    NSString *databasePath = [[NSBundle mainBundle] pathForResource:@"rhymeTime" ofType:@"sqlite"];
 	
-	NSString *databasePath = [[NSBundle mainBundle] pathForResource:@"rhymeTimeIPhonePrototype" ofType:@"sqlite"];
-    NSURL *storeUrl = [NSURL fileURLWithPath:databasePath]; 
+	NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"rhymeTime.sqlite"]];
+	//NSURL *storeUrl = [NSURL fileURLWithPath:databasePath]; 
 	
 	NSError *error = nil;
     persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];

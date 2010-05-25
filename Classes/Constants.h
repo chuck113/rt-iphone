@@ -11,6 +11,6 @@
 #define kResultTableLineStyle	@"style=\"font-family:Helvetica;font-size:14px;color:white\""
 #define kDetailLineStyle		@"style=\"font-family:Helvetica;font-size:18px\""
 
-#define kResultTableArtistStyle @"style=\"text-align:right;font-family:Arial;font-size:12px;color:darkblue\""
+#define kResultTableArtistStyle @"style=\"text-align:right;font-family:Arial;font-size:12px;color:lightgrey;margin-top: 10px;margin-bottom:15px;\""
 
-#define kResultTableHtmlStyle	@"style=\"background-color:black\""
+#define kResultTablebodyStyle	@"style=”background-color:transparent”"

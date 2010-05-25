@@ -20,11 +20,14 @@ typedef enum {
 
 }
 
+- (NSString *)buildHtml:(RhymePart*)rhymePart bodyStyle:(NSString *)bodyStyle linesDiv:(NSString*)linesDiv titleDiv:(NSString*)titleDiv;
+- (NSString *)buildTableResultWithLinesOnly:(RhymePart*)rhymePart;
 - (NSString *)linesForTableView:(RhymePart*)rhymePart;
 - (NSString *)buildHtmlLines:(RhymePart*)rhymePart styleString:(NSString*)styleString withLinks:(BOOL)withLinks;
 - (NSString*)linesForDetailView:(RhymePart*)rhymePart;
 - (NSString*)buildTableResult:(RhymePart*)rhymePart;
 - (NSString*)buildStyledHtmlWithLinks:(RhymePart*)rhymePart;
+
 //- (NSString *)linesForDetail:(RhymePart*)rhymePart :(NSString*)styleString :(BOOL)withLinks;
 
 @end

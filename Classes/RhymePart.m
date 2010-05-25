@@ -12,6 +12,7 @@
 
 @implementation RhymePart 
 
+@dynamic wordsNotInIndex;
 @dynamic word;
 @dynamic rhymeParts;
 @dynamic rhymeLines;
@@ -21,8 +22,16 @@
 	return [string componentsSeparatedByString:@"%%%"];
 }
 
+-(NSString *)linesDeserialisedAsString{
+	return [self.rhymeLines stringByReplacingOccurrencesOfString:@"%%%" withString:@" "];
+}
+
 -(NSArray *)linesDeserialised{
 	return [self deSerializeArray:self.rhymeLines];
+}
+
+-(NSSet *)wordsNotInIndexDeserialised{
+	return [NSSet setWithArray:[self deSerializeArray:self.wordsNotInIndex]];
 }
 
 -(NSArray *)partsDeserialised{

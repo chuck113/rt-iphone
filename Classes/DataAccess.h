@@ -21,6 +21,9 @@
 
 
 - (NSArray*)findRhymes:(NSString *)toFind;
+-(BOOL)containsWord:(NSString *)word;
+-(NSSet *)rhymingWordsContainedIn:(NSString *)words;
+
 - (void)onApplicationTermination:(UIApplication *)application;
 
 @end

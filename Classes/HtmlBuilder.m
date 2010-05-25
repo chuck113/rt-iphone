@@ -10,8 +10,9 @@
 #import "Constants.h"
 
 @interface HtmlBuilder() 
-- (NSString *)buildHtml:(RhymePart*)rhymePart withLinks:(BOOL)withLinks htmlStyle:(NSString *)htmlStyle;
-
+- (NSString *)buildHtml:(RhymePart*)rhymePart bodyStyle:(NSString *)bodyStyle withLinks:(BOOL)withLinks;
+- (NSString *)buildHtml:(NSString *)headerCss linesDiv:(NSString*)linesDiv;
+- (NSString *)linkColoringCss;
 @end
 
 @implementation HtmlBuilder
@@ -32,9 +33,8 @@
 }
 
 //FIXME does not apply formatting to rhymes such as 'me' that rhyme with B.I.G - needs to break down words
-- (NSString *)applyFormatToRhymeParts:(NSString *)lines parts:(NSArray *)parts partLinks:(NSArray *)partLinks prefix:(NSString  *)prefix suffix:(NSString *)suffix{
+- (NSString *)applyFormatToRhymeParts:(NSString *)lines parts:(NSArray *)parts withLinks:(BOOL)withLinks unIndexedWords:(NSSet *)unIndexedWords prefix:(NSString  *)prefix suffix:(NSString *)suffix{
 	NSSet* partSet = [NSSet setWithArray:parts];
-	NSSet* partLinkSet = [NSSet setWithArray:partLinks];
 	NSArray* words = [lines componentsSeparatedByString:@" "];
 	NSMutableArray* wordBuffer = [[NSMutableArray alloc] init];
 	
@@ -44,8 +44,8 @@
 		NSString* upperCaseCleanedWord = [self removePunctuation:[word uppercaseString]];
 		NSString* cleanedWord = [self removePunctuation:word];
 
-		if([partLinkSet containsObject:upperCaseCleanedWord]){
-			decoratedWord = [NSString stringWithFormat:@"<a href=rhymetime://local/lookup/%@>%@</a>", cleanedWord, word];
+		if(withLinks && !([unIndexedWords containsObject:upperCaseCleanedWord])){
+			decoratedWord = [NSString stringWithFormat:@"<a href=\"rhymetime://local/lookup/%@\">%@</a>", cleanedWord, word];
 		}
 		
 		if([partSet containsObject:upperCaseCleanedWord]){
@@ -73,15 +73,20 @@
 
 
 - (NSString *)buildStyledHtmlWithLinks:(RhymePart*)rhymePart{
-	return [self buildHtml:rhymePart withLinks:YES htmlStyle:@""];
+	return [self buildHtml:rhymePart bodyStyle:@"" withLinks:YES ];
 }
 
 - (NSString *)buildTableResult:(RhymePart*)rhymePart{
-	return [self buildHtml:rhymePart withLinks:NO htmlStyle:kResultTableHtmlStyle];
+	return [self buildHtml:rhymePart bodyStyle:kResultTablebodyStyle withLinks:NO ];
+}
+
+- (NSString *)buildTableResultWithLinesOnly:(RhymePart*)rhymePart{
+	return [self buildHtml:rhymePart bodyStyle:kResultTablebodyStyle linesDiv:[self buildHtmlLines:rhymePart styleString:kResultTableLineStyle withLinks:NO] titleDiv:@""];
 }
 
 - (NSString *)linesForDetailView:(RhymePart*)rhymePart{
-	return [self buildHtmlLines: rhymePart styleString:kDetailLineStyle withLinks:YES];
+	NSString* linkColorCss = [self linkColoringCss];
+	return [self buildHtml:linkColorCss linesDiv:[self buildHtmlLines: rhymePart styleString:kDetailLineStyle withLinks:YES]];
 }
 
 - (NSString *)linesForTableView:(RhymePart*)rhymePart{
@@ -91,11 +96,16 @@
 - (NSString *)buildHtmlLines:(RhymePart*)rhymePart styleString:(NSString*)styleString withLinks:(BOOL)withLinks{
 	NSArray *parts = [rhymePart partsDeserialised];
 	NSArray *lines = [rhymePart linesDeserialised];
-	NSArray *partLinks = withLinks ? [NSArray arrayWithObject:@"ME"] : [NSArray array];
-	NSString* line = [NSString stringWithFormat:@"<b>\"</b>%@<b>\"</b>", [self buildLines:lines]];
+	NSString* line = [self buildLines:lines];
 	
 	NSString* divAndStyle = [NSString stringWithFormat:@"<div id=\"lines\" %@>", styleString];
-	NSString* linesWithFormatting = [self applyFormatToRhymeParts:line parts:parts partLinks:partLinks prefix:@"<b>" suffix:@"</b>"];
+	
+	NSSet* unindexedWords = [[NSSet alloc] init];
+	if(withLinks){
+		unindexedWords = [rhymePart wordsNotInIndexDeserialised]; 
+	}
+	
+	NSString* linesWithFormatting = [self applyFormatToRhymeParts:line parts:parts withLinks:withLinks unIndexedWords:unindexedWords prefix:@"<b>" suffix:@"</b>"];
 
 	return [NSString stringWithFormat:@"%@%@</div>", divAndStyle, linesWithFormatting];
 }
@@ -111,11 +121,29 @@
 	return [NSString stringWithFormat:@"%@%@</div>", divAndStyle, artistAndTite];
 }
 
-- (NSString *)buildHtml:(RhymePart*)rhymePart withLinks:(BOOL)withLinks htmlStyle:(NSString *)htmlStyle{
-	return [NSString stringWithFormat:@"<html><head><title>/title></head><body %@>%@%@</body></html>", htmlStyle,
-			[self linesForTableView:rhymePart],
-			[self buildHtmlArtistAndTitle:rhymePart]];
+- (NSString *)buildHtml:(NSString *)headerCss linesDiv:(NSString*)linesDiv {
+	NSString *css = [NSString stringWithFormat:@"<style type=\"text/css\">%@</style>", headerCss];
+	return [NSString stringWithFormat:@"<html><head><title>/title><head>%@</head><body>%@</body></html>", css, linesDiv];
 }
+
+- (NSString *)buildHtml:(RhymePart*)rhymePart bodyStyle:(NSString *)bodyStyle linesDiv:(NSString*)linesDiv titleDiv:(NSString*)titleDiv{
+	return [NSString stringWithFormat:@"<html><head><title>/title></head><body %@>%@%@</body></html>", bodyStyle, linesDiv, titleDiv];
+}
+
+- (NSString *)buildHtml:(RhymePart*)rhymePart bodyStyle:(NSString *)bodyStyle withLinks:(BOOL)withLinks {
+	return [self buildHtml:rhymePart bodyStyle:bodyStyle linesDiv:[self linesForTableView:rhymePart] titleDiv:[self buildHtmlArtistAndTitle:rhymePart]];
+}
+
+-(NSString *)linkColoringCss{
+	NSString *cssPart = @"{color:black; text-decoration:none; border-bottom: 1px solid lightgray;}";
+	return [NSString stringWithFormat:@"A:link %@ A:active %@ A:hover %@ A:visited %@",cssPart,cssPart,cssPart,cssPart];
+	
+//@"A:link {color:black; text-decoration:none; border-bottom: 1px solid lightgray;}	
+//A:active {color:black;text-decoration:none;border-bottom: 1px solid lightgray;}	
+//A:hover {color:black;text-decoration:none;border-bottom:1px solid lightgray;}	
+//A:visited  {color:black;text-decoration:none;border-bottom:1px solid lightgray;}"
+}
+
 
 
 
