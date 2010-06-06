@@ -12,7 +12,7 @@
 @interface HtmlBuilder() 
 - (NSString *)buildHtml:(RhymePart*)rhymePart bodyStyle:(NSString *)bodyStyle withLinks:(BOOL)withLinks;
 - (NSString *)buildHtml:(NSString *)headerCss linesDiv:(NSString*)linesDiv;
-- (NSString *)linkColoringCss;
+- (NSString *)detailViewCss;
 @end
 
 @implementation HtmlBuilder
@@ -85,7 +85,7 @@
 }
 
 - (NSString *)linesForDetailView:(RhymePart*)rhymePart{
-	NSString* linkColorCss = [self linkColoringCss];
+	NSString* linkColorCss = [self detailViewCss];
 	return [self buildHtml:linkColorCss linesDiv:[self buildHtmlLines: rhymePart styleString:kDetailLineStyle withLinks:YES]];
 }
 
@@ -134,9 +134,9 @@
 	return [self buildHtml:rhymePart bodyStyle:bodyStyle linesDiv:[self linesForTableView:rhymePart] titleDiv:[self buildHtmlArtistAndTitle:rhymePart]];
 }
 
--(NSString *)linkColoringCss{
-	NSString *cssPart = @"{color:black; text-decoration:none; border-bottom: 1px solid lightgray;}";
-	return [NSString stringWithFormat:@"A:link %@ A:active %@ A:hover %@ A:visited %@",cssPart,cssPart,cssPart,cssPart];
+-(NSString *)detailViewCss{
+	NSString *cssPart = @"{color:white; text-decoration:none; border-bottom: 1px solid gray;}";
+	return [NSString stringWithFormat:@"body {background-color:black;} A:link %@ A:active %@ A:hover %@ A:visited %@",cssPart,cssPart,cssPart,cssPart];
 	
 //@"A:link {color:black; text-decoration:none; border-bottom: 1px solid lightgray;}	
 //A:active {color:black;text-decoration:none;border-bottom: 1px solid lightgray;}	

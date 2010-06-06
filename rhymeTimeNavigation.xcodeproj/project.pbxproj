@@ -12,6 +12,8 @@
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* RootViewController.m */; };
 		28F335F11007B36200424DE2 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28F335F01007B36200424DE2 /* RootViewController.xib */; };
+		434D3CDC11B6FE90004D7867 /* whiteBorder.png in Resources */ = {isa = PBXBuildFile; fileRef = 434D3CDB11B6FE90004D7867 /* whiteBorder.png */; };
+		434D3CED11B700B6004D7867 /* iPhoneArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 434D3CEC11B700B6004D7867 /* iPhoneArrow.png */; };
 		4394AEFD11A9B2B800BE9DEC /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4394AEFC11A9B2B800BE9DEC /* CoreData.framework */; };
 		4394AEFF11A9B2B800BE9DEC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4394AEFE11A9B2B800BE9DEC /* CoreGraphics.framework */; };
 		4394AF0111A9B2B800BE9DEC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4394AF0011A9B2B800BE9DEC /* Foundation.framework */; };
@@ -39,6 +41,8 @@
 		28C286E00D94DF7D0034E888 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		28F335F01007B36200424DE2 /* RootViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		434D3CDB11B6FE90004D7867 /* whiteBorder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteBorder.png; sourceTree = "<group>"; };
+		434D3CEC11B700B6004D7867 /* iPhoneArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPhoneArrow.png; sourceTree = "<group>"; };
 		4394AEFC11A9B2B800BE9DEC /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.0.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
 		4394AEFE11A9B2B800BE9DEC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.0.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		4394AF0011A9B2B800BE9DEC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
@@ -134,6 +138,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				434D3CEC11B700B6004D7867 /* iPhoneArrow.png */,
+				434D3CDB11B6FE90004D7867 /* whiteBorder.png */,
 				468576BC11A0257100814B9E /* rhymeTimeIPhonePrototype.xcdatamodel */,
 				28F335F01007B36200424DE2 /* RootViewController.xib */,
 				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
@@ -231,6 +237,8 @@
 				28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */,
 				28F335F11007B36200424DE2 /* RootViewController.xib in Resources */,
 				46321230119EA0F300222659 /* RhymeDetailViewController.xib in Resources */,
+				434D3CDC11B6FE90004D7867 /* whiteBorder.png in Resources */,
+				434D3CED11B700B6004D7867 /* iPhoneArrow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
