@@ -107,6 +107,9 @@
 	
 	NSString* linesWithFormatting = [self applyFormatToRhymeParts:line parts:parts withLinks:withLinks unIndexedWords:unindexedWords prefix:@"<b>" suffix:@"</b>"];
 
+	// DEBUG
+	//return [NSString stringWithFormat:@"%@%@ DEBUG:%d</div>", divAndStyle, linesWithFormatting, rhymePart.rhymeScore];
+	
 	return [NSString stringWithFormat:@"%@%@</div>", divAndStyle, linesWithFormatting];
 }
 

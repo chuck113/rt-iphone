@@ -20,6 +20,8 @@
 - (NSArray *)buildResultCells:(NSArray *)results;
 - (void)searchPopulateAndReload:(NSString*)text;
 
+NSUInteger htmlLoadingsComplete;
+
 @end
 
 @implementation RootViewController
@@ -29,6 +31,20 @@
 @synthesize searchBar;
 @synthesize searchResultTableView;
 @synthesize cellCache;
+
+@synthesize tableCellPool;
+
+// html callback impl
+- (void)htmlLoaded{
+	htmlLoadingsComplete++;
+	NSLog(@"now have %i callbacks", htmlLoadingsComplete);
+	if(htmlLoadingsComplete == [searchResult count]){
+		for(int i=0; i<[cellCache count]; i++){
+			TableCellView *cell = [cellCache objectAtIndex:i];
+			[cell setVisible];
+		}
+	}
+}
 
 // DOMAIN METHODS
 -(void)setSearchTextAndDoSearch:(NSString *)text{
@@ -43,6 +59,7 @@
 }
 
 -(void)searchPopulateAndReload:(NSString*)text{
+	htmlLoadingsComplete = 0;
 	self.searchResult = [self findRhymes:text];
 	self.cellCache = [self buildResultCells:self.searchResult];
 	
@@ -69,10 +86,10 @@
 	for(RhymePart* part in results){
 		//TODO do we need to pass height in here?
 		CGFloat height = [self heightOfString:part.rhymeLines];
-		TableCellView* cell = [[[TableCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"NEVER" height:height] autorelease];
+		TableCellView* cell = [[[TableCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"NEVER" height:height htmlCallback:self] autorelease];
 		NSString* html = [htmlBuilder buildTableResult:part];
 		[cell setLabelText:html];
-		cell.delegate = self;
+		//cell.delegate = self;
 		[cellBuffer addObject:cell];
 	}
 
@@ -95,13 +112,14 @@
 	temp.autocorrectionType=UITextAutocorrectionTypeNo;
 	temp.autocapitalizationType=UITextAutocapitalizationTypeNone;
 	temp.delegate=self;
+	temp.tintColor = [UIColor clearColor];
 	
-	//self.tableView.tableHeaderView=temp;
+	UINavigationBar *bar = [self.navigationController navigationBar]; 
+	[bar setTintColor:[UIColor blackColor]]; 
 	self.navigationItem.titleView = temp;
 	self.searchBar = temp;
 	[temp release];
 }
-
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
@@ -139,7 +157,7 @@
 // TODO needs refinement
 - (CGFloat)heightOfString:(NSString *)string{
 	struct CGSize size;
-	size = [string sizeWithFont:[UIFont fontWithName:@"Helvetica-Bold" size:14] constrainedToSize:CGSizeMake(kLinesWidth-20, kLinesWidth-20) lineBreakMode:UILineBreakModeCharacterWrap];
+	size = [string sizeWithFont:[UIFont fontWithName:@"Helvetica-Bold" size:16] constrainedToSize:CGSizeMake(kLinesWidth-20, kLinesWidth-20) lineBreakMode:UILineBreakModeCharacterWrap];
 	//NSLog(@"heightOfString %f for %@", size.height, string); 
 	return size.height +15.0f + 30.0f;
 }

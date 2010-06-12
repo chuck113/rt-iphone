@@ -1,8 +1,8 @@
 // 
 //  RhymePart.m
-//  rhymeTimeIPhoneUI
+//  rhymeTimeNavigation
 //
-//  Created by Charles on 27/04/2010.
+//  Created by Charles Kubicek on 07/06/2010.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
@@ -12,10 +12,11 @@
 
 @implementation RhymePart 
 
-@dynamic wordsNotInIndex;
-@dynamic word;
 @dynamic rhymeParts;
+@dynamic wordsNotInIndex;
+@dynamic rhymeScore;
 @dynamic rhymeLines;
+@dynamic word;
 @dynamic song;
 
 - (NSArray *)deSerializeArray:(NSString*)string{

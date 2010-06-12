@@ -12,10 +12,12 @@
 #import "Album.h"
 #import "Artist.h"
 #import "math.h"
+#import "Constants.h"
 
 @interface DataAccess()
 
 -(NSArray *)buildResultsArray:(NSArray *)items maxResults:(double)maxResults;
+- (NSString *)applicationDocumentsDirectory;
 @end
 
 @implementation DataAccess
@@ -31,23 +33,26 @@
  *	returns an array of rhymeParts
  */
 - (NSArray*)findRhymes:(NSString *)toFind{
+	CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
 	NSLog(@"Finding rhymes for word: %@", toFind);
-	//NSManagedObjectContext* localContext = self.managedObjectContext;
-	//rhymeTimeIPhoneUIAppDelegate *appDelegate = (rhymeTimeIPhoneUIAppDelegate*)[[UIApplication sharedApplication] delegate]; 
-	//NSManagedObjectContext *managedObjectContext = appDelegate.managedObjectContext;
 	
 	NSFetchRequest *req = [[NSFetchRequest alloc] init];
 	[req setEntity:[NSEntityDescription entityForName:@"RhymePart" inManagedObjectContext:self.managedObjectContext]];
 	
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"word like[cd] %@", toFind];
+	//NSPredicate *predicate = [NSPredicate predicateWithFormat:@"word like[cd] %@", toFind];
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"word = %@", [toFind uppercaseString]];
 	[req setPredicate:predicate];
 	
+	NSSortDescriptor *sortByName = [[NSSortDescriptor alloc] initWithKey:@"rhymeScore" ascending:NO];
+	[req setSortDescriptors:[NSArray arrayWithObject:sortByName]];
+		
 	NSError *error;
 	NSArray *items = [managedObjectContext executeFetchRequest:req error:&error];
 	
 	[req release];
 	
-	NSLog(@"found rhymes: %i", items.count);
+	
+	NSLog(@"found rhymes: %i, took %f", items.count, (CFAbsoluteTimeGetCurrent() - startTime));
 	
 	if (![managedObjectContext save:&error]) {
         NSLog(@"Unresolved Core Data Save error %@, %@", error, [error userInfo]);
@@ -77,6 +82,10 @@
 	
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"word like[cd] %@", word];
 	[req setPredicate:predicate];
+	
+	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"score" ascending:NO];
+	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+	[req setSortDescriptors:sortDescriptors];
 	
 	[req setIncludesSubentities:NO]; //Omit subentities. Default is YES (i.e. include subentities)
 	
@@ -179,20 +188,46 @@
     return managedObjectModel;
 }
 
+- (void)createEditableCopyOfDatabaseIfNeeded  
+{ 
+    // First, test for existence. 
+    BOOL success; 
+    NSFileManager *fileManager = [NSFileManager defaultManager]; 
+    NSError *error; 
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES); 
+    NSString *documentsDirectory = [paths objectAtIndex:0]; 
+    NSString *writableDBPath = [documentsDirectory stringByAppendingPathComponent:sqliteFileWithExtension]; 
+    success = [fileManager fileExistsAtPath:writableDBPath]; 
+    // NSLog(@"path : %@", writableDBPath); 
+    if (success) return; 
+	// The writable database does not exist, so copy the default to the appropriate location. 
+    NSString *defaultDBPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:sqliteFileWithExtension]; 
+    NSLog(@"copying database from %@ to %@", defaultDBPath, writableDBPath);
+    
+	success = [fileManager copyItemAtPath:defaultDBPath toPath:writableDBPath error:&error]; 
+	NSLog(@"done copying");
+    
+    if (!success)  
+    { 
+        NSAssert1(0, @"Failed to create writable database file with message '%@'.", [error localizedDescription]); 
+    } 
+}
+
 
 /**
  Returns the persistent store coordinator for the application.
  If the coordinator doesn't already exist, it is created and the application's store added to it.
  */
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
+	[self createEditableCopyOfDatabaseIfNeeded];
 	
     if (persistentStoreCoordinator != nil) {
         return persistentStoreCoordinator;
     }
 	//NSString* applicationDocumentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];	
-    NSString *databasePath = [[NSBundle mainBundle] pathForResource:@"rhymeTime" ofType:@"sqlite"];
+    //NSString *databasePath = [[NSBundle mainBundle] pathForResource:sqliteFileName ofType:@"sqlite"];
 	
-	NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"rhymeTime.sqlite"]];
+	NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent: sqliteFileWithExtension]];
 	//NSURL *storeUrl = [NSURL fileURLWithPath:databasePath]; 
 	
 	NSError *error = nil;
