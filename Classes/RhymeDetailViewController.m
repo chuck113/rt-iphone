@@ -108,9 +108,6 @@
 	NSString* lines = [searchResult linesDeserialisedAsString];
 	AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 
 	return [appDelegate.dataAccess rhymingWordsContainedIn:lines]; 
-	//}
-	
-	//NSArray* words = [searchResult.linesDeserialised componentsSeparatedByString:@" "];
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
@@ -122,8 +119,9 @@
 		NSString* lastPathElement = [elements lastObject];
 		NSLog(@"lastPathElement %@", lastPathElement);
 		
-		[self.navigationController popViewControllerAnimated:YES];
 		[searchCallbackDelegate setSearchTextAndDoSearch:lastPathElement];
+		[self.navigationController popViewControllerAnimated:YES];
+		
 		return FALSE;
 	}
 }

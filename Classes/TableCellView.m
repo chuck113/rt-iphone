@@ -56,7 +56,7 @@
 	NSLog(@"called showWebView at %f", CFAbsoluteTimeGetCurrent());
 	CAGradientLayer *gradient = [CAGradientLayer layer];
 	gradient.frame = CGRectMake(0, 0, 320, htmlTextHeight);
-	UIColor* darkterGrey = [UIColor colorWithRed:.20 green:.20 blue:.20 alpha:1];
+	UIColor* darkterGrey = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
 	gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor blackColor] CGColor], (id)[darkterGrey CGColor], nil];
 	[self.layer insertSublayer:gradient atIndex:0];
 	[webView setHidden:NO];

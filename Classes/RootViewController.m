@@ -19,6 +19,8 @@
 - (CGFloat)heightOfString:(NSString *)string;
 - (NSArray *)buildResultCells:(NSArray *)results;
 - (void)searchPopulateAndReload:(NSString*)text;
+- (void)buildSpinnerAndDisplay;
+- (void)stopSinnerAndHide;
 
 NSUInteger htmlLoadingsComplete;
 
@@ -31,7 +33,7 @@ NSUInteger htmlLoadingsComplete;
 @synthesize searchBar;
 @synthesize searchResultTableView;
 @synthesize cellCache;
-
+@synthesize spinner;
 @synthesize tableCellPool;
 
 // html callback impl
@@ -43,30 +45,75 @@ NSUInteger htmlLoadingsComplete;
 			TableCellView *cell = [cellCache objectAtIndex:i];
 			[cell setVisible];
 		}
+		[self performSelector:@selector(stopSinnerAndHide) withObject:nil afterDelay:3];   
 	}
 }
 
 // DOMAIN METHODS
 -(void)setSearchTextAndDoSearch:(NSString *)text{
+	NSLog(@"setSearchTextAndDoSearch with text %@", text);
 	[self.searchBar setText:text];	
-	[self searchPopulateAndReload:text];
+	[self buildSpinnerAndDisplay];
+	[self searchPopulateAndReloadInNewThread:text];
+}
+
+-(void)buildSpinnerAndDisplay{
+	NSLog(@"entering buildSpinnerAndDisplay");
+	self.spinner = [[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
+	NSLog(@"entering buildSpinnerAndDisplay 1");
+	self.spinner.frame=CGRectMake(145, 160, 25, 25);
+	self.spinner.tag  = 1;
+	NSLog(@"entering buildSpinnerAndDisplay 2");
+	[self.spinner startAnimating];
+	[self.view addSubview:self.spinner];
+	NSLog(@"done buildSpinnerAndDisplay");
+}
+
+-(void)stopSinnerAndHide{
+	[self.spinner stopAnimating];
+	[self.spinner removeFromSuperview];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBarRef {	
 	// Make the keyboard go away.
 	[searchBarRef resignFirstResponder];
-	[self searchPopulateAndReload:searchBarRef.text];
+	[self buildSpinnerAndDisplay];
+	[self searchPopulateAndReloadInNewThread:searchBarRef.text];
 }
 
--(void)searchPopulateAndReload:(NSString*)text{
+-(void)searchPopulateAndReloadInNewThread:(NSString*)text{
+	[NSThread detachNewThreadSelector:@selector(searchWorker:) toTarget:self withObject:text];
+
+}
+
+-(void)searchWorker:(NSString*)text{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	NSArray* result = [self findRhymes:text];
+	[self performSelectorOnMainThread:@selector(searchComplete:) withObject:result waitUntilDone:NO];
+    [pool release];
+
+}
+
+-(void)searchComplete:(NSArray*)result{
 	htmlLoadingsComplete = 0;
-	self.searchResult = [self findRhymes:text];
+	self.searchResult = result;
 	self.cellCache = [self buildResultCells:self.searchResult];
 	
 	// Tell the UITableView to reload its data.	
 	[self.searchResultTableView setContentOffset:CGPointMake(0, 0) animated:NO];
 	[self.searchResultTableView reloadData];
 }
+
+//-(void)searchPopulateAndReloadWorker:(NSString*)text{
+//	htmlLoadingsComplete = 0;
+//	self.searchResult = [self findRhymes:text];
+//	self.cellCache = [self buildResultCells:self.searchResult];
+//	
+//	// Tell the UITableView to reload its data.	
+//	[self.searchResultTableView setContentOffset:CGPointMake(0, 0) animated:NO];
+//	[self.searchResultTableView reloadData];
+//}
 
 /**
  *	returns an array of rhymeParts

@@ -26,9 +26,12 @@
 	NSArray* cellCache;
 	UISearchBar* searchBar;
 	NSArray* tableCellPool;
+	UIActivityIndicatorView  *spinner;
 	
 	IBOutlet UITableView *searchResultTableView;
 }
+
+- (void)searchWorker:(NSString*)text;
 
 @property (nonatomic, retain) IBOutlet UITableView *searchResultTableView;
 @property (nonatomic, retain) UISearchBar *searchBar;
@@ -36,6 +39,7 @@
 @property (nonatomic, retain) HtmlBuilder *htmlBuilder;
 @property (nonatomic, retain) NSArray *cellCache;
 @property (nonatomic, retain) NSArray *tableCellPool;
+@property (nonatomic, retain) UIActivityIndicatorView  *spinner;
 
 @end
 
