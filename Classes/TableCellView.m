@@ -52,6 +52,7 @@
 	[self performSelector:@selector(showWebView) withObject:nil afterDelay:3];          
 }
 
+
 -(void)showWebView{
 	NSLog(@"called showWebView at %f", CFAbsoluteTimeGetCurrent());
 	CAGradientLayer *gradient = [CAGradientLayer layer];

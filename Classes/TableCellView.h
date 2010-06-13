@@ -22,9 +22,6 @@
 
 @interface TableCellView : UITableViewCell<UIWebViewDelegate> {
 	UILabel *cellText;
-	//IBOutlet UILabel *lines;
-	//IBOutlet UILabel *artist;
-	//IBOutlet UILabel *title;
 
 	NSString *rawText;
 	UIWebView *webView;
@@ -39,6 +36,7 @@
 
 - (void)setLabelText:(NSString *)_text;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier height:(CGFloat)height htmlCallback:(id<HtmlLoadedCallback>)htmlCallback;
+- (void)setVisible;
 
 @end
 

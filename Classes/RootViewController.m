@@ -21,6 +21,9 @@
 - (void)searchPopulateAndReload:(NSString*)text;
 - (void)buildSpinnerAndDisplay;
 - (void)stopSinnerAndHide;
+- (void)reloadTableData;
+- (void)beginSearch:(NSString *)text;
+- (void)searchPopulateAndReloadInNewThread:(NSString*)text;
 
 NSUInteger htmlLoadingsComplete;
 
@@ -34,7 +37,9 @@ NSUInteger htmlLoadingsComplete;
 @synthesize searchResultTableView;
 @synthesize cellCache;
 @synthesize spinner;
+@synthesize spinnerLabel;
 @synthesize tableCellPool;
+@synthesize isAwaitingResults;
 
 // html callback impl
 - (void)htmlLoaded{
@@ -51,34 +56,55 @@ NSUInteger htmlLoadingsComplete;
 
 // DOMAIN METHODS
 -(void)setSearchTextAndDoSearch:(NSString *)text{
-	NSLog(@"setSearchTextAndDoSearch with text %@", text);
+	self.searchResult = [NSArray array];
+	self.cellCache = [NSArray array];
+	self.isAwaitingResults = TRUE;
+	
+	[self reloadTableData];
 	[self.searchBar setText:text];	
+	[self beginSearch:text];
+
+}
+
+-(void)reloadTableData{
+	[self.searchResultTableView setContentOffset:CGPointMake(0, 0) animated:NO];
+	[self.searchResultTableView reloadData];
+}
+
+-(void)beginSearch:(NSString *)text{
 	[self buildSpinnerAndDisplay];
 	[self searchPopulateAndReloadInNewThread:text];
+	self.isAwaitingResults = TRUE;
 }
 
 -(void)buildSpinnerAndDisplay{
-	NSLog(@"entering buildSpinnerAndDisplay");
-	self.spinner = [[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
-	NSLog(@"entering buildSpinnerAndDisplay 1");
-	self.spinner.frame=CGRectMake(145, 160, 25, 25);
+	self.spinner = [[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge] autorelease];
+	self.spinner.frame=CGRectMake(105, 160, 25, 25);
 	self.spinner.tag  = 1;
-	NSLog(@"entering buildSpinnerAndDisplay 2");
 	[self.spinner startAnimating];
+	
+	spinnerLabel = [[UILabel alloc] initWithFrame:CGRectMake(140, 160, 120, 20)];
+	spinnerLabel.textColor = [UIColor whiteColor];
+	spinnerLabel.backgroundColor = [UIColor blackColor];
+	spinnerLabel.font = [UIFont boldSystemFontOfSize:14.0];
+	spinnerLabel.text = @"SEARCHING...";
+	[self.view addSubview:spinnerLabel];
 	[self.view addSubview:self.spinner];
-	NSLog(@"done buildSpinnerAndDisplay");
 }
 
 -(void)stopSinnerAndHide{
 	[self.spinner stopAnimating];
 	[self.spinner removeFromSuperview];
+	[self.spinnerLabel removeFromSuperview];
+	self.isAwaitingResults = FALSE;
+	[self reloadTableData];
+	
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBarRef {	
 	// Make the keyboard go away.
 	[searchBarRef resignFirstResponder];
-	[self buildSpinnerAndDisplay];
-	[self searchPopulateAndReloadInNewThread:searchBarRef.text];
+	[self beginSearch:searchBarRef.text];
 }
 
 -(void)searchPopulateAndReloadInNewThread:(NSString*)text{
@@ -100,27 +126,14 @@ NSUInteger htmlLoadingsComplete;
 	self.searchResult = result;
 	self.cellCache = [self buildResultCells:self.searchResult];
 	
-	// Tell the UITableView to reload its data.	
-	[self.searchResultTableView setContentOffset:CGPointMake(0, 0) animated:NO];
-	[self.searchResultTableView reloadData];
+	[self reloadTableData];
 }
 
-//-(void)searchPopulateAndReloadWorker:(NSString*)text{
-//	htmlLoadingsComplete = 0;
-//	self.searchResult = [self findRhymes:text];
-//	self.cellCache = [self buildResultCells:self.searchResult];
-//	
-//	// Tell the UITableView to reload its data.	
-//	[self.searchResultTableView setContentOffset:CGPointMake(0, 0) animated:NO];
-//	[self.searchResultTableView reloadData];
-//}
 
 /**
  *	returns an array of rhymeParts
  */
 - (NSArray*)findRhymes:(NSString *)toFind{
-	NSLog(@"Finding rhymes for word: %@", toFind);
-	
 	AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 
 	return [appDelegate.dataAccess findRhymes:toFind]; 
 }
@@ -131,12 +144,10 @@ NSUInteger htmlLoadingsComplete;
 -(NSArray *)buildResultCells:(NSArray *)results{
 	NSMutableArray* cellBuffer = [NSMutableArray array];
 	for(RhymePart* part in results){
-		//TODO do we need to pass height in here?
 		CGFloat height = [self heightOfString:part.rhymeLines];
 		TableCellView* cell = [[[TableCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"NEVER" height:height htmlCallback:self] autorelease];
 		NSString* html = [htmlBuilder buildTableResult:part];
 		[cell setLabelText:html];
-		//cell.delegate = self;
 		[cellBuffer addObject:cell];
 	}
 
@@ -190,7 +201,8 @@ NSUInteger htmlLoadingsComplete;
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return [self.searchResult count];
+	NSLog(@"get count, result is %@", (self.isAwaitingResults ? @"T" : @"F"));
+	return self.isAwaitingResults ? 0 : [self.searchResult count];
 }
 
 

@@ -26,7 +26,9 @@
 	NSArray* cellCache;
 	UISearchBar* searchBar;
 	NSArray* tableCellPool;
-	UIActivityIndicatorView  *spinner;
+	UIActivityIndicatorView *spinner;
+	UILabel *spinnerLabel;
+	bool isAwaitingResults;
 	
 	IBOutlet UITableView *searchResultTableView;
 }
@@ -39,7 +41,9 @@
 @property (nonatomic, retain) HtmlBuilder *htmlBuilder;
 @property (nonatomic, retain) NSArray *cellCache;
 @property (nonatomic, retain) NSArray *tableCellPool;
-@property (nonatomic, retain) UIActivityIndicatorView  *spinner;
+@property (nonatomic, retain) UIActivityIndicatorView *spinner;
+@property (nonatomic, retain) UILabel *spinnerLabel;
+@property (nonatomic) bool isAwaitingResults;
 
 @end
 
