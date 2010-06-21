@@ -24,6 +24,7 @@
 		htmlTextHeight = height;
 		CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
 		webView = [[[UIWebView alloc] initWithFrame:CGRectMake(0, 0, kLinesWidth, height)] autorelease];
+		webView.detectsPhoneNumbers = NO;
 		NSLog(@"web view call took %f", (CFAbsoluteTimeGetCurrent() - startTime));
 		[webView setDelegate:self];
 		webView.backgroundColor = [UIColor clearColor];

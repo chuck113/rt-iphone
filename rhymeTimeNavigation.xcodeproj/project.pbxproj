@@ -14,13 +14,17 @@
 		28F335F11007B36200424DE2 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28F335F01007B36200424DE2 /* RootViewController.xib */; };
 		434D3CDC11B6FE90004D7867 /* whiteBorder.png in Resources */ = {isa = PBXBuildFile; fileRef = 434D3CDB11B6FE90004D7867 /* whiteBorder.png */; };
 		434D3CED11B700B6004D7867 /* iPhoneArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 434D3CEC11B700B6004D7867 /* iPhoneArrow.png */; };
-		434D41B211BDA556004D7867 /* rhymeTime.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 434D41B111BDA556004D7867 /* rhymeTime.sqlite */; };
 		434D41E511C3F415004D7867 /* RhymePart.m in Sources */ = {isa = PBXBuildFile; fileRef = 434D41E411C3F415004D7867 /* RhymePart.m */; };
 		4394AEFD11A9B2B800BE9DEC /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4394AEFC11A9B2B800BE9DEC /* CoreData.framework */; };
 		4394AEFF11A9B2B800BE9DEC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4394AEFE11A9B2B800BE9DEC /* CoreGraphics.framework */; };
 		4394AF0111A9B2B800BE9DEC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4394AF0011A9B2B800BE9DEC /* Foundation.framework */; };
 		4394AF0311A9B2B800BE9DEC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4394AF0211A9B2B800BE9DEC /* QuartzCore.framework */; };
 		4394AF0511A9B2B800BE9DEC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4394AF0411A9B2B800BE9DEC /* UIKit.framework */; };
+		43A2041911C5985800177143 /* IntroView.m in Sources */ = {isa = PBXBuildFile; fileRef = 43A2041711C5985800177143 /* IntroView.m */; };
+		43A2041A11C5985800177143 /* IntroView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43A2041811C5985800177143 /* IntroView.xib */; };
+		43DC8CEE11CEB80B009EBD46 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 43DC8CEC11CEB80B009EBD46 /* icon.png */; };
+		43DC8D0A11CEBA84009EBD46 /* header.png in Resources */ = {isa = PBXBuildFile; fileRef = 43DC8D0911CEBA84009EBD46 /* header.png */; };
+		43DC8D5E11CEC925009EBD46 /* rhymeTime.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 43DC8D5D11CEC925009EBD46 /* rhymeTime.sqlite */; };
 		46321230119EA0F300222659 /* RhymeDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4632122F119EA0F300222659 /* RhymeDetailViewController.xib */; };
 		46321235119EA15300222659 /* RhymeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46321234119EA15300222659 /* RhymeDetailViewController.m */; };
 		468576B511A0255900814B9E /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = 468576A711A0255900814B9E /* Album.m */; };
@@ -44,7 +48,6 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		434D3CDB11B6FE90004D7867 /* whiteBorder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteBorder.png; sourceTree = "<group>"; };
 		434D3CEC11B700B6004D7867 /* iPhoneArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPhoneArrow.png; sourceTree = "<group>"; };
-		434D41B111BDA556004D7867 /* rhymeTime.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = rhymeTime.sqlite; sourceTree = "<group>"; };
 		434D41E311C3F415004D7867 /* RhymePart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RhymePart.h; sourceTree = "<group>"; };
 		434D41E411C3F415004D7867 /* RhymePart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RhymePart.m; sourceTree = "<group>"; };
 		4394AEFC11A9B2B800BE9DEC /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.0.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
@@ -52,6 +55,12 @@
 		4394AF0011A9B2B800BE9DEC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		4394AF0211A9B2B800BE9DEC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.0.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		4394AF0411A9B2B800BE9DEC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		43A2041611C5985800177143 /* IntroView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroView.h; sourceTree = "<group>"; };
+		43A2041711C5985800177143 /* IntroView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroView.m; sourceTree = "<group>"; };
+		43A2041811C5985800177143 /* IntroView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = IntroView.xib; path = Classes/IntroView.xib; sourceTree = "<group>"; };
+		43DC8CEC11CEB80B009EBD46 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		43DC8D0911CEBA84009EBD46 /* header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = header.png; sourceTree = "<group>"; };
+		43DC8D5D11CEC925009EBD46 /* rhymeTime.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = rhymeTime.sqlite; sourceTree = "<group>"; };
 		4632122F119EA0F300222659 /* RhymeDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RhymeDetailViewController.xib; sourceTree = "<group>"; };
 		46321233119EA15300222659 /* RhymeDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RhymeDetailViewController.h; sourceTree = "<group>"; };
 		46321234119EA15300222659 /* RhymeDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RhymeDetailViewController.m; sourceTree = "<group>"; };
@@ -104,6 +113,8 @@
 				28C286E00D94DF7D0034E888 /* RootViewController.m */,
 				1D3623240D0F684500981E51 /* AppDelegate.h */,
 				1D3623250D0F684500981E51 /* AppDelegate.m */,
+				43A2041611C5985800177143 /* IntroView.h */,
+				43A2041711C5985800177143 /* IntroView.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -140,7 +151,10 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				434D41B111BDA556004D7867 /* rhymeTime.sqlite */,
+				43DC8D5D11CEC925009EBD46 /* rhymeTime.sqlite */,
+				43DC8D0911CEBA84009EBD46 /* header.png */,
+				43DC8CEC11CEB80B009EBD46 /* icon.png */,
+				43A2041811C5985800177143 /* IntroView.xib */,
 				434D3CEC11B700B6004D7867 /* iPhoneArrow.png */,
 				434D3CDB11B6FE90004D7867 /* whiteBorder.png */,
 				468576BC11A0257100814B9E /* rhymeTimeIPhonePrototype.xcdatamodel */,
@@ -242,7 +256,10 @@
 				46321230119EA0F300222659 /* RhymeDetailViewController.xib in Resources */,
 				434D3CDC11B6FE90004D7867 /* whiteBorder.png in Resources */,
 				434D3CED11B700B6004D7867 /* iPhoneArrow.png in Resources */,
-				434D41B211BDA556004D7867 /* rhymeTime.sqlite in Resources */,
+				43A2041A11C5985800177143 /* IntroView.xib in Resources */,
+				43DC8CEE11CEB80B009EBD46 /* icon.png in Resources */,
+				43DC8D0A11CEBA84009EBD46 /* header.png in Resources */,
+				43DC8D5E11CEC925009EBD46 /* rhymeTime.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,6 +282,7 @@
 				468576BB11A0255900814B9E /* TableCellView.m in Sources */,
 				468576BE11A0257100814B9E /* rhymeTimeIPhonePrototype.xcdatamodel in Sources */,
 				434D41E511C3F415004D7867 /* RhymePart.m in Sources */,
+				43A2041911C5985800177143 /* IntroView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
