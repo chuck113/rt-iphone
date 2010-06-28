@@ -8,6 +8,8 @@
 
 #import "TableCellView.h"
 #import "HtmlBuilder.h"
+#import "ActivityView.h"
+#import "NoResultsView.h"
 
 @protocol HtmlLoadedCallback;
 
@@ -26,9 +28,9 @@
 	NSArray* cellCache;
 	UISearchBar* searchBar;
 	NSArray* tableCellPool;
-	UIActivityIndicatorView *spinner;
-	UILabel *spinnerLabel;
-	bool isAwaitingResults;
+	
+	ActivityView *activityView;
+	NoResultsView *noResultsView;
 	
 	IBOutlet UITableView *searchResultTableView;
 }
@@ -43,7 +45,8 @@
 @property (nonatomic, retain) NSArray *tableCellPool;
 @property (nonatomic, retain) UIActivityIndicatorView *spinner;
 @property (nonatomic, retain) UILabel *spinnerLabel;
-@property (nonatomic) bool isAwaitingResults;
+@property (nonatomic, retain) ActivityView *activityView;
+@property (nonatomic, retain) NoResultsView *noResultsView;
 
 @end
 

@@ -12,6 +12,8 @@
 #import "HtmlBuilder.h"
 #import "AppDelegate.h"
 #import "Constants.h"
+#import "ActivityView.h"
+#import "NoResultsView.h"
 
 @interface RootViewController()
 
@@ -19,13 +21,14 @@
 - (CGFloat)heightOfString:(NSString *)string;
 - (NSArray *)buildResultCells:(NSArray *)results;
 - (void)searchPopulateAndReload:(NSString*)text;
-- (void)buildSpinnerAndDisplay;
-- (void)stopSinnerAndHide;
+- (void)showActivityView;
+- (void)hideActivityView;
 - (void)reloadTableData;
 - (void)beginSearch:(NSString *)text;
 - (void)searchPopulateAndReloadInNewThread:(NSString*)text;
 
-NSUInteger htmlLoadingsComplete;
+NSUInteger htmlLoadingsComplete = 0;
+bool isAwaitingResults = FALSE;
 
 @end
 
@@ -36,10 +39,9 @@ NSUInteger htmlLoadingsComplete;
 @synthesize searchBar;
 @synthesize searchResultTableView;
 @synthesize cellCache;
-@synthesize spinner;
-@synthesize spinnerLabel;
 @synthesize tableCellPool;
-@synthesize isAwaitingResults;
+@synthesize activityView;
+@synthesize noResultsView;
 
 // html callback impl
 - (void)htmlLoaded{
@@ -50,7 +52,7 @@ NSUInteger htmlLoadingsComplete;
 			TableCellView *cell = [cellCache objectAtIndex:i];
 			[cell setVisible];
 		}
-		[self performSelector:@selector(stopSinnerAndHide) withObject:nil afterDelay:3];   
+		[self performSelector:@selector(hideActivityView) withObject:nil afterDelay:3];   
 	}
 }
 
@@ -58,12 +60,18 @@ NSUInteger htmlLoadingsComplete;
 -(void)setSearchTextAndDoSearch:(NSString *)text{
 	self.searchResult = [NSArray array];
 	self.cellCache = [NSArray array];
-	self.isAwaitingResults = TRUE;
+	isAwaitingResults = TRUE;
 	
 	[self reloadTableData];
 	[self.searchBar setText:text];	
 	[self beginSearch:text];
+}
 
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
+	NSLog(@"editing begun");
+	if([noResultsView.view isDescendantOfView:self.navigationController.view]){
+		[noResultsView.view removeFromSuperview];
+	}
 }
 
 -(void)reloadTableData{
@@ -72,31 +80,18 @@ NSUInteger htmlLoadingsComplete;
 }
 
 -(void)beginSearch:(NSString *)text{
-	[self buildSpinnerAndDisplay];
+	[self showActivityView];
 	[self searchPopulateAndReloadInNewThread:text];
-	self.isAwaitingResults = TRUE;
+	isAwaitingResults = TRUE;
 }
 
--(void)buildSpinnerAndDisplay{
-	self.spinner = [[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge] autorelease];
-	self.spinner.frame=CGRectMake(105, 160, 25, 25);
-	self.spinner.tag  = 1;
-	[self.spinner startAnimating];
-	
-	spinnerLabel = [[UILabel alloc] initWithFrame:CGRectMake(140, 160, 120, 20)];
-	spinnerLabel.textColor = [UIColor whiteColor];
-	spinnerLabel.backgroundColor = [UIColor blackColor];
-	spinnerLabel.font = [UIFont boldSystemFontOfSize:14.0];
-	spinnerLabel.text = @"SEARCHING...";
-	[self.view addSubview:spinnerLabel];
-	[self.view addSubview:self.spinner];
+-(void)showActivityView{
+	[self.view addSubview:activityView.view];
 }
 
--(void)stopSinnerAndHide{
-	[self.spinner stopAnimating];
-	[self.spinner removeFromSuperview];
-	[self.spinnerLabel removeFromSuperview];
-	self.isAwaitingResults = FALSE;
+-(void)hideActivityView{
+	[activityView.view removeFromSuperview];
+	isAwaitingResults = FALSE;
 	[self reloadTableData];
 	
 }
@@ -124,7 +119,13 @@ NSUInteger htmlLoadingsComplete;
 -(void)searchComplete:(NSArray*)result{
 	htmlLoadingsComplete = 0;
 	self.searchResult = result;
-	self.cellCache = [self buildResultCells:self.searchResult];
+	
+	if([result count] == 0){
+		[self hideActivityView];
+		[self.view addSubview:noResultsView.view];
+	}else{
+		self.cellCache = [self buildResultCells:self.searchResult];
+	}
 	
 	[self reloadTableData];
 }
@@ -160,7 +161,8 @@ NSUInteger htmlLoadingsComplete;
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.htmlBuilder = [HtmlBuilder alloc];
-	
+	self.activityView = [[ActivityView alloc] init];
+	self.noResultsView = [[NoResultsView alloc] init];
 
 	self.navigationItem.title = @"Rhyme Time";
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
@@ -201,8 +203,8 @@ NSUInteger htmlLoadingsComplete;
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	NSLog(@"get count, result is %@", (self.isAwaitingResults ? @"T" : @"F"));
-	return self.isAwaitingResults ? 0 : [self.searchResult count];
+	NSLog(@"get count, result is %@", (isAwaitingResults ? @"T" : @"F"));
+	return isAwaitingResults ? 0 : [self.searchResult count];
 }
 
 
