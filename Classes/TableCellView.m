@@ -50,7 +50,7 @@
 
 -(void)setVisible{
 	NSLog(@"called setVisible at %f", CFAbsoluteTimeGetCurrent());
-	[self performSelector:@selector(showWebView) withObject:nil afterDelay:3];          
+	[self performSelector:@selector(showWebView) withObject:nil afterDelay:1];          
 }
 
 

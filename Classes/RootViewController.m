@@ -52,7 +52,7 @@ bool isAwaitingResults = FALSE;
 			TableCellView *cell = [cellCache objectAtIndex:i];
 			[cell setVisible];
 		}
-		[self performSelector:@selector(hideActivityView) withObject:nil afterDelay:3];   
+		[self performSelector:@selector(hideActivityView) withObject:nil afterDelay:1];   
 	}
 }
 

@@ -12,6 +12,8 @@
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* RootViewController.m */; };
 		28F335F11007B36200424DE2 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28F335F01007B36200424DE2 /* RootViewController.xib */; };
+		4309834311D63086003AA017 /* ActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4309834211D63086003AA017 /* ActivityView.m */; };
+		4309839111D6356D003AA017 /* NoResultsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4309839011D6356D003AA017 /* NoResultsView.m */; };
 		434D3CDC11B6FE90004D7867 /* whiteBorder.png in Resources */ = {isa = PBXBuildFile; fileRef = 434D3CDB11B6FE90004D7867 /* whiteBorder.png */; };
 		434D3CED11B700B6004D7867 /* iPhoneArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 434D3CEC11B700B6004D7867 /* iPhoneArrow.png */; };
 		434D41E511C3F415004D7867 /* RhymePart.m in Sources */ = {isa = PBXBuildFile; fileRef = 434D41E411C3F415004D7867 /* RhymePart.m */; };
@@ -44,6 +46,10 @@
 		28C286E00D94DF7D0034E888 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		28F335F01007B36200424DE2 /* RootViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4309834111D63086003AA017 /* ActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityView.h; sourceTree = "<group>"; };
+		4309834211D63086003AA017 /* ActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityView.m; sourceTree = "<group>"; };
+		4309838F11D6356D003AA017 /* NoResultsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoResultsView.h; sourceTree = "<group>"; };
+		4309839011D6356D003AA017 /* NoResultsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoResultsView.m; sourceTree = "<group>"; };
 		434D3CDB11B6FE90004D7867 /* whiteBorder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteBorder.png; sourceTree = "<group>"; };
 		434D3CEC11B700B6004D7867 /* iPhoneArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPhoneArrow.png; sourceTree = "<group>"; };
 		434D41E311C3F415004D7867 /* RhymePart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RhymePart.h; sourceTree = "<group>"; };
@@ -95,6 +101,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				4309834011D63061003AA017 /* subViews */,
 				468576AE11A0255900814B9E /* dao */,
 				468576A511A0255800814B9E /* dto */,
 				4685788411A02F8500814B9E /* Constants.h */,
@@ -168,6 +175,17 @@
 				4394AF0411A9B2B800BE9DEC /* UIKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4309834011D63061003AA017 /* subViews */ = {
+			isa = PBXGroup;
+			children = (
+				4309834111D63086003AA017 /* ActivityView.h */,
+				4309834211D63086003AA017 /* ActivityView.m */,
+				4309838F11D6356D003AA017 /* NoResultsView.h */,
+				4309839011D6356D003AA017 /* NoResultsView.m */,
+			);
+			name = subViews;
 			sourceTree = "<group>";
 		};
 		468576A511A0255800814B9E /* dto */ = {
@@ -273,6 +291,8 @@
 				468576BB11A0255900814B9E /* TableCellView.m in Sources */,
 				468576BE11A0257100814B9E /* rhymeTimeIPhonePrototype.xcdatamodel in Sources */,
 				434D41E511C3F415004D7867 /* RhymePart.m in Sources */,
+				4309834311D63086003AA017 /* ActivityView.m in Sources */,
+				4309839111D6356D003AA017 /* NoResultsView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
