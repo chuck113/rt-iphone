@@ -32,7 +32,7 @@
 		[webView setHidden:YES];
 		[self insertSubview:webView atIndex:0];
 		self.backgroundColor = [UIColor blackColor];
-		self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+		self.accessoryView = [self accessoryView];
 		
 		
 //		CAGradientLayer *gradient = [CAGradientLayer layer];
@@ -42,6 +42,10 @@
 //		[self.layer insertSublayer:gradient atIndex:0];
     }
     return self;
+}
+
+- (UIView*)accessoryView{
+	return [[ UIImageView alloc ]  initWithImage:[UIImage imageNamed:@"AccDisclosure.png" ]];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
