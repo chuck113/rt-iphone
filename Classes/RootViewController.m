@@ -67,8 +67,10 @@ bool isAwaitingResults = FALSE;
 	isAwaitingResults = TRUE;
 	
 	[self reloadTableData];
-	//TODO set text in search bar
-	//[self.searchBar setText:text];	
+	
+	self.searchBar.placeholder = text;
+	self.searchBar.prompt = text;
+
 	[self beginSearch:text];
 }
 
@@ -181,22 +183,20 @@ bool isAwaitingResults = FALSE;
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 	
-	UISearchBar *temp = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, 320, 45)];
-	temp.autocorrectionType=UITextAutocorrectionTypeNo;
-	temp.autocapitalizationType=UITextAutocapitalizationTypeNone;
-	temp.delegate=self;
-	temp.tintColor = [UIColor clearColor];
+	UISearchBar *searchBarTmp = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, 320, 45)];
+	searchBarTmp.autocorrectionType=UITextAutocorrectionTypeNo;
+	searchBarTmp.autocapitalizationType=UITextAutocapitalizationTypeNone;
+	searchBarTmp.delegate=self;
+	searchBarTmp.tintColor = [UIColor clearColor];
 	
 	UINavigationBar *bar = [self.navigationController navigationBar]; 
 	[bar setTintColor:[UIColor blackColor]]; 
-	//self.navigationItem.titleView = temp;
-	self.tableView.tableHeaderView = temp;
-	self.searchBar = temp;
+	//self.navigationItem.titleView = searchBarTmp;
+	self.tableView.tableHeaderView = searchBarTmp;
+	self.searchBar = searchBarTmp;
 	
-	self.searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:temp contentsController:self];  
-	//self.searchDisplayController.searchResultsTableView.backgroundColor = [UIColor blackColor];
-	//self.searchDisplayController.searchResultsTableView.separatorColor = [UIColor darkGrayColor];
-	
+	self.searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:searchBarTmp contentsController:self];  
+
 	[self performSelector:@selector(setSearchDisplayController:) withObject:searchDisplayController];
 	
     [self.searchDisplayController setDelegate:self];  
@@ -204,12 +204,12 @@ bool isAwaitingResults = FALSE;
     [self.searchDisplayController setSearchResultsDelegate:self];
     [self.searchDisplayController release];  
 	
-	[temp release];
+	[searchBarTmp release];
 }
 
 -(void)searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView {
 	tableView.backgroundColor = [UIColor blackColor];
-	tableView.separatorColor = [UIColor darkGrayColor];
+	tableView.separatorColor = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -236,7 +236,9 @@ bool isAwaitingResults = FALSE;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	if (tableView == self.searchDisplayController.searchResultsTableView)
 	{
-        if([filteredSearchSuggestions count] > 40){
+        if([filteredSearchSuggestions count] == 0){
+			return 1;
+		}else if([filteredSearchSuggestions count] > 40){
 			return 40;
 		}else{
 			return [filteredSearchSuggestions count];
@@ -272,15 +274,28 @@ bool isAwaitingResults = FALSE;
 	return size.height +15.0f + 30.0f;
 }
 
+
+
+
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	if (tableView == self.searchDisplayController.searchResultsTableView){	
-        tableView.backgroundColor = [UIColor blackColor]; 
-		UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"never"] autorelease];
-		cell.textLabel.textColor = [UIColor whiteColor];
+		static NSString *CellIdentifier = @"searchResultId";
+		
+		UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+		if (cell == nil) {
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+			
+		}
+        cell.textLabel.textColor = [UIColor whiteColor];
+		cell.textLabel.font = [UIFont fontWithName:@"Arial-bold" size:16];
 		cell.backgroundView.backgroundColor = [UIColor blackColor];
-		cell.textLabel.text = [filteredSearchSuggestions objectAtIndex:indexPath.row];
+		if([filteredSearchSuggestions count] == 0){
+			cell.textLabel.text = @"";
+		}else {
+			cell.textLabel.text = [filteredSearchSuggestions objectAtIndex:indexPath.row];
+		}
 		NSLog(@"returning cell, index: %i", indexPath.row);
 		return cell;
     }
@@ -316,12 +331,11 @@ bool isAwaitingResults = FALSE;
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
 	NSLog(@"searchDisplayController, search string is %@", searchString);
+	
+
 	if([searchString length] > 2){
 		AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 
 		NSArray *results = [appDelegate.dataAccess rhymesWithPrefix:searchString];
-		
-		NSLog(@"prefix count: %i", [results count]);
-		//NSArray *results = (NSArray *)[prefixSearchMap objectForKey:@"ZIP"];
 		
 		[filteredSearchSuggestions removeAllObjects];
 		
@@ -338,18 +352,12 @@ bool isAwaitingResults = FALSE;
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
 {
-    	NSLog(@"searchDisplayController");
-	//[self filterContentForSearchText:[self.searchDisplayController.searchBar text] scope:
-	// [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:searchOption]];
-	
     return NO;
 }
 
 - (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
 	NSLog(@"searchDisplayControllerWillBeginSearch");
 	self.searchIsActive = YES;
-	
-	//[self performSelector:@selector(addWord) withObject:nil afterDelay:3.0];
 }
 
 - (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller {
