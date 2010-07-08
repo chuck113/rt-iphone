@@ -27,7 +27,7 @@
 	
 	[window addSubview:[navigationController view]];
     [window makeKeyAndVisible];
-	dataAccess = [DataAccess alloc];
+	dataAccess = [[DataAccess alloc] init];
 }
 
 

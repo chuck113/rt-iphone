@@ -26,6 +26,7 @@
 - (void)reloadTableData;
 - (void)beginSearch:(NSString *)text;
 - (void)searchPopulateAndReloadInNewThread:(NSString*)text;
+- (NSArray*)rhymesWithPrefix:(NSString *)prefix;
 
 NSUInteger htmlLoadingsComplete = 0;
 bool isAwaitingResults = FALSE;
@@ -42,6 +43,9 @@ bool isAwaitingResults = FALSE;
 @synthesize tableCellPool;
 @synthesize activityView;
 @synthesize noResultsView;
+@synthesize searchIsActive;
+@synthesize searchDisplayController;
+@synthesize filteredSearchSuggestions;
 
 // html callback impl
 - (void)htmlLoaded{
@@ -63,7 +67,8 @@ bool isAwaitingResults = FALSE;
 	isAwaitingResults = TRUE;
 	
 	[self reloadTableData];
-	[self.searchBar setText:text];	
+	//TODO set text in search bar
+	//[self.searchBar setText:text];	
 	[self beginSearch:text];
 }
 
@@ -99,12 +104,13 @@ bool isAwaitingResults = FALSE;
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBarRef {	
 	// Make the keyboard go away.
 	[searchBarRef resignFirstResponder];
+	NSLog(@"search text was %@", searchBarRef.text);
 	[self beginSearch:searchBarRef.text];
+	[self.searchDisplayController setActive:NO animated:TRUE];
 }
 
 -(void)searchPopulateAndReloadInNewThread:(NSString*)text{
 	[NSThread detachNewThreadSelector:@selector(searchWorker:) toTarget:self withObject:text];
-
 }
 
 -(void)searchWorker:(NSString*)text{
@@ -139,6 +145,11 @@ bool isAwaitingResults = FALSE;
 	return [appDelegate.dataAccess findRhymes:toFind]; 
 }
 
+- (NSArray*)rhymesWithPrefix:(NSString *)prefix{
+	AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 
+	return [appDelegate.dataAccess rhymesWithPrefix:prefix]; 
+}
+
 /*
  Builds an array of TableCellView used to display results in the table
  */
@@ -163,7 +174,9 @@ bool isAwaitingResults = FALSE;
 	self.htmlBuilder = [HtmlBuilder alloc];
 	self.activityView = [[ActivityView alloc] init];
 	self.noResultsView = [[NoResultsView alloc] init];
-
+	self.filteredSearchSuggestions = [NSMutableArray arrayWithCapacity:0];
+	self.searchIsActive = [self.searchDisplayController isActive];
+    
 	self.navigationItem.title = @"Rhyme Time";
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -176,9 +189,27 @@ bool isAwaitingResults = FALSE;
 	
 	UINavigationBar *bar = [self.navigationController navigationBar]; 
 	[bar setTintColor:[UIColor blackColor]]; 
-	self.navigationItem.titleView = temp;
+	//self.navigationItem.titleView = temp;
+	self.tableView.tableHeaderView = temp;
 	self.searchBar = temp;
+	
+	self.searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:temp contentsController:self];  
+	//self.searchDisplayController.searchResultsTableView.backgroundColor = [UIColor blackColor];
+	//self.searchDisplayController.searchResultsTableView.separatorColor = [UIColor darkGrayColor];
+	
+	[self performSelector:@selector(setSearchDisplayController:) withObject:searchDisplayController];
+	
+    [self.searchDisplayController setDelegate:self];  
+    [self.searchDisplayController setSearchResultsDataSource:self];  
+    [self.searchDisplayController setSearchResultsDelegate:self];
+    [self.searchDisplayController release];  
+	
 	[temp release];
+}
+
+-(void)searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView {
+	tableView.backgroundColor = [UIColor blackColor];
+	tableView.separatorColor = [UIColor darkGrayColor];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -203,16 +234,34 @@ bool isAwaitingResults = FALSE;
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	NSLog(@"get count, result is %@", (isAwaitingResults ? @"T" : @"F"));
-	return isAwaitingResults ? 0 : [self.searchResult count];
+	if (tableView == self.searchDisplayController.searchResultsTableView)
+	{
+        if([filteredSearchSuggestions count] > 40){
+			return 40;
+		}else{
+			return [filteredSearchSuggestions count];
+		}
+	}
+	else
+	{
+		NSLog(@"get count, result is %@", (isAwaitingResults ? @"T" : @"F"));
+		return isAwaitingResults ? 0 : [self.searchResult count];
+	}
 }
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-	RhymePart* rhymePart = (RhymePart*)[self.searchResult objectAtIndex:indexPath.row];
-	//NSLog(@"called heightForRowAtIndexPath, returend %f", [self heightOfString:rhymePart.rhymeLines]); 
-	
-	return [self heightOfString:rhymePart.rhymeLines];
+	if (tableView == self.searchDisplayController.searchResultsTableView)
+	{
+        return 40.0f;
+    }
+	else
+	{
+		RhymePart* rhymePart = (RhymePart*)[self.searchResult objectAtIndex:indexPath.row];
+		//NSLog(@"called heightForRowAtIndexPath, returend %f", [self heightOfString:rhymePart.rhymeLines]); 
+		
+		return [self heightOfString:rhymePart.rhymeLines];
+	}
 }
 
 // TODO needs refinement
@@ -225,18 +274,87 @@ bool isAwaitingResults = FALSE;
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSLog(@"cell is %@", [cellCache objectAtIndex:indexPath.row]);
-	return [cellCache objectAtIndex:indexPath.row];
+	
+	if (tableView == self.searchDisplayController.searchResultsTableView){	
+        tableView.backgroundColor = [UIColor blackColor]; 
+		UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"never"] autorelease];
+		cell.textLabel.textColor = [UIColor whiteColor];
+		cell.backgroundView.backgroundColor = [UIColor blackColor];
+		cell.textLabel.text = [filteredSearchSuggestions objectAtIndex:indexPath.row];
+		NSLog(@"returning cell, index: %i", indexPath.row);
+		return cell;
+    }
+	else
+	{
+		NSLog(@"cell is %@", [cellCache objectAtIndex:indexPath.row]);
+		return [cellCache objectAtIndex:indexPath.row];
+	}
 }
 
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	self.navigationItem.title = @"back";
+	if (tableView == self.searchDisplayController.searchResultsTableView){	
+		[self.searchDisplayController.searchResultsTableView removeFromSuperview];
+		[self beginSearch:[filteredSearchSuggestions objectAtIndex:indexPath.row]];
+		[filteredSearchSuggestions removeAllObjects];
+		[self.searchDisplayController setActive:NO animated:TRUE];
+    }
+	else
+	{
+		self.navigationItem.title = @"back";
 
-	RhymeDetailViewController *targetViewController = [[RhymeDetailViewController alloc] initWithNibName:@"RhymeDetailViewController" bundle:nil searchCallback:self searchResult:[self.searchResult objectAtIndex:indexPath.row]];
-    [self.navigationController pushViewController:targetViewController animated:YES];
+		RhymeDetailViewController *targetViewController = [[RhymeDetailViewController alloc] initWithNibName:@"RhymeDetailViewController" bundle:nil searchCallback:self searchResult:[self.searchResult objectAtIndex:indexPath.row]];
+		[self.navigationController pushViewController:targetViewController animated:YES];
+	}
+}
+
+#pragma mark -
+#pragma mark UISearchDisplayController Delegate Methods
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+	NSLog(@"searchDisplayController, search string is %@", searchString);
+	if([searchString length] > 2){
+		AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 
+		NSArray *results = [appDelegate.dataAccess rhymesWithPrefix:searchString];
+		
+		NSLog(@"prefix count: %i", [results count]);
+		//NSArray *results = (NSArray *)[prefixSearchMap objectForKey:@"ZIP"];
+		
+		[filteredSearchSuggestions removeAllObjects];
+		
+		for (NSString* st in results) {
+			[filteredSearchSuggestions addObject:st];
+		}
+		
+		return YES;
+	}
+	
+	return NO;
+}
+
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
+{
+    	NSLog(@"searchDisplayController");
+	//[self filterContentForSearchText:[self.searchDisplayController.searchBar text] scope:
+	// [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:searchOption]];
+	
+    return NO;
+}
+
+- (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
+	NSLog(@"searchDisplayControllerWillBeginSearch");
+	self.searchIsActive = YES;
+	
+	//[self performSelector:@selector(addWord) withObject:nil afterDelay:3.0];
+}
+
+- (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller {
+	NSLog(@"searchDisplayControllerDidEndSearch");
+	self.searchIsActive = NO;
 }
 
 

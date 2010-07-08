@@ -16,7 +16,7 @@
 
 @interface DataAccess()
 
--(NSArray *)buildResultsArray:(NSArray *)items maxResults:(double)maxResults;
+- (NSArray *)buildResultsArray:(NSArray *)items maxResults:(double)maxResults;
 - (NSString *)applicationDocumentsDirectory;
 @end
 
@@ -24,10 +24,10 @@
 
 @synthesize managedObjectContext, persistentStoreCoordinator, managedObjectModel;
 
-//- (DataAccess*)init{
-//	self.managedObjectContext = [self managedObjectContext];
-//	return self;
-//}
+- (DataAccess*)init{
+	[self managedObjectContext];
+	return self;
+}
 
 /**
  *	returns an array of rhymeParts
@@ -62,44 +62,148 @@
 	return [self buildResultsArray:items maxResults:20.0];
 }
 
--(NSSet *)rhymingWordsContainedIn:(NSString *)words{
-	NSMutableSet* buffer = [[NSMutableSet alloc] init];
-	NSArray* wordsArray = [words componentsSeparatedByString:@" "];
+- (NSArray*)rhymesWithPrefix:(NSString *)prefix{
+	CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
 	
-	for(NSString *st in wordsArray){
-		if([self containsWord:st]){
-			[buffer addObject:st];
-		}
-	}
-	NSSet* result =	[NSSet setWithSet:buffer];
-	[buffer dealloc];
-	return result;	
-}
-
--(BOOL)containsWord:(NSString *)word{
 	NSFetchRequest *req = [[NSFetchRequest alloc] init];
-	[req setEntity:[NSEntityDescription entityForName:@"RhymePart" inManagedObjectContext:self.managedObjectContext]];
+	NSEntityDescription *entityDesc = [NSEntityDescription entityForName:@"RhymePart" inManagedObjectContext:managedObjectContext];
+	[req setEntity:entityDesc];
 	
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"word like[cd] %@", word];
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"word beginswith[c] %@", [prefix uppercaseString]];
 	[req setPredicate:predicate];
 	
-	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"score" ascending:NO];
-	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
-	[req setSortDescriptors:sortDescriptors];
+	NSSortDescriptor *sortByName = [[NSSortDescriptor alloc] initWithKey:@"word" ascending:YES];
 	
-	[req setIncludesSubentities:NO]; //Omit subentities. Default is YES (i.e. include subentities)
+	[req setSortDescriptors:[NSArray arrayWithObject:sortByName]];
+	[req setResultType:NSDictionaryResultType];
+
 	
-	NSError *err;
-	NSUInteger count = [managedObjectContext countForFetchRequest:req error:&err];
-	if(count == NSNotFound) {
-		//Handle error
-	}	
-	[req release];
-	NSLog(@"count for %@ was %i", word, count);
+	NSDictionary *entityProperties = [entityDesc propertiesByName];
+	[req setPropertiesToFetch:[NSArray arrayWithObject:[entityProperties objectForKey:@"word"]]];
+	[req setReturnsDistinctResults:TRUE];
 	
-	return count != 0;
+	NSError *error;
+	NSArray *items = [managedObjectContext executeFetchRequest:req error:&error];
+	
+	[req release];	
+	
+	NSLog(@"allRhymes: %i, took %f", items.count, (CFAbsoluteTimeGetCurrent() - startTime));
+	
+	if (![managedObjectContext save:&error]) {
+        NSLog(@"Unresolved Core Data Save error %@, %@", error, [error userInfo]);
+        return [NSArray init];
+    }
+	
+	NSMutableArray* strings = [NSMutableArray arrayWithCapacity:[items count]];
+	for (int i=0; i<[items count]; i++){
+		[strings addObject:[[items objectAtIndex:i] valueForKey:@"word"]];
+	}
+		 
+	NSArray *result = [NSArray arrayWithArray:strings];
+	//[strings release];
+	//[items release];
+	
+	return result;
+	
 }
 
+//- (NSArray*)allRhymes{
+//	CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+//	
+//	NSFetchRequest *req = [[NSFetchRequest alloc] init];
+//	NSEntityDescription *entityDesc = [NSEntityDescription entityForName:@"RhymePart" inManagedObjectContext:managedObjectContext];
+//	[req setEntity:entityDesc];
+//
+//	NSSortDescriptor *sortByName = [[NSSortDescriptor alloc] initWithKey:@"word" ascending:YES];
+//	
+//	[req setSortDescriptors:[NSArray arrayWithObject:sortByName]];
+//	[req setResultType:NSDictionaryResultType];
+//	
+//	NSDictionary *entityProperties = [entityDesc propertiesByName];
+//	[req setPropertiesToFetch:[NSArray arrayWithObject:[entityProperties objectForKey:@"word"]]];
+//	[req setReturnsDistinctResults:TRUE];
+//	
+//	NSError *error;
+//	NSArray *items = [managedObjectContext executeFetchRequest:req error:&error];
+//	
+//	[req release];	
+//	
+//	NSLog(@"allRhymes: %i, took %f", items.count, (CFAbsoluteTimeGetCurrent() - startTime));
+//	
+//	if (![managedObjectContext save:&error]) {
+//        NSLog(@"Unresolved Core Data Save error %@, %@", error, [error userInfo]);
+//        return [NSArray init];
+//    }
+//	
+//	return items;
+//}
+//
+//
+//-(NSDictionary *)buildPrefixSearchMap{
+//	NSArray *allRhymes = [self allRhymes];
+//	NSMutableDictionary *result = [NSMutableDictionary dictionary];
+//
+//	for(int i=0; i<[allRhymes count];i++){
+//		//RhymePart *rhymePart = [allRhymes objectAtIndex:i];
+//		NSString *word = [[allRhymes objectAtIndex:i] valueForKey:@"word"];
+//		//NSLog(@"word is %@", word);
+//		
+//		NSString *subString = [word length] > 2 ? [word substringToIndex:3] : word;
+//		
+//		if([result objectForKey:subString] == nil){
+//			[result setValue:[NSMutableArray array] forKey:subString];
+//		}
+//		
+//		NSMutableArray *words = (NSMutableArray *)[result objectForKey:subString];
+//		[words addObject:word];
+//		//NSLog(@"added substring %@, array is now %i", subString, [words count]);
+//			
+//	}
+//	
+//	NSLog(@"created dictionary of size %i", [result count]);
+//	//TODO convert mutable arrays to immutable
+//	
+//	return [NSDictionary dictionaryWithDictionary:result];
+//}
+
+//-(NSSet *)rhymingWordsContainedIn:(NSString *)words{
+//	NSMutableSet* buffer = [[NSMutableSet alloc] init];
+//	NSArray* wordsArray = [words componentsSeparatedByString:@" "];
+//	
+//	for(NSString *st in wordsArray){
+//		if([self containsWord:st]){
+//			[buffer addObject:st];
+//		}
+//	}
+//	NSSet* result =	[NSSet setWithSet:buffer];
+//	[buffer dealloc];
+//	return result;	
+//}
+//
+//-(BOOL)containsWord:(NSString *)word{
+//	NSFetchRequest *req = [[NSFetchRequest alloc] init];
+//	[req setEntity:[NSEntityDescription entityForName:@"RhymePart" inManagedObjectContext:self.managedObjectContext]];
+//	
+//	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"word like[cd] %@", word];
+//	[req setPredicate:predicate];
+//	
+//	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"score" ascending:NO];
+//	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+//	[req setSortDescriptors:sortDescriptors];
+//	
+//	[req setIncludesSubentities:NO]; //Omit subentities. Default is YES (i.e. include subentities)
+//	
+//	NSError *err;
+//	NSUInteger count = [managedObjectContext countForFetchRequest:req error:&err];
+//	if(count == NSNotFound) {
+//		//Handle error
+//	}	
+//	[req release];
+//	NSLog(@"count for %@ was %i", word, count);
+//	
+//	return count != 0;
+//}
+//
 -(NSArray *)buildResultsArray:(NSArray *)items maxResults:(double)maxResults{
 	double resultsToShowDouble = fmin(maxResults, [[[NSNumber alloc] initWithInt:items.count] doubleValue]);
 	NSLog(@"will show %f results", resultsToShowDouble);
@@ -171,7 +275,9 @@
         managedObjectContext = [[NSManagedObjectContext alloc] init];
         [managedObjectContext setPersistentStoreCoordinator: coordinator];
     }
-    return managedObjectContext;
+	
+	
+	return managedObjectContext;
 }
 
 
@@ -224,6 +330,7 @@
     if (persistentStoreCoordinator != nil) {
         return persistentStoreCoordinator;
     }
+	
 	//NSString* applicationDocumentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];	
     //NSString *databasePath = [[NSBundle mainBundle] pathForResource:sqliteFileName ofType:@"sqlite"];
 	
