@@ -34,7 +34,6 @@
 	NoResultsView *noResultsView;
 	
 	IBOutlet UITableView *searchResultTableView;
-	BOOL searchIsActive;
 	UISearchDisplayController* searchDisplayController;
 	NSMutableArray* filteredSearchSuggestions;
 }
@@ -51,7 +50,6 @@
 @property (nonatomic, retain) NoResultsView *noResultsView;
 @property (nonatomic, retain) UISearchDisplayController* searchDisplayController;
 @property (nonatomic, retain) NSMutableArray* filteredSearchSuggestions;
-@property (nonatomic) BOOL searchIsActive;
 
 @end
 
