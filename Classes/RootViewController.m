@@ -14,6 +14,7 @@
 #import "Constants.h"
 #import "ActivityView.h"
 #import "NoResultsView.h"
+#import "Three20/Three20.h"
 
 @interface RootViewController()
 
@@ -338,7 +339,21 @@ bool isAwaitingResults = FALSE;
 	else
 	{
 		NSLog(@"cell is %@", [cellCache objectAtIndex:indexPath.row]);
-		return [cellCache objectAtIndex:indexPath.row];
+		//return [cellCache objectAtIndex:indexPath.row];
+		
+		NSString *kText = @"This is a test of styled labels.  Styled labels support \
+		<b>bold text</b>, <i>italic text</i>, <a href=\"http://google.com\">some link</a><span class=\"blueText\">colored text</span>, \
+		<span class=\"largeText\">font sizes</span>";
+		
+		TTStyledTextLabel *styledLabel = [[[TTStyledTextLabel alloc] initWithFrame:CGRectMake(0, 0, kLinesWidth, 50)] autorelease];
+		styledLabel.backgroundColor = [UIColor blackColor];
+		styledLabel.textColor = [UIColor whiteColor];
+		styledLabel.text = [TTStyledText textFromXHTML:kText lineBreaks:YES URLs:YES];
+		[styledLabel sizeToFit];
+		
+		UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"NONE"] autorelease];
+		[cell addSubview:styledLabel];
+		return cell;
 	}
 }
 
