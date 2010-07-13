@@ -80,6 +80,10 @@
 	return [self buildHtml:rhymePart bodyStyle:kResultTablebodyStyle withLinks:NO ];
 }
 
+- (NSString *)buildTableResult320:(RhymePart*)rhymePart{
+	return [self buildHtml320:rhymePart];
+}
+
 - (NSString *)buildTableResultWithLinesOnly:(RhymePart*)rhymePart{
 	return [self buildHtml:rhymePart bodyStyle:kResultTablebodyStyle linesDiv:[self buildHtmlLines:rhymePart styleString:kResultTableLineStyle withLinks:NO] titleDiv:@""];
 }
@@ -91,6 +95,20 @@
 
 - (NSString *)linesForTableView:(RhymePart*)rhymePart{
 	return [self buildHtmlLines: rhymePart styleString:kResultTableLineStyle withLinks:NO];
+}
+
+- (NSString *)buildHtmlLines320:(RhymePart*)rhymePart{
+	NSArray *parts = [rhymePart partsDeserialised];
+	NSArray *lines = [rhymePart linesDeserialised];
+	NSString* line = [self buildLines:lines];
+	
+	NSString* divAndStyle = [NSString stringWithFormat:@"<span class='linesStyle'>"];
+	
+	NSSet* unindexedWords = [NSSet set];
+	
+	NSString* linesWithFormatting = [self applyFormatToRhymeParts:line parts:parts withLinks:NO unIndexedWords:unindexedWords prefix:@"<b>" suffix:@"</b>"];
+
+	return [NSString stringWithFormat:@"%@%@</span>", divAndStyle, linesWithFormatting];
 }
 
 - (NSString *)buildHtmlLines:(RhymePart*)rhymePart styleString:(NSString*)styleString withLinks:(BOOL)withLinks{
@@ -124,9 +142,28 @@
 	return [NSString stringWithFormat:@"%@%@</div>", divAndStyle, artistAndTite];
 }
 
+- (NSString *)buildHtmlArtistAndTitle320:(RhymePart*)rhymePart{
+	NSString* divAndStyle =[NSString stringWithFormat:@"<span class='titleStyle'>"];
+	
+	NSString* title = rhymePart.song.title;
+	NSString* artist = rhymePart.song.album.artist.name;
+	
+	NSString *artistAndTite = [NSString stringWithFormat:@"%@ - %@", [artist uppercaseString], title];
+	
+	return [NSString stringWithFormat:@"%@%@</span>", divAndStyle, artistAndTite];
+}
+
 - (NSString *)buildHtml:(NSString *)headerCss linesDiv:(NSString*)linesDiv {
 	NSString *css = [NSString stringWithFormat:@"<style type=\"text/css\">%@</style>", headerCss];
 	return [NSString stringWithFormat:@"<html><head><title>/title><head>%@</head><body>%@</body></html>", css, linesDiv];
+}
+
+
+- (NSString *)buildHtml320:(RhymePart*)rhymePart{
+	NSString *lines= [self buildHtmlLines320:rhymePart];
+	NSString *title = [self buildHtmlArtistAndTitle320:rhymePart];
+	
+	return [NSString stringWithFormat:@"%@<br/><br/>%@", lines, title];
 }
 
 - (NSString *)buildHtml:(RhymePart*)rhymePart bodyStyle:(NSString *)bodyStyle linesDiv:(NSString*)linesDiv titleDiv:(NSString*)titleDiv{

@@ -21,6 +21,7 @@
 - (NSArray*)findRhymes:(NSString *)toFind;
 - (CGFloat)heightOfString:(NSString *)string;
 - (NSArray *)buildResultCells:(NSArray *)results;
+- (NSArray *)buildResultLabels:(NSArray *)results;
 - (void)searchPopulateAndReload:(NSString*)text;
 - (void)showActivityView;
 - (void)hideActivityView;
@@ -32,6 +33,7 @@
 NSUInteger htmlLoadingsComplete = 0;
 bool isAwaitingResults = FALSE;
 
+
 @end
 
 @implementation RootViewController
@@ -42,6 +44,7 @@ bool isAwaitingResults = FALSE;
 @synthesize searchResultTableView;
 @synthesize cellCache;
 @synthesize tableCellPool;
+@synthesize resultCache;
 @synthesize activityView;
 @synthesize noResultsView;
 @synthesize searchDisplayController;
@@ -144,9 +147,33 @@ bool isAwaitingResults = FALSE;
 		[self.view addSubview:noResultsView.view];
 	}else{
 		self.cellCache = [self buildResultCells:self.searchResult];
+		self.resultCache = [self buildResultLabels:self.searchResult];
 	}
 	
 	[self reloadTableData];
+}
+
+-(NSArray *)buildResultLabels:(NSArray *)results{
+	NSMutableArray* labelBuffer = [NSMutableArray array];
+
+	
+	NSString *testHtml = @"<span >believe it will not be and, we still are <b>seein</b> / <b>Agreein</b> there'll be peace, the wealth will increase </span><br/><br/><span><span>GANGSTARR - Positivity (Remix)</span>";
+	
+	for(RhymePart* part in results){
+		//NSString* html = testHtml;//[htmlBuilder buildTableResult320:part];
+		NSString* html = [htmlBuilder buildTableResult320:part];
+		NSLog(@"html is %@", html);
+		CGFloat height = [self heightOfString:part.rhymeLines];
+		TTStyledTextLabel *styledLabel = [[[TTStyledTextLabel alloc] initWithFrame:CGRectMake(0, 0, kLinesWidth, height)] autorelease];
+		styledLabel.backgroundColor = [UIColor clearColor];
+		//styledLabel.textColor = [UIColor whiteColor];
+		//styledLabel.font = [UIFont fontWithName:@"Helvetica" size:15];
+		styledLabel.text = [TTStyledText textFromXHTML:html lineBreaks:NO URLs:NO];
+		//[styledLabel sizeToFit];
+		[labelBuffer addObject:styledLabel];
+	}
+	
+	return [NSArray arrayWithArray:labelBuffer]; 
 }
 
 -(NSArray *)buildResultCells:(NSArray *)results{
@@ -341,17 +368,26 @@ bool isAwaitingResults = FALSE;
 		NSLog(@"cell is %@", [cellCache objectAtIndex:indexPath.row]);
 		//return [cellCache objectAtIndex:indexPath.row];
 		
-		NSString *kText = @"This is a test of styled labels.  Styled labels support \
-		<b>bold text</b>, <i>italic text</i>, <a href=\"http://google.com\">some link</a><span class=\"blueText\">colored text</span>, \
-		<span class=\"largeText\">font sizes</span>";
+//		NSString *kText = @"This is a test of styled labels.  Styled labels support \
+//		<b>bold text</b>, <i>italic text</i>, <a href=\"http://google.com\">some link</a><span class=\"blueText\">colored text</span>, \
+//		<span class=\"largeText\">font sizes</span>";
+//		
+//		TTStyledTextLabel *styledLabel = [[[TTStyledTextLabel alloc] initWithFrame:CGRectMake(0, 0, kLinesWidth, 50)] autorelease];
+//		styledLabel.backgroundColor = [UIColor blackColor];
+//		styledLabel.textColor = [UIColor whiteColor];
+//		styledLabel.text = [TTStyledText textFromXHTML:kText lineBreaks:YES URLs:YES];
+//		[styledLabel sizeToFit];
 		
-		TTStyledTextLabel *styledLabel = [[[TTStyledTextLabel alloc] initWithFrame:CGRectMake(0, 0, kLinesWidth, 50)] autorelease];
-		styledLabel.backgroundColor = [UIColor blackColor];
-		styledLabel.textColor = [UIColor whiteColor];
-		styledLabel.text = [TTStyledText textFromXHTML:kText lineBreaks:YES URLs:YES];
-		[styledLabel sizeToFit];
+		
+		CAGradientLayer *gradient = [CAGradientLayer layer];
+		gradient.frame = CGRectMake(0, 0, 320, 70);
+		UIColor* darkterGrey = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
+		gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor blackColor] CGColor], (id)[darkterGrey CGColor], nil];
+		//[self.layer insertSublayer:gradient atIndex:0];
 		
 		UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"NONE"] autorelease];
+		[cell.layer insertSublayer:gradient atIndex:0];
+		TTStyledTextLabel *styledLabel = [self.resultCache objectAtIndex:indexPath.row];
 		[cell addSubview:styledLabel];
 		return cell;
 	}

@@ -29,6 +29,7 @@
 	NSArray* cellCache;
 	UISearchBar* searchBar;
 	NSArray* tableCellPool;
+	NSArray* resultCache;
 	
 	ActivityView *activityView;
 	NoResultsView *noResultsView;
@@ -45,6 +46,7 @@
 @property (nonatomic, retain) NSArray *searchResult;
 @property (nonatomic, retain) HtmlBuilder *htmlBuilder;
 @property (nonatomic, retain) NSArray *cellCache;
+@property (nonatomic, retain) NSArray *resultCache;
 @property (nonatomic, retain) NSArray *tableCellPool;
 @property (nonatomic, retain) ActivityView *activityView;
 @property (nonatomic, retain) NoResultsView *noResultsView;
