@@ -375,6 +375,36 @@ bool isAwaitingResults = FALSE;
 	}
 }
 
+//
+// async search methods
+//
+
+-(void)filterSearchPopulateAndReloadInNewThread:(NSString*)text{
+	[NSThread detachNewThreadSelector:@selector(filterSearchWorker:) toTarget:self withObject:text];
+}
+
+-(void)filterSearchWorker:(NSString*)text{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	//NSArray* result = [self findRhymes:text];
+	AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 
+	NSArray *results = [appDelegate.dataAccess rhymesWithPrefix:text];
+	
+	[self performSelectorOnMainThread:@selector(filterSearchComplete:) withObject:results waitUntilDone:NO];
+    [pool release];
+	
+}
+
+-(void)filterSearchComplete:(NSArray*)results{
+	[filteredSearchSuggestions removeAllObjects];
+	
+	for (NSString* st in results) {
+		[filteredSearchSuggestions addObject:st];
+	}
+	
+	[self.searchDisplayController.searchResultsTableView reloadData];
+}
+
 #pragma mark -
 #pragma mark UISearchDisplayController Delegate Methods
 
@@ -384,19 +414,12 @@ bool isAwaitingResults = FALSE;
 	
 
 	if([searchString length] > 2){
-		AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 
-		NSArray *results = [appDelegate.dataAccess rhymesWithPrefix:searchString];
-		
+		[self filterSearchPopulateAndReloadInNewThread:searchString];
+		return NO;
+	}else{
 		[filteredSearchSuggestions removeAllObjects];
-		
-		for (NSString* st in results) {
-			[filteredSearchSuggestions addObject:st];
-		}
-		
 		return YES;
 	}
-	
-	return NO;
 }
 
 
