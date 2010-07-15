@@ -25,7 +25,7 @@
 		CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
 		webView = [[[UIWebView alloc] initWithFrame:CGRectMake(0, 0, kLinesWidth, height)] autorelease];
 		webView.detectsPhoneNumbers = NO;
-		NSLog(@"web view call took %f", (CFAbsoluteTimeGetCurrent() - startTime));
+		//NSLog(@"web view call took %f", (CFAbsoluteTimeGetCurrent() - startTime));
 		[webView setDelegate:self];
 		webView.backgroundColor = [UIColor clearColor];
 		webView.opaque = FALSE;
@@ -53,13 +53,13 @@
 }
 
 -(void)setVisible{
-	NSLog(@"called setVisible at %f", CFAbsoluteTimeGetCurrent());
+	//NSLog(@"called setVisible at %f", CFAbsoluteTimeGetCurrent());
 	[self performSelector:@selector(showWebView) withObject:nil afterDelay:1];          
 }
 
 
 -(void)showWebView{
-	NSLog(@"called showWebView at %f", CFAbsoluteTimeGetCurrent());
+	//NSLog(@"called showWebView at %f", CFAbsoluteTimeGetCurrent());
 	CAGradientLayer *gradient = [CAGradientLayer layer];
 	gradient.frame = CGRectMake(0, 0, 320, htmlTextHeight);
 	UIColor* darkterGrey = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];

@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "RhymeTimeTTStyleSheet.h"
 #import "RootViewController.h"
 
 
@@ -22,9 +21,6 @@
 #pragma mark Application lifecycle
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {    
-    
-	[TTStyleSheet setGlobalStyleSheet:[[[RhymeTimeTTStyleSheet alloc] init] autorelease]];
-	
     // Override point for customization after app launch    
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
 	

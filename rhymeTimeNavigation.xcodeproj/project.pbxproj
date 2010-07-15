@@ -14,6 +14,7 @@
 		28F335F11007B36200424DE2 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28F335F01007B36200424DE2 /* RootViewController.xib */; };
 		4309834311D63086003AA017 /* ActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4309834211D63086003AA017 /* ActivityView.m */; };
 		4309839111D6356D003AA017 /* NoResultsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4309839011D6356D003AA017 /* NoResultsView.m */; };
+		43363BFA11EB924D00114DD6 /* RhymeTimeTTStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 43363BF911EB924D00114DD6 /* RhymeTimeTTStyleSheet.m */; };
 		434D3CDC11B6FE90004D7867 /* whiteBorder.png in Resources */ = {isa = PBXBuildFile; fileRef = 434D3CDB11B6FE90004D7867 /* whiteBorder.png */; };
 		434D3CED11B700B6004D7867 /* iPhoneArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 434D3CEC11B700B6004D7867 /* iPhoneArrow.png */; };
 		434D41E511C3F415004D7867 /* RhymePart.m in Sources */ = {isa = PBXBuildFile; fileRef = 434D41E411C3F415004D7867 /* RhymePart.m */; };
@@ -209,6 +210,8 @@
 		4309834211D63086003AA017 /* ActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityView.m; sourceTree = "<group>"; };
 		4309838F11D6356D003AA017 /* NoResultsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoResultsView.h; sourceTree = "<group>"; };
 		4309839011D6356D003AA017 /* NoResultsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoResultsView.m; sourceTree = "<group>"; };
+		43363BF811EB924D00114DD6 /* RhymeTimeTTStyleSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RhymeTimeTTStyleSheet.h; sourceTree = "<group>"; };
+		43363BF911EB924D00114DD6 /* RhymeTimeTTStyleSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RhymeTimeTTStyleSheet.m; sourceTree = "<group>"; };
 		434D3CDB11B6FE90004D7867 /* whiteBorder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteBorder.png; sourceTree = "<group>"; };
 		434D3CEC11B700B6004D7867 /* iPhoneArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPhoneArrow.png; sourceTree = "<group>"; };
 		434D41E311C3F415004D7867 /* RhymePart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RhymePart.h; sourceTree = "<group>"; };
@@ -290,6 +293,8 @@
 				28C286E00D94DF7D0034E888 /* RootViewController.m */,
 				1D3623240D0F684500981E51 /* AppDelegate.h */,
 				1D3623250D0F684500981E51 /* AppDelegate.m */,
+				43363BF811EB924D00114DD6 /* RhymeTimeTTStyleSheet.h */,
+				43363BF911EB924D00114DD6 /* RhymeTimeTTStyleSheet.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -680,6 +685,7 @@
 				434D41E511C3F415004D7867 /* RhymePart.m in Sources */,
 				4309834311D63086003AA017 /* ActivityView.m in Sources */,
 				4309839111D6356D003AA017 /* NoResultsView.m in Sources */,
+				43363BFA11EB924D00114DD6 /* RhymeTimeTTStyleSheet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

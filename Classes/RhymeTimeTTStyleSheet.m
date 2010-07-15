@@ -17,8 +17,8 @@
 
 
 - (TTStyle*)linesStyle {
-	return [TTBoxStyle styleWithPadding:UIEdgeInsetsMake(5, 5, 0, 0) next:
-			[TTTextStyle styleWithFont:[UIFont fontWithName:@"Helvetica" size:15] color:[UIColor whiteColor]  textAlignment:UITextAlignmentRight next:nil]];
+	return [TTBoxStyle styleWithPadding:UIEdgeInsetsMake(0, 0, 0, 0) next:
+			[TTTextStyle styleWithFont:[UIFont fontWithName:@"Helvetica" size:15] color:[UIColor whiteColor] next:nil]];
 }
 
 - (TTStyle*)titleStyle {

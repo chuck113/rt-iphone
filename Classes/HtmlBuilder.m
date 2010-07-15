@@ -80,9 +80,17 @@
 	return [self buildHtml:rhymePart bodyStyle:kResultTablebodyStyle withLinks:NO ];
 }
 
-- (NSString *)buildTableResult320:(RhymePart*)rhymePart{
-	return [self buildHtml320:rhymePart];
-}
+//- (NSString *)buildTableResult320:(RhymePart*)rhymePart{
+//	return [self buildHtml320:rhymePart];
+//}
+//
+//- (NSString *)buildTableResultLines320:(RhymePart*)rhymePart{
+//	return [self buildHtml320:rhymePart];
+//}
+//
+//- (NSString *)buildTableResultArtistAndTitle320:(RhymePart*)rhymePart{
+//	return [self buildHtml320:rhymePart];
+//}
 
 - (NSString *)buildTableResultWithLinesOnly:(RhymePart*)rhymePart{
 	return [self buildHtml:rhymePart bodyStyle:kResultTablebodyStyle linesDiv:[self buildHtmlLines:rhymePart styleString:kResultTableLineStyle withLinks:NO] titleDiv:@""];
@@ -159,12 +167,12 @@
 }
 
 
-- (NSString *)buildHtml320:(RhymePart*)rhymePart{
-	NSString *lines= [self buildHtmlLines320:rhymePart];
-	NSString *title = [self buildHtmlArtistAndTitle320:rhymePart];
-	
-	return [NSString stringWithFormat:@"%@<br/><br/>%@", lines, title];
-}
+//- (NSString *)buildHtml320:(RhymePart*)rhymePart{
+//	NSString *lines= [self buildHtmlLines320:rhymePart];
+//	NSString *title = [self buildHtmlArtistAndTitle320:rhymePart];
+//	
+//	return [NSString stringWithFormat:@"%@<br/><br/>%@", lines, title];
+//}
 
 - (NSString *)buildHtml:(RhymePart*)rhymePart bodyStyle:(NSString *)bodyStyle linesDiv:(NSString*)linesDiv titleDiv:(NSString*)titleDiv{
 	return [NSString stringWithFormat:@"<html><head><title>/title></head><body %@>%@%@</body></html>", bodyStyle, linesDiv, titleDiv];

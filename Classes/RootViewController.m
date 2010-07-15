@@ -15,13 +15,15 @@
 #import "ActivityView.h"
 #import "NoResultsView.h"
 #import "Three20/Three20.h"
+#import "RhymeTimeTTStyleSheet.h"
 
 @interface RootViewController()
 
 - (NSArray*)findRhymes:(NSString *)toFind;
 - (CGFloat)heightOfString:(NSString *)string;
+- (CGFloat)heightOfLinesString:(NSString *)string;
 - (NSArray *)buildResultCells:(NSArray *)results;
-- (NSArray *)buildResultLabels:(NSArray *)results;
+- (NSArray *)buildResultCellsNEW:(NSArray *)results;
 - (void)searchPopulateAndReload:(NSString*)text;
 - (void)showActivityView;
 - (void)hideActivityView;
@@ -78,7 +80,7 @@ bool isAwaitingResults = FALSE;
 
 - (void)htmlLoaded{
 	htmlLoadingsComplete++;
-	NSLog(@"now have %i callbacks", htmlLoadingsComplete);
+	//NSLog(@"now have %i callbacks", htmlLoadingsComplete);
 	if(htmlLoadingsComplete == [searchResult count]){
 		for(int i=0; i<[cellCache count]; i++){
 			TableCellView *cell = [cellCache objectAtIndex:i];
@@ -147,33 +149,64 @@ bool isAwaitingResults = FALSE;
 		[self.view addSubview:noResultsView.view];
 	}else{
 		self.cellCache = [self buildResultCells:self.searchResult];
-		self.resultCache = [self buildResultLabels:self.searchResult];
+		self.resultCache = [self buildResultCellsNEW:self.searchResult];
 	}
 	
 	[self reloadTableData];
 }
 
--(NSArray *)buildResultLabels:(NSArray *)results{
-	NSMutableArray* labelBuffer = [NSMutableArray array];
+-(NSArray *)buildResultCellsNEW:(NSArray *)results{
+	NSMutableArray* cellBuffer = [NSMutableArray array];
 
 	
-	NSString *testHtml = @"<span >believe it will not be and, we still are <b>seein</b> / <b>Agreein</b> there'll be peace, the wealth will increase </span><br/><br/><span><span>GANGSTARR - Positivity (Remix)</span>";
-	
 	for(RhymePart* part in results){
-		//NSString* html = testHtml;//[htmlBuilder buildTableResult320:part];
-		NSString* html = [htmlBuilder buildTableResult320:part];
-		NSLog(@"html is %@", html);
-		CGFloat height = [self heightOfString:part.rhymeLines];
-		TTStyledTextLabel *styledLabel = [[[TTStyledTextLabel alloc] initWithFrame:CGRectMake(0, 0, kLinesWidth, height)] autorelease];
-		styledLabel.backgroundColor = [UIColor clearColor];
-		//styledLabel.textColor = [UIColor whiteColor];
-		//styledLabel.font = [UIFont fontWithName:@"Helvetica" size:15];
-		styledLabel.text = [TTStyledText textFromXHTML:html lineBreaks:NO URLs:NO];
-		//[styledLabel sizeToFit];
-		[labelBuffer addObject:styledLabel];
+		CGFloat linesStringheight = [self heightOfLinesString:part.rhymeLines];
+		CGFloat titleStringHeight = 30.0f;
+		CGFloat marginOffset = 5.0f;
+		CGFloat cellHeight = linesStringheight + titleStringHeight + marginOffset;
+		
+		UITableViewCell* cell = [[[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, 320, 0)] autorelease];
+		//cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+		//cell.accessoryType = UITableViewCellAccessoryCheckmark;
+		cell.accessoryView = [self accessoryView];
+		
+		UIColor* darkterGrey = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
+		CAGradientLayer *gradient = [CAGradientLayer layer];
+		gradient.frame = CGRectMake(0, 0, 320, cellHeight);
+		gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor blackColor] CGColor], (id)[darkterGrey CGColor], nil];
+		
+		
+		NSString* linesHtml = [htmlBuilder buildHtmlLines320:part];
+		//NSString* artistAndTitleHtml = [htmlBuilder buildHtmlArtistAndTitle320:part];
+		//NSString* html = [htmlBuilder buildTableResult320:part];
+		//NSString* html = @"[htmlBuilder buildTableResult320:part][htmlBuilder buildTableResult320:part]";
+		NSLog(@"linesHtml is %@, cell height is %f", linesHtml, cellHeight);
+		//NSLog(@"buildResultCellsNEW size for string %@ is: %f", linesHtml, height);
+		
+		TTStyledTextLabel *linesLabel = [[[TTStyledTextLabel alloc] initWithFrame:CGRectMake(5, 5, kLinesWidth, linesStringheight)] autorelease];
+		linesLabel.backgroundColor = [UIColor clearColor];
+		linesLabel.text = [TTStyledText textFromXHTML:linesHtml];
+		[linesLabel sizeToFit];
+		
+		UILabel *titlelabel = [[[UILabel alloc] initWithFrame: CGRectMake(5, linesStringheight, kLinesWidth, titleStringHeight)] autorelease];
+		titlelabel.text = [NSString stringWithFormat:@"%@ - %@", [part.song.album.artist.name uppercaseString], part.song.title];
+		titlelabel.textColor = [UIColor lightGrayColor];
+		titlelabel.font = [UIFont fontWithName:@"Helvetica" size:14];
+		titlelabel.textAlignment = UITextAlignmentRight;
+		titlelabel.backgroundColor = [UIColor clearColor]; 
+		
+
+		[cell addSubview:linesLabel];
+		[cell addSubview:titlelabel];
+		[cell.layer insertSublayer:gradient atIndex:0];
+		[cellBuffer addObject:cell];
 	}
 	
-	return [NSArray arrayWithArray:labelBuffer]; 
+	return [NSArray arrayWithArray:cellBuffer]; 
+}
+
+- (UIView*)accessoryView{
+	return [[ UIImageView alloc ]  initWithImage:[UIImage imageNamed:@"AccDisclosure.png" ]];
 }
 
 -(NSArray *)buildResultCells:(NSArray *)results{
@@ -242,6 +275,8 @@ bool isAwaitingResults = FALSE;
 	self.navigationItem.title = @"Rhyme Time";
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
+	[TTStyleSheet setGlobalStyleSheet:[[[RhymeTimeTTStyleSheet alloc] init] autorelease]];
 	
 	UISearchBar *searchBarTmp = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, 320, 45)];
 	searchBarTmp.autocorrectionType=UITextAutocorrectionTypeNo;
@@ -325,14 +360,24 @@ bool isAwaitingResults = FALSE;
 		RhymePart* rhymePart = (RhymePart*)[self.searchResult objectAtIndex:indexPath.row];
 		//NSLog(@"called heightForRowAtIndexPath, returend %f", [self heightOfString:rhymePart.rhymeLines]); 
 		
-		return [self heightOfString:rhymePart.rhymeLines];
+		return [self heightOfLinesString:rhymePart.rhymeLines] + 40.0f;
 	}
 }
+
+- (CGFloat)heightOfLinesString:(NSString *)string{
+	struct CGSize size;
+	size = [string sizeWithFont:[UIFont fontWithName:@"Helvetica-Bold" size:15] constrainedToSize:CGSizeMake(kLinesWidth, 10000) lineBreakMode:UILineBreakModeCharacterWrap];
+	//NSLog(@"size for string %@ is: %f", string, (size.height +15.0f + 30.0f));
+	//return size.height +15.0f + 30.0f;
+	return size.height;
+}
+
 
 // TODO needs refinement
 - (CGFloat)heightOfString:(NSString *)string{
 	struct CGSize size;
 	size = [string sizeWithFont:[UIFont fontWithName:@"Helvetica-Bold" size:16] constrainedToSize:CGSizeMake(kLinesWidth-20, kLinesWidth-20) lineBreakMode:UILineBreakModeCharacterWrap];
+	//NSLog(@"size for string %@ is: %f", string, (size.height +15.0f + 30.0f));
 	return size.height +15.0f + 30.0f;
 }
 
@@ -352,7 +397,7 @@ bool isAwaitingResults = FALSE;
 	}else {
 		cell.textLabel.text = [filteredSearchSuggestions objectAtIndex:indexPath.row];
 	}
-	NSLog(@"returning cell, index: %i", indexPath.row);
+	//NSLog(@"returning cell, index: %i", indexPath.row);
 	return cell;
 }
 
@@ -365,7 +410,7 @@ bool isAwaitingResults = FALSE;
 	}
 	else
 	{
-		NSLog(@"cell is %@", [cellCache objectAtIndex:indexPath.row]);
+		//NSLog(@"cell is %@", [cellCache objectAtIndex:indexPath.row]);
 		//return [cellCache objectAtIndex:indexPath.row];
 		
 //		NSString *kText = @"This is a test of styled labels.  Styled labels support \
@@ -379,16 +424,13 @@ bool isAwaitingResults = FALSE;
 //		[styledLabel sizeToFit];
 		
 		
-		CAGradientLayer *gradient = [CAGradientLayer layer];
-		gradient.frame = CGRectMake(0, 0, 320, 70);
-		UIColor* darkterGrey = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
-		gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor blackColor] CGColor], (id)[darkterGrey CGColor], nil];
 		//[self.layer insertSublayer:gradient atIndex:0];
 		
-		UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"NONE"] autorelease];
-		[cell.layer insertSublayer:gradient atIndex:0];
-		TTStyledTextLabel *styledLabel = [self.resultCache objectAtIndex:indexPath.row];
-		[cell addSubview:styledLabel];
+		UITableViewCell *cell = [self.resultCache objectAtIndex:indexPath.row];
+		//UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"NONE"] autorelease];
+
+		//TTStyledTextLabel *styledLabel = [self.resultCache objectAtIndex:indexPath.row];
+		//[cell addSubview:styledLabel];
 		return cell;
 	}
 }
