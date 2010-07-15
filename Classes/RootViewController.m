@@ -349,15 +349,13 @@ bool isAwaitingResults = FALSE;
 	else
 	{
 		RhymePart* rhymePart = (RhymePart*)[self.searchResult objectAtIndex:indexPath.row];
-		return [self heightOfLinesString:rhymePart.rhymeLines] + 45.0f;
+		return [self heightOfLinesString:rhymePart.rhymeLines] + 40.0f;
 	}
 }
 
 - (CGFloat)heightOfLinesString:(NSString *)string{
 	struct CGSize size;
 	size = [string sizeWithFont:[UIFont fontWithName:@"Helvetica-Bold" size:15] constrainedToSize:CGSizeMake(kLinesWidth, 10000) lineBreakMode:UILineBreakModeCharacterWrap];
-	//NSLog(@"size for string %@ is: %f", string, (size.height +15.0f + 30.0f));
-	//return size.height +15.0f + 30.0f;
 	return size.height;
 }
 
@@ -366,7 +364,6 @@ bool isAwaitingResults = FALSE;
 - (CGFloat)heightOfString:(NSString *)string{
 	struct CGSize size;
 	size = [string sizeWithFont:[UIFont fontWithName:@"Helvetica-Bold" size:16] constrainedToSize:CGSizeMake(kLinesWidth-20, kLinesWidth-20) lineBreakMode:UILineBreakModeCharacterWrap];
-	//NSLog(@"size for string %@ is: %f", string, (size.height +15.0f + 30.0f));
 	return size.height +15.0f + 30.0f;
 }
 
@@ -399,28 +396,7 @@ bool isAwaitingResults = FALSE;
 	}
 	else
 	{
-		//NSLog(@"cell is %@", [cellCache objectAtIndex:indexPath.row]);
-		//return [cellCache objectAtIndex:indexPath.row];
-		
-//		NSString *kText = @"This is a test of styled labels.  Styled labels support \
-//		<b>bold text</b>, <i>italic text</i>, <a href=\"http://google.com\">some link</a><span class=\"blueText\">colored text</span>, \
-//		<span class=\"largeText\">font sizes</span>";
-//		
-//		TTStyledTextLabel *styledLabel = [[[TTStyledTextLabel alloc] initWithFrame:CGRectMake(0, 0, kLinesWidth, 50)] autorelease];
-//		styledLabel.backgroundColor = [UIColor blackColor];
-//		styledLabel.textColor = [UIColor whiteColor];
-//		styledLabel.text = [TTStyledText textFromXHTML:kText lineBreaks:YES URLs:YES];
-//		[styledLabel sizeToFit];
-		
-		
-		//[self.layer insertSublayer:gradient atIndex:0];
-		
-		UITableViewCell *cell = [self.resultCache objectAtIndex:indexPath.row];
-		//UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"NONE"] autorelease];
-
-		//TTStyledTextLabel *styledLabel = [self.resultCache objectAtIndex:indexPath.row];
-		//[cell addSubview:styledLabel];
-		return cell;
+		return [self.resultCache objectAtIndex:indexPath.row];
 	}
 }
 
