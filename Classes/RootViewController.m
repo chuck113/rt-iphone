@@ -21,7 +21,7 @@
 - (NSArray*)findRhymes:(NSString *)toFind;
 - (CGFloat)heightOfString:(NSString *)string;
 - (CGFloat)heightOfLinesString:(NSString *)string;
-- (NSArray *)buildResultCellsNEW:(NSArray *)results;
+- (NSArray *)buildResultCells:(NSArray *)results;
 - (void)searchPopulateAndReload:(NSString*)text;
 - (void)showActivityView;
 - (void)hideActivityView;
@@ -117,13 +117,13 @@ bool isAwaitingResults = FALSE;
 		[self hideActivityView];
 		[self.view addSubview:noResultsView.view];
 	}else{
-		self.resultCache = [self buildResultCellsNEW:self.searchResult];
+		self.resultCache = [self buildResultCells:self.searchResult];
 	}
 	
 	[self reloadTableData];
 }
 
--(NSArray *)buildResultCellsNEW:(NSArray *)results{
+-(NSArray *)buildResultCells:(NSArray *)results{
 	NSMutableArray* cellBuffer = [NSMutableArray array];
 
 	
