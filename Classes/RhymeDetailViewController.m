@@ -7,6 +7,17 @@
 #import "Three20/Three20.h"
 
 
+@interface RhymeDetailViewController()
+
+-(UILabel *)artistTitleLabel:(NSString *)artist title:(NSString *)title;
+-(UILabel *)instructionLabel;
+-(UILabel *)twitterLinkLabel;
+-(UILabel *)iTunesLinkLabel;
+
+
+@end
+
+
 @implementation RhymeDetailViewController
 
 @synthesize searchCallbackDelegate;

@@ -33,7 +33,6 @@
 		468576B811A0255900814B9E /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = 468576AD11A0255900814B9E /* Song.m */; };
 		468576B911A0255900814B9E /* DataAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 468576B011A0255900814B9E /* DataAccess.m */; };
 		468576BA11A0255900814B9E /* HtmlBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 468576B111A0255900814B9E /* HtmlBuilder.m */; };
-		468576BB11A0255900814B9E /* TableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 468576B311A0255900814B9E /* TableCellView.m */; };
 		468576BE11A0257100814B9E /* rhymeTimeIPhonePrototype.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 468576BC11A0257100814B9E /* rhymeTimeIPhonePrototype.xcdatamodel */; };
 		46A0E86211E311C700FD2C7C /* AccDisclosure.png in Resources */ = {isa = PBXBuildFile; fileRef = 46A0E86111E311C700FD2C7C /* AccDisclosure.png */; };
 		46A0EE4511E9EAAC00FD2C7C /* libThree20.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46A0EDF911E9EA0F00FD2C7C /* libThree20.a */; };
@@ -237,8 +236,6 @@
 		468576B011A0255900814B9E /* DataAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataAccess.m; sourceTree = "<group>"; };
 		468576B111A0255900814B9E /* HtmlBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HtmlBuilder.m; sourceTree = "<group>"; };
 		468576B211A0255900814B9E /* HtmlBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HtmlBuilder.h; sourceTree = "<group>"; };
-		468576B311A0255900814B9E /* TableCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableCellView.m; sourceTree = "<group>"; };
-		468576B411A0255900814B9E /* TableCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableCellView.h; sourceTree = "<group>"; };
 		468576BC11A0257100814B9E /* rhymeTimeIPhonePrototype.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = rhymeTimeIPhonePrototype.xcdatamodel; sourceTree = "<group>"; };
 		4685788411A02F8500814B9E /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		46A0E86111E311C700FD2C7C /* AccDisclosure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AccDisclosure.png; sourceTree = "<group>"; };
@@ -285,8 +282,6 @@
 				4685788411A02F8500814B9E /* Constants.h */,
 				468576B111A0255900814B9E /* HtmlBuilder.m */,
 				468576B211A0255900814B9E /* HtmlBuilder.h */,
-				468576B311A0255900814B9E /* TableCellView.m */,
-				468576B411A0255900814B9E /* TableCellView.h */,
 				46321233119EA15300222659 /* RhymeDetailViewController.h */,
 				46321234119EA15300222659 /* RhymeDetailViewController.m */,
 				28C286DF0D94DF7D0034E888 /* RootViewController.h */,
@@ -680,7 +675,6 @@
 				468576B811A0255900814B9E /* Song.m in Sources */,
 				468576B911A0255900814B9E /* DataAccess.m in Sources */,
 				468576BA11A0255900814B9E /* HtmlBuilder.m in Sources */,
-				468576BB11A0255900814B9E /* TableCellView.m in Sources */,
 				468576BE11A0257100814B9E /* rhymeTimeIPhonePrototype.xcdatamodel in Sources */,
 				434D41E511C3F415004D7867 /* RhymePart.m in Sources */,
 				4309834311D63086003AA017 /* ActivityView.m in Sources */,

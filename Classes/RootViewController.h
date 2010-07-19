@@ -6,7 +6,6 @@
 //  Copyright __MyCompanyName__ 2010. All rights reserved.
 //
 
-#import "TableCellView.h"
 #import "HtmlBuilder.h"
 #import "ActivityView.h"
 #import "NoResultsView.h"
@@ -26,7 +25,7 @@
 @interface RootViewController : UITableViewController<UISearchDisplayDelegate, SearchCallback, UISearchBarDelegate, HtmlLoadedCallback> {
 	NSArray *searchResult;	
 	HtmlBuilder* htmlBuilder;	
-	NSArray* cellCache;
+	//NSArray* cellCache;
 	UISearchBar* searchBar;
 	NSArray* tableCellPool;
 	NSArray* resultCache;
@@ -47,7 +46,6 @@
 @property (nonatomic, retain) HtmlBuilder *htmlBuilder;
 @property (nonatomic, retain) NSArray *cellCache;
 @property (nonatomic, retain) NSArray *resultCache;
-@property (nonatomic, retain) NSArray *tableCellPool;
 @property (nonatomic, retain) ActivityView *activityView;
 @property (nonatomic, retain) NoResultsView *noResultsView;
 @property (nonatomic, retain) UISearchDisplayController* searchDisplayController;

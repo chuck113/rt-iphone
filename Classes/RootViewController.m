@@ -8,7 +8,6 @@
 
 #import "RootViewController.h"
 #import "RhymeDetailViewController.h"
-#import "TableCellView.h"
 #import "HtmlBuilder.h"
 #import "AppDelegate.h"
 #import "Constants.h"
@@ -22,7 +21,6 @@
 - (NSArray*)findRhymes:(NSString *)toFind;
 - (CGFloat)heightOfString:(NSString *)string;
 - (CGFloat)heightOfLinesString:(NSString *)string;
-- (NSArray *)buildResultCells:(NSArray *)results;
 - (NSArray *)buildResultCellsNEW:(NSArray *)results;
 - (void)searchPopulateAndReload:(NSString*)text;
 - (void)showActivityView;
@@ -32,7 +30,6 @@
 - (void)searchPopulateAndReloadInNewThread:(NSString*)text;
 - (NSArray*)rhymesWithPrefix:(NSString *)prefix;
 
-NSUInteger htmlLoadingsComplete = 0;
 bool isAwaitingResults = FALSE;
 
 
@@ -44,8 +41,6 @@ bool isAwaitingResults = FALSE;
 @synthesize htmlBuilder;
 @synthesize searchBar;
 @synthesize searchResultTableView;
-@synthesize cellCache;
-@synthesize tableCellPool;
 @synthesize resultCache;
 @synthesize activityView;
 @synthesize noResultsView;
@@ -71,36 +66,12 @@ bool isAwaitingResults = FALSE;
 }
 
 
-
-
-
-//
-// Html Loaded Delegates
-//
-
-- (void)htmlLoaded{
-	htmlLoadingsComplete++;
-	//NSLog(@"now have %i callbacks", htmlLoadingsComplete);
-	if(htmlLoadingsComplete == [searchResult count]){
-		for(int i=0; i<[cellCache count]; i++){
-			TableCellView *cell = [cellCache objectAtIndex:i];
-			[cell setVisible];
-		}
-		[self performSelector:@selector(hideActivityView) withObject:nil afterDelay:1];   
-	}
-}
-
-
-
-
-
 //
 // Internal search  methods
 //
 
 -(void)setSearchTextAndDoSearch:(NSString *)text{
 	self.searchResult = [NSArray array];
-	self.cellCache = [NSArray array];
 	isAwaitingResults = TRUE;
 	
 	[self reloadTableData];
@@ -121,8 +92,6 @@ bool isAwaitingResults = FALSE;
 }
 
 
-
-
 //
 // search threading methods and callback
 //
@@ -141,14 +110,14 @@ bool isAwaitingResults = FALSE;
 }
 
 -(void)searchComplete:(NSArray*)result{
-	htmlLoadingsComplete = 0;
+	[self performSelector:@selector(hideActivityView) withObject:nil afterDelay:1]; 
+	//htmlLoadingsComplete = 0;
 	self.searchResult = result;
 	
 	if([result count] == 0){
 		[self hideActivityView];
 		[self.view addSubview:noResultsView.view];
 	}else{
-		self.cellCache = [self buildResultCells:self.searchResult];
 		self.resultCache = [self buildResultCellsNEW:self.searchResult];
 	}
 	
@@ -166,7 +135,7 @@ bool isAwaitingResults = FALSE;
 		CGFloat cellHeight = linesStringheight + titleStringHeight + (marginOffset * 2);
 		
 		UITableViewCell* cell = [[[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, 320, 0)] autorelease];
-		cell.accessoryView = [self accessoryView];
+		cell.accessoryView = [[ UIImageView alloc ]  initWithImage:[UIImage imageNamed:@"AccDisclosure.png" ]];
 		
 		UIColor* darkterGrey = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
 		CAGradientLayer *gradient = [CAGradientLayer layer];
@@ -195,26 +164,6 @@ bool isAwaitingResults = FALSE;
 	
 	return [NSArray arrayWithArray:cellBuffer]; 
 }
-
-- (UIView*)accessoryView{
-	return [[ UIImageView alloc ]  initWithImage:[UIImage imageNamed:@"AccDisclosure.png" ]];
-}
-
--(NSArray *)buildResultCells:(NSArray *)results{
-	NSMutableArray* cellBuffer = [NSMutableArray array];
-	for(RhymePart* part in results){
-		CGFloat height = [self heightOfString:part.rhymeLines];
-		TableCellView* cell = [[[TableCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"NEVER" height:height htmlCallback:self] autorelease];
-		NSString* html = [htmlBuilder buildTableResult:part];
-		[cell setLabelText:html];
-		[cellBuffer addObject:cell];
-	}
-	
-	return [NSArray arrayWithArray:cellBuffer]; 
-}
-
-
-
 
 
 //
