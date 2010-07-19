@@ -88,7 +88,6 @@ bool isAwaitingResults = FALSE;
 -(void)beginSearch:(NSString *)text{
 	[self showActivityView];
 	[self searchPopulateAndReloadInNewThread:text];
-	isAwaitingResults = TRUE;
 }
 
 
