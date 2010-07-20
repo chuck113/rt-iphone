@@ -7,20 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
-#include "RootViewController.h"
+#import "MainViewController.h"
 #import "DataAccess.h"
 
 
 @interface AppDelegate : NSObject <UIApplicationDelegate> {
     
-    UIWindow *window;
-    UINavigationController *navigationController;
-	DataAccess *dataAccess;
+    IBOutlet UIWindow *window;
+    DataAccess *dataAccess;
+	IBOutlet MainViewController* mainViewController;
 }
 
 @property (nonatomic, retain) DataAccess *dataAccess;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
+@property (nonatomic, retain) IBOutlet MainViewController* mainViewController;
 
 @end
 

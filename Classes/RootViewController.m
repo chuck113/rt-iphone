@@ -211,33 +211,33 @@ bool isAwaitingResults = FALSE;
 	self.noResultsView = [[NoResultsView alloc] init];
 	self.filteredSearchSuggestions = [NSMutableArray arrayWithCapacity:0];
 	
-	self.navigationItem.title = @"Rhyme Time";
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-
-	[TTStyleSheet setGlobalStyleSheet:[[[RhymeTimeTTStyleSheet alloc] init] autorelease]];
-	
-	UISearchBar *searchBarTmp = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, 320, 45)];
-	searchBarTmp.autocorrectionType=UITextAutocorrectionTypeNo;
-	searchBarTmp.autocapitalizationType=UITextAutocapitalizationTypeNone;
-	searchBarTmp.delegate=self;
-	searchBarTmp.tintColor = [UIColor clearColor];
-	
-	UINavigationBar *bar = [self.navigationController navigationBar]; 
-	[bar setTintColor:[UIColor blackColor]]; 
-	self.tableView.tableHeaderView = searchBarTmp;
-	self.searchBar = searchBarTmp;
-	
-	self.searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:searchBarTmp contentsController:self];  
-
-	[self performSelector:@selector(setSearchDisplayController:) withObject:searchDisplayController];
-	
-    [self.searchDisplayController setDelegate:self];  
-    [self.searchDisplayController setSearchResultsDataSource:self];  
-    [self.searchDisplayController setSearchResultsDelegate:self];
-    [self.searchDisplayController release];  
-	
-	[searchBarTmp release];
+	//self.navigationItem.title = @"Rhyme Time";
+//    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+//    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+//
+//	[TTStyleSheet setGlobalStyleSheet:[[[RhymeTimeTTStyleSheet alloc] init] autorelease]];
+//	
+//	UISearchBar *searchBarTmp = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, 320, 45)];
+//	searchBarTmp.autocorrectionType=UITextAutocorrectionTypeNo;
+//	searchBarTmp.autocapitalizationType=UITextAutocapitalizationTypeNone;
+//	searchBarTmp.delegate=self;
+//	searchBarTmp.tintColor = [UIColor clearColor];
+//	
+//	UINavigationBar *bar = [self.navigationController navigationBar]; 
+//	[bar setTintColor:[UIColor blackColor]]; 
+//	self.tableView.tableHeaderView = searchBarTmp;
+//	self.searchBar = searchBarTmp;
+//	
+//	self.searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:searchBarTmp contentsController:self];  
+//
+//	[self performSelector:@selector(setSearchDisplayController:) withObject:searchDisplayController];
+//	
+//    [self.searchDisplayController setDelegate:self];  
+//    [self.searchDisplayController setSearchResultsDataSource:self];  
+//    [self.searchDisplayController setSearchResultsDelegate:self];
+//    [self.searchDisplayController release];  
+//	
+//	[searchBarTmp release];
 }
 
 

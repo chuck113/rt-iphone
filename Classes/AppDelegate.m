@@ -13,7 +13,7 @@
 @implementation AppDelegate
 
 @synthesize window;
-@synthesize navigationController;
+@synthesize mainViewController;
 @synthesize dataAccess;
 
 
@@ -25,7 +25,7 @@
     // Override point for customization after app launch    
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
 	
-	[window addSubview:[navigationController view]];
+	[window addSubview:mainViewController.view];
     [window makeKeyAndVisible];
 	dataAccess = [[DataAccess alloc] init];
 }
@@ -40,7 +40,7 @@
 #pragma mark Memory management
 
 - (void)dealloc {
-	[navigationController release];
+	[mainViewController release];
 	[window release];
 	[dataAccess release];
 	[super dealloc];
