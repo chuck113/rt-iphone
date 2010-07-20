@@ -1,7 +1,7 @@
 **/*.pbxuser
 **/*.mode2v3
 **/*.mode1v3
-**/*.perspectivev*
+rhymeTimeNavigation.xcodeproj/ckubicek.perspectivev3
 build/
 
 .DS_Store
