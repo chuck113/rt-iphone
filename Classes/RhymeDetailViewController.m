@@ -7,6 +7,17 @@
 #import "Three20/Three20.h"
 
 
+@interface RhymeDetailViewController()
+
+-(UILabel *)artistTitleLabel:(NSString *)artist title:(NSString *)title;
+-(UILabel *)instructionLabel;
+-(UILabel *)twitterLinkLabel;
+-(UILabel *)iTunesLinkLabel;
+
+
+@end
+
+
 @implementation RhymeDetailViewController
 
 @synthesize searchCallbackDelegate;
@@ -38,16 +49,6 @@
 	[webView setDelegate:self];
 	webView.backgroundColor = [UIColor clearColor];
 	
-	NSString *kText = @"This is a test of styled labels.  Styled labels support \
-	<b>bold text</b>, <i>italic text</i>, <a href=\"http://google.com\">some link</a><span class=\"blueText\">colored text</span>, \
-	<span class=\"largeText\">font sizes</span>";
-	
-	TTStyledTextLabel *styledLabel = [[[TTStyledTextLabel alloc] initWithFrame:CGRectMake(0, 0, kLinesWidth, 50)] autorelease];
-	styledLabel.backgroundColor = [UIColor blackColor];
-	styledLabel.textColor = [UIColor whiteColor];
-	styledLabel.text = [TTStyledText textFromXHTML:kText lineBreaks:YES URLs:YES];
-	[styledLabel sizeToFit];
-	
 	// background colour stuff
 	CAGradientLayer *gradient = [CAGradientLayer layer];
 	gradient.frame = CGRectMake(0, 0, 320, 480);
@@ -58,7 +59,7 @@
 	
 	[self.view addSubview:[self artistTitleLabel:searchResult.song.album.artist.name title:searchResult.song.title]];
 	[self.view addSubview:imageView];
-	[self.view addSubview:styledLabel];
+	[self.view addSubview:webView];
 	[self.view addSubview:[self instructionLabel]];
 	[self.view addSubview:[self iTunesLinkLabel]];
 	[self.view addSubview:[self twitterLinkLabel]];

@@ -13,19 +13,19 @@
 @implementation AppDelegate
 
 @synthesize window;
-@synthesize navigationController;
+@synthesize mainViewController;
 @synthesize dataAccess;
 
 
 #pragma mark -
 #pragma mark Application lifecycle
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application {    
-    
+- (void)applicationDidFinishLaunching:(UIApplication *)application { 
+	NSLog(@"started");
     // Override point for customization after app launch    
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
 	
-	[window addSubview:[navigationController view]];
+	[window addSubview:mainViewController.view];
     [window makeKeyAndVisible];
 	dataAccess = [[DataAccess alloc] init];
 }
@@ -40,7 +40,7 @@
 #pragma mark Memory management
 
 - (void)dealloc {
-	[navigationController release];
+	[mainViewController release];
 	[window release];
 	[dataAccess release];
 	[super dealloc];

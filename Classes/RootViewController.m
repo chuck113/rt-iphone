@@ -8,18 +8,19 @@
 
 #import "RootViewController.h"
 #import "RhymeDetailViewController.h"
-#import "TableCellView.h"
 #import "HtmlBuilder.h"
 #import "AppDelegate.h"
 #import "Constants.h"
 #import "ActivityView.h"
 #import "NoResultsView.h"
 #import "Three20/Three20.h"
+#import "RhymeTimeTTStyleSheet.h"
 
 @interface RootViewController()
 
 - (NSArray*)findRhymes:(NSString *)toFind;
 - (CGFloat)heightOfString:(NSString *)string;
+- (CGFloat)heightOfLinesString:(NSString *)string;
 - (NSArray *)buildResultCells:(NSArray *)results;
 - (void)searchPopulateAndReload:(NSString*)text;
 - (void)showActivityView;
@@ -29,8 +30,8 @@
 - (void)searchPopulateAndReloadInNewThread:(NSString*)text;
 - (NSArray*)rhymesWithPrefix:(NSString *)prefix;
 
-NSUInteger htmlLoadingsComplete = 0;
 bool isAwaitingResults = FALSE;
+
 
 @end
 
@@ -40,8 +41,7 @@ bool isAwaitingResults = FALSE;
 @synthesize htmlBuilder;
 @synthesize searchBar;
 @synthesize searchResultTableView;
-@synthesize cellCache;
-@synthesize tableCellPool;
+@synthesize resultCache;
 @synthesize activityView;
 @synthesize noResultsView;
 @synthesize searchDisplayController;
@@ -66,36 +66,12 @@ bool isAwaitingResults = FALSE;
 }
 
 
-
-
-
-//
-// Html Loaded Delegates
-//
-
-- (void)htmlLoaded{
-	htmlLoadingsComplete++;
-	NSLog(@"now have %i callbacks", htmlLoadingsComplete);
-	if(htmlLoadingsComplete == [searchResult count]){
-		for(int i=0; i<[cellCache count]; i++){
-			TableCellView *cell = [cellCache objectAtIndex:i];
-			[cell setVisible];
-		}
-		[self performSelector:@selector(hideActivityView) withObject:nil afterDelay:1];   
-	}
-}
-
-
-
-
-
 //
 // Internal search  methods
 //
 
 -(void)setSearchTextAndDoSearch:(NSString *)text{
 	self.searchResult = [NSArray array];
-	self.cellCache = [NSArray array];
 	isAwaitingResults = TRUE;
 	
 	[self reloadTableData];
@@ -112,10 +88,7 @@ bool isAwaitingResults = FALSE;
 -(void)beginSearch:(NSString *)text{
 	[self showActivityView];
 	[self searchPopulateAndReloadInNewThread:text];
-	isAwaitingResults = TRUE;
 }
-
-
 
 
 //
@@ -136,14 +109,15 @@ bool isAwaitingResults = FALSE;
 }
 
 -(void)searchComplete:(NSArray*)result{
-	htmlLoadingsComplete = 0;
+	[self performSelector:@selector(hideActivityView) withObject:nil afterDelay:1]; 
+	//htmlLoadingsComplete = 0;
 	self.searchResult = result;
 	
 	if([result count] == 0){
 		[self hideActivityView];
 		[self.view addSubview:noResultsView.view];
 	}else{
-		self.cellCache = [self buildResultCells:self.searchResult];
+		self.resultCache = [self buildResultCells:self.searchResult];
 	}
 	
 	[self reloadTableData];
@@ -151,19 +125,44 @@ bool isAwaitingResults = FALSE;
 
 -(NSArray *)buildResultCells:(NSArray *)results{
 	NSMutableArray* cellBuffer = [NSMutableArray array];
+
+	
 	for(RhymePart* part in results){
-		CGFloat height = [self heightOfString:part.rhymeLines];
-		TableCellView* cell = [[[TableCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"NEVER" height:height htmlCallback:self] autorelease];
-		NSString* html = [htmlBuilder buildTableResult:part];
-		[cell setLabelText:html];
+		CGFloat linesStringheight = [self heightOfLinesString:part.rhymeLines];
+		CGFloat titleStringHeight = 30.0f;
+		CGFloat marginOffset = 5.0f;
+		CGFloat cellHeight = linesStringheight + titleStringHeight + (marginOffset * 2);
+		
+		UITableViewCell* cell = [[[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, 320, 0)] autorelease];
+		cell.accessoryView = [[ UIImageView alloc ]  initWithImage:[UIImage imageNamed:@"AccDisclosure.png" ]];
+		
+		UIColor* darkterGrey = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
+		CAGradientLayer *gradient = [CAGradientLayer layer];
+		gradient.frame = CGRectMake(0, 0, 320, cellHeight);
+		gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor blackColor] CGColor], (id)[darkterGrey CGColor], nil];
+		
+		NSString* linesHtml = [htmlBuilder buildHtmlLines320:part];
+		//NSLog(@"html is %@", linesHtml);
+		TTStyledTextLabel *linesLabel = [[[TTStyledTextLabel alloc] initWithFrame:CGRectMake(5, 5, kLinesWidth, linesStringheight)] autorelease];
+		linesLabel.backgroundColor = [UIColor clearColor];
+		linesLabel.text = [TTStyledText textFromXHTML:linesHtml];
+		//[linesLabel sizeToFit];
+		
+		UILabel *titlelabel = [[[UILabel alloc] initWithFrame: CGRectMake(5, linesStringheight + (marginOffset), kLinesWidth, titleStringHeight)] autorelease];
+		titlelabel.text = [NSString stringWithFormat:@"%@ - %@", [part.song.album.artist.name uppercaseString], part.song.title];
+		titlelabel.textColor = [UIColor lightGrayColor];
+		titlelabel.font = [UIFont fontWithName:@"Helvetica" size:14];
+		titlelabel.textAlignment = UITextAlignmentRight;
+		titlelabel.backgroundColor = [UIColor clearColor]; 		
+
+		[cell addSubview:linesLabel];
+		[cell addSubview:titlelabel];
+		[cell.layer insertSublayer:gradient atIndex:0];
 		[cellBuffer addObject:cell];
 	}
 	
 	return [NSArray arrayWithArray:cellBuffer]; 
 }
-
-
-
 
 
 //
@@ -179,6 +178,13 @@ bool isAwaitingResults = FALSE;
 	isAwaitingResults = FALSE;
 	[self reloadTableData];
 	
+}
+
+//
+//NEW METHODS
+//
+- (void)updateResults:(NSArray*)results{
+	[self searchComplete:results];
 }
 
 
@@ -212,31 +218,34 @@ bool isAwaitingResults = FALSE;
 	self.noResultsView = [[NoResultsView alloc] init];
 	self.filteredSearchSuggestions = [NSMutableArray arrayWithCapacity:0];
 	
-	self.navigationItem.title = @"Rhyme Time";
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+	//self.navigationItem.title = @"Rhyme Time";
+//    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+//    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+//
+	[TTStyleSheet setGlobalStyleSheet:[[[RhymeTimeTTStyleSheet alloc] init] autorelease]];
+//	
+//	UISearchBar *searchBarTmp = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, 320, 45)];
+//	searchBarTmp.autocorrectionType=UITextAutocorrectionTypeNo;
+//	searchBarTmp.autocapitalizationType=UITextAutocapitalizationTypeNone;
+//	searchBarTmp.delegate=self;
+//	searchBarTmp.tintColor = [UIColor clearColor];
+//	
 	
-	UISearchBar *searchBarTmp = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, 320, 45)];
-	searchBarTmp.autocorrectionType=UITextAutocorrectionTypeNo;
-	searchBarTmp.autocapitalizationType=UITextAutocapitalizationTypeNone;
-	searchBarTmp.delegate=self;
-	searchBarTmp.tintColor = [UIColor clearColor];
-	
-	UINavigationBar *bar = [self.navigationController navigationBar]; 
-	[bar setTintColor:[UIColor blackColor]]; 
-	self.tableView.tableHeaderView = searchBarTmp;
-	self.searchBar = searchBarTmp;
-	
-	self.searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:searchBarTmp contentsController:self];  
-
-	[self performSelector:@selector(setSearchDisplayController:) withObject:searchDisplayController];
-	
-    [self.searchDisplayController setDelegate:self];  
-    [self.searchDisplayController setSearchResultsDataSource:self];  
-    [self.searchDisplayController setSearchResultsDelegate:self];
-    [self.searchDisplayController release];  
-	
-	[searchBarTmp release];
+	//UINavigationBar *bar = [self.navigationController navigationBar]; 
+	//[bar setTintColor:[UIColor blackColor]]; 
+//	self.tableView.tableHeaderView = searchBarTmp;
+//	self.searchBar = searchBarTmp;
+//	
+//	self.searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:searchBarTmp contentsController:self];  
+//
+//	[self performSelector:@selector(setSearchDisplayController:) withObject:searchDisplayController];
+//	
+//    [self.searchDisplayController setDelegate:self];  
+//    [self.searchDisplayController setSearchResultsDataSource:self];  
+//    [self.searchDisplayController setSearchResultsDelegate:self];
+//    [self.searchDisplayController release];  
+//	
+//	[searchBarTmp release];
 }
 
 
@@ -296,11 +305,17 @@ bool isAwaitingResults = FALSE;
 	else
 	{
 		RhymePart* rhymePart = (RhymePart*)[self.searchResult objectAtIndex:indexPath.row];
-		//NSLog(@"called heightForRowAtIndexPath, returend %f", [self heightOfString:rhymePart.rhymeLines]); 
-		
-		return [self heightOfString:rhymePart.rhymeLines];
+		NSLog(@"got cell cell for index");
+		return [self heightOfLinesString:rhymePart.rhymeLines] + 40.0f;
 	}
 }
+
+- (CGFloat)heightOfLinesString:(NSString *)string{
+	struct CGSize size;
+	size = [string sizeWithFont:[UIFont fontWithName:@"Helvetica-Bold" size:15] constrainedToSize:CGSizeMake(kLinesWidth, 10000) lineBreakMode:UILineBreakModeCharacterWrap];
+	return size.height;
+}
+
 
 // TODO needs refinement
 - (CGFloat)heightOfString:(NSString *)string{
@@ -325,7 +340,7 @@ bool isAwaitingResults = FALSE;
 	}else {
 		cell.textLabel.text = [filteredSearchSuggestions objectAtIndex:indexPath.row];
 	}
-	NSLog(@"returning cell, index: %i", indexPath.row);
+	//NSLog(@"returning cell, index: %i", indexPath.row);
 	return cell;
 }
 
@@ -338,22 +353,7 @@ bool isAwaitingResults = FALSE;
 	}
 	else
 	{
-		NSLog(@"cell is %@", [cellCache objectAtIndex:indexPath.row]);
-		//return [cellCache objectAtIndex:indexPath.row];
-		
-		NSString *kText = @"This is a test of styled labels.  Styled labels support \
-		<b>bold text</b>, <i>italic text</i>, <a href=\"http://google.com\">some link</a><span class=\"blueText\">colored text</span>, \
-		<span class=\"largeText\">font sizes</span>";
-		
-		TTStyledTextLabel *styledLabel = [[[TTStyledTextLabel alloc] initWithFrame:CGRectMake(0, 0, kLinesWidth, 50)] autorelease];
-		styledLabel.backgroundColor = [UIColor blackColor];
-		styledLabel.textColor = [UIColor whiteColor];
-		styledLabel.text = [TTStyledText textFromXHTML:kText lineBreaks:YES URLs:YES];
-		[styledLabel sizeToFit];
-		
-		UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"NONE"] autorelease];
-		[cell addSubview:styledLabel];
-		return cell;
+		return [self.resultCache objectAtIndex:indexPath.row];
 	}
 }
 
@@ -371,9 +371,13 @@ bool isAwaitingResults = FALSE;
 	{
 		self.navigationItem.title = @"back";
 		RhymeDetailViewController *targetViewController = [[RhymeDetailViewController alloc] initWithNibName:@"RhymeDetailViewController" bundle:nil searchCallback:self searchResult:[self.searchResult objectAtIndex:indexPath.row]];
-		[self.navigationController pushViewController:targetViewController animated:YES];
+		//[targetViewController modalTransitionStyle:
+		//[self presentModalViewController:targetViewController animated:YES];
+		[self.view addSubview:targetViewController.view];
+//		[self.navigationController pushViewController:targetViewController animated:YES];
 	}
 }
+
 
 //
 // async search methods
@@ -412,7 +416,7 @@ bool isAwaitingResults = FALSE;
 {
 	NSLog(@"searchDisplayController, search string is %@", searchString);
 	
-
+	
 	if([searchString length] > 2){
 		[self filterSearchPopulateAndReloadInNewThread:searchString];
 		return NO;
@@ -442,4 +446,5 @@ bool isAwaitingResults = FALSE;
 
 
 @end
+
 

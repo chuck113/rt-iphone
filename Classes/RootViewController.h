@@ -6,7 +6,6 @@
 //  Copyright __MyCompanyName__ 2010. All rights reserved.
 //
 
-#import "TableCellView.h"
 #import "HtmlBuilder.h"
 #import "ActivityView.h"
 #import "NoResultsView.h"
@@ -26,30 +25,35 @@
 @interface RootViewController : UITableViewController<UISearchDisplayDelegate, SearchCallback, UISearchBarDelegate, HtmlLoadedCallback> {
 	NSArray *searchResult;	
 	HtmlBuilder* htmlBuilder;	
-	NSArray* cellCache;
+	//NSArray* cellCache;
 	UISearchBar* searchBar;
 	NSArray* tableCellPool;
+	NSArray* resultCache;
 	
 	ActivityView *activityView;
 	NoResultsView *noResultsView;
 	
 	IBOutlet UITableView *searchResultTableView;
-	UISearchDisplayController* searchDisplayController;
+	IBOutlet UISearchDisplayController* searchDisplayController;
 	NSMutableArray* filteredSearchSuggestions;
 }
 
 - (void)searchWorker:(NSString*)text;
+
+//new methods
+- (void)updateResults:(NSArray*)results;
 
 @property (nonatomic, retain) IBOutlet UITableView *searchResultTableView;
 @property (nonatomic, retain) UISearchBar *searchBar;
 @property (nonatomic, retain) NSArray *searchResult;
 @property (nonatomic, retain) HtmlBuilder *htmlBuilder;
 @property (nonatomic, retain) NSArray *cellCache;
-@property (nonatomic, retain) NSArray *tableCellPool;
+@property (nonatomic, retain) NSArray *resultCache;
 @property (nonatomic, retain) ActivityView *activityView;
 @property (nonatomic, retain) NoResultsView *noResultsView;
 @property (nonatomic, retain) UISearchDisplayController* searchDisplayController;
 @property (nonatomic, retain) NSMutableArray* filteredSearchSuggestions;
+
 
 @end
 
