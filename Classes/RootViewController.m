@@ -373,10 +373,15 @@ bool isAwaitingResults = FALSE;
 		RhymeDetailViewController *targetViewController = [[RhymeDetailViewController alloc] initWithNibName:@"RhymeDetailViewController" bundle:nil searchCallback:self searchResult:[self.searchResult objectAtIndex:indexPath.row]];
 		//[targetViewController modalTransitionStyle:
 		//[self presentModalViewController:targetViewController animated:YES];
-		[self.view addSubview:targetViewController.view];
-//		[self.navigationController pushViewController:targetViewController animated:YES];
+		//[self.view addSubview:targetViewController.view];
+		
+		
+		AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 	
+		[appDelegate.navigationController pushViewController:targetViewController animated:YES];
 	}
 }
+
+
 
 
 //

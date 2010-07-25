@@ -15,6 +15,7 @@
 @synthesize window;
 @synthesize mainViewController;
 @synthesize dataAccess;
+@synthesize navigationController;
 
 
 #pragma mark -
@@ -25,7 +26,15 @@
     // Override point for customization after app launch    
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
 	
-	[window addSubview:mainViewController.view];
+	navigationController.view.backgroundColor = [UIColor blackColor];
+	
+	navigationController = [[UINavigationController alloc]
+							initWithRootViewController:mainViewController];
+	
+	[navigationController setNavigationBarHidden:YES animated:NO];
+	
+	//[window addSubview:mainViewController.view];
+	[window addSubview:navigationController.view];
     [window makeKeyAndVisible];
 	dataAccess = [[DataAccess alloc] init];
 }

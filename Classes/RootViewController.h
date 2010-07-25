@@ -25,7 +25,6 @@
 @interface RootViewController : UITableViewController<UISearchDisplayDelegate, SearchCallback, UISearchBarDelegate, HtmlLoadedCallback> {
 	NSArray *searchResult;	
 	HtmlBuilder* htmlBuilder;	
-	//NSArray* cellCache;
 	UISearchBar* searchBar;
 	NSArray* tableCellPool;
 	NSArray* resultCache;
