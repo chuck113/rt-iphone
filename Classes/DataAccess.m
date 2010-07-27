@@ -18,14 +18,19 @@
 
 - (NSArray *)buildResultsArray:(NSArray *)items maxResults:(double)maxResults;
 - (NSString *)applicationDocumentsDirectory;
+- (NSArray *)allRhymesUnsorted;
+
 @end
 
 @implementation DataAccess
 
 @synthesize managedObjectContext, persistentStoreCoordinator, managedObjectModel;
+@synthesize allEntries;
 
 - (DataAccess*)init{
 	[self managedObjectContext];
+	
+	self.allEntries = [self allRhymesUnsorted];
 	return self;
 }
 
@@ -107,36 +112,28 @@
 	
 }
 
-//- (NSArray*)allRhymes{
-//	CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
-//	
-//	NSFetchRequest *req = [[NSFetchRequest alloc] init];
-//	NSEntityDescription *entityDesc = [NSEntityDescription entityForName:@"RhymePart" inManagedObjectContext:managedObjectContext];
-//	[req setEntity:entityDesc];
-//
-//	NSSortDescriptor *sortByName = [[NSSortDescriptor alloc] initWithKey:@"word" ascending:YES];
-//	
-//	[req setSortDescriptors:[NSArray arrayWithObject:sortByName]];
-//	[req setResultType:NSDictionaryResultType];
-//	
-//	NSDictionary *entityProperties = [entityDesc propertiesByName];
-//	[req setPropertiesToFetch:[NSArray arrayWithObject:[entityProperties objectForKey:@"word"]]];
-//	[req setReturnsDistinctResults:TRUE];
-//	
-//	NSError *error;
-//	NSArray *items = [managedObjectContext executeFetchRequest:req error:&error];
-//	
-//	[req release];	
-//	
-//	NSLog(@"allRhymes: %i, took %f", items.count, (CFAbsoluteTimeGetCurrent() - startTime));
-//	
-//	if (![managedObjectContext save:&error]) {
-//        NSLog(@"Unresolved Core Data Save error %@, %@", error, [error userInfo]);
-//        return [NSArray init];
-//    }
-//	
-//	return items;
-//}
+-(NSString *)randomWord{
+	RhymePart *part = [self.allEntries objectAtIndex:(arc4random() % [self.allEntries count])];
+	return part.word;
+}
+
+- (NSArray*)allRhymesUnsorted{
+	NSFetchRequest *req = [[NSFetchRequest alloc] init];
+	NSEntityDescription *entityDesc = [NSEntityDescription entityForName:@"RhymePart" inManagedObjectContext:managedObjectContext];
+	[req setEntity:entityDesc];
+	
+	NSError *error;
+	NSArray *items = [managedObjectContext executeFetchRequest:req error:&error];
+	
+	[req release];	
+	
+	if (![managedObjectContext save:&error]) {
+        NSLog(@"Unresolved Core Data Save error %@, %@", error, [error userInfo]);
+        return [NSArray init];
+    }
+	
+	return items;
+}
 //
 //
 //-(NSDictionary *)buildPrefixSearchMap{

@@ -25,18 +25,22 @@
 
 - (void)buildLabel{
 	spinner = [[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge] autorelease];
-	spinner.frame=CGRectMake(105, 160, 25, 25);
+	spinner.frame=CGRectMake(145, 130, 25, 25);
 	spinner.tag  = 1;
 	[self.spinner startAnimating];
 	
-	spinnerLabel = [[UILabel alloc] initWithFrame:CGRectMake(140, 160, 120, 20)];
+	spinnerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 160, 320, 20)];
 	spinnerLabel.textColor = [UIColor whiteColor];
 	spinnerLabel.backgroundColor = [UIColor blackColor];
 	spinnerLabel.font = [UIFont boldSystemFontOfSize:14.0];
-	spinnerLabel.text = @"SEARCHING...";
+	spinnerLabel.textAlignment = UITextAlignmentCenter;
 	
 	[self.view addSubview:spinnerLabel];
 	[self.view addSubview:spinner];
+}
+
+- (void)updateText:(NSString *)text{
+	self.spinnerLabel.text = text;
 }
 
 

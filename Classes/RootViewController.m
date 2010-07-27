@@ -23,7 +23,7 @@
 - (CGFloat)heightOfLinesString:(NSString *)string;
 - (NSArray *)buildResultCells:(NSArray *)results;
 - (void)searchPopulateAndReload:(NSString*)text;
-- (void)showActivityView;
+- (void)showActivityView:(NSString*)text;;
 - (void)hideActivityView;
 - (void)reloadTableData;
 - (void)beginSearch:(NSString *)text;
@@ -86,7 +86,7 @@ bool isAwaitingResults = FALSE;
 }
 
 -(void)beginSearch:(NSString *)text{
-	[self showActivityView];
+	[self showActivityView:text];
 	[self searchPopulateAndReloadInNewThread:text];
 }
 
@@ -109,7 +109,7 @@ bool isAwaitingResults = FALSE;
 }
 
 -(void)searchComplete:(NSArray*)result{
-	[self performSelector:@selector(hideActivityView) withObject:nil afterDelay:1]; 
+	[self performSelector:@selector(hideActivityView) withObject:nil afterDelay:1.5]; 
 	//htmlLoadingsComplete = 0;
 	self.searchResult = result;
 	
@@ -125,7 +125,6 @@ bool isAwaitingResults = FALSE;
 
 -(NSArray *)buildResultCells:(NSArray *)results{
 	NSMutableArray* cellBuffer = [NSMutableArray array];
-
 	
 	for(RhymePart* part in results){
 		CGFloat linesStringheight = [self heightOfLinesString:part.rhymeLines];
@@ -169,7 +168,8 @@ bool isAwaitingResults = FALSE;
 // Table view methods
 //
 
--(void)showActivityView{
+-(void)showActivityView:(NSString*)text{
+	[activityView updateText:[NSString stringWithFormat:@"SEARCHING \"%@\"", [text uppercaseString]]];
 	[self.view addSubview:activityView.view];
 }
 
@@ -217,35 +217,9 @@ bool isAwaitingResults = FALSE;
 	self.activityView = [[ActivityView alloc] init];
 	self.noResultsView = [[NoResultsView alloc] init];
 	self.filteredSearchSuggestions = [NSMutableArray arrayWithCapacity:0];
-	
-	//self.navigationItem.title = @"Rhyme Time";
-//    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-//    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-//
+
 	[TTStyleSheet setGlobalStyleSheet:[[[RhymeTimeTTStyleSheet alloc] init] autorelease]];
-//	
-//	UISearchBar *searchBarTmp = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, 320, 45)];
-//	searchBarTmp.autocorrectionType=UITextAutocorrectionTypeNo;
-//	searchBarTmp.autocapitalizationType=UITextAutocapitalizationTypeNone;
-//	searchBarTmp.delegate=self;
-//	searchBarTmp.tintColor = [UIColor clearColor];
-//	
-	
-	//UINavigationBar *bar = [self.navigationController navigationBar]; 
-	//[bar setTintColor:[UIColor blackColor]]; 
-//	self.tableView.tableHeaderView = searchBarTmp;
-//	self.searchBar = searchBarTmp;
-//	
-//	self.searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:searchBarTmp contentsController:self];  
-//
-//	[self performSelector:@selector(setSearchDisplayController:) withObject:searchDisplayController];
-//	
-//    [self.searchDisplayController setDelegate:self];  
-//    [self.searchDisplayController setSearchResultsDataSource:self];  
-//    [self.searchDisplayController setSearchResultsDelegate:self];
-//    [self.searchDisplayController release];  
-//	
-//	[searchBarTmp release];
+
 }
 
 
@@ -363,7 +337,7 @@ bool isAwaitingResults = FALSE;
 {
 	if (tableView == self.searchDisplayController.searchResultsTableView){	
 		[self.searchDisplayController.searchResultsTableView removeFromSuperview];
-		[self beginSearch:[filteredSearchSuggestions objectAtIndex:indexPath.row]];
+		[self setSearchTextAndDoSearch:[filteredSearchSuggestions objectAtIndex:indexPath.row]];
 		[filteredSearchSuggestions removeAllObjects];
 		[self.searchDisplayController setActive:NO animated:TRUE];
     }
@@ -371,11 +345,8 @@ bool isAwaitingResults = FALSE;
 	{
 		self.navigationItem.title = @"back";
 		RhymeDetailViewController *targetViewController = [[RhymeDetailViewController alloc] initWithNibName:@"RhymeDetailViewController" bundle:nil searchCallback:self searchResult:[self.searchResult objectAtIndex:indexPath.row]];
-		//[targetViewController modalTransitionStyle:
-		//[self presentModalViewController:targetViewController animated:YES];
-		//[self.view addSubview:targetViewController.view];
 		
-		
+		//TODO dont' refer to app delegate
 		AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 	
 		[appDelegate.navigationController pushViewController:targetViewController animated:YES];
 	}

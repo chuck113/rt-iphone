@@ -13,16 +13,15 @@
 	NSManagedObjectContext *managedObjectContext;
 	NSPersistentStoreCoordinator *persistentStoreCoordinator;
 	NSManagedObjectModel *managedObjectModel;
+	NSArray* allEntries;
 }
 
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
-
+@property (nonatomic, retain) NSArray* allEntries;
 
 - (NSArray*)findRhymes:(NSString *)toFind;
-//-(BOOL)containsWord:(NSString *)word;
-//-(NSSet *)rhymingWordsContainedIn:(NSString *)words;
 - (void)onApplicationTermination:(UIApplication *)application;
 - (NSArray*)rhymesWithPrefix:(NSString *)prefix;
 

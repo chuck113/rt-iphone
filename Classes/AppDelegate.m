@@ -31,12 +31,10 @@
 	navigationController = [[UINavigationController alloc]
 							initWithRootViewController:mainViewController];
 	
-	[navigationController setNavigationBarHidden:YES animated:NO];
-	
 	//[window addSubview:mainViewController.view];
 	[window addSubview:navigationController.view];
     [window makeKeyAndVisible];
-	dataAccess = [[DataAccess alloc] init];
+	self.dataAccess = [[DataAccess alloc] init];
 }
 
 

@@ -52,8 +52,6 @@
 	[super viewDidLoad];
 	
 	self.searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:tableController];  
-	
-	//[self performSelector:@selector(setSearchDisplayController:) withObject:searchDisplayController];
 	[tableController setSearchDisplayController:searchDisplayController];
 	
     [self.searchDisplayController setDelegate:tableController];  
@@ -61,21 +59,46 @@
     [self.searchDisplayController setSearchResultsDelegate:tableController];
     [self.searchDisplayController release];
 	
+	UIImage *image = [UIImage imageNamed: @"header.png"];
+	UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 250, 45)];
+	imageView.image = image;
+	
+	self.navigationItem.titleView = imageView;
+	self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+	
+	[imageView release];
+
+	UIBarButtonItem *randomButton = [[UIBarButtonItem alloc] initWithTitle:@"RANDOM" 
+                                                                  style:UIBarButtonItemStyleBordered 
+                                                                 target:self 
+                                                                 action:@selector(randomButtonTouched)];    
+	
+    self.navigationItem.rightBarButtonItem = randomButton;
+	
 	
 }
 
+-(void)randomButtonTouched{
+	AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 
+	NSString* randomWord = [appDelegate.dataAccess randomWord]; 
 
 
--(void)viewWillAppear:(BOOL)animated{
-	[self.navigationController setNavigationBarHidden:YES animated:animated];
-	[super viewWillAppear:animated];
+	[tableController setSearchTextAndDoSearch:randomWord];
+	//self.searchBar.text = @"walk";
+	//NSLog(@"random");
 }
 
-- (void) viewWillDisappear:(BOOL)animated
-{
-	[self.navigationController setNavigationBarHidden:NO animated:animated];
-    [super viewWillDisappear:animated];
-}
+
+//-(void)viewWillAppear:(BOOL)animated{
+//	[self.navigationController setNavigationBarHidden:NO animated:animated];
+//	[super viewWillAppear:animated];
+//}
+//
+//- (void) viewWillDisappear:(BOOL)animated
+//{
+//	[self.navigationController setNavigationBarHidden:NO animated:animated];
+//    [super viewWillDisappear:animated];
+//}
 
 
 - (void)didReceiveMemoryWarning {
