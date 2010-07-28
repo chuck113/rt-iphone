@@ -9,7 +9,6 @@
 
 @interface RhymeDetailViewController()
 
--(UILabel *)artistTitleLabel:(NSString *)artist title:(NSString *)title;
 -(UILabel *)instructionLabel;
 -(UILabel *)twitterLinkLabel;
 -(UILabel *)iTunesLinkLabel;
@@ -20,7 +19,7 @@
 
 @implementation RhymeDetailViewController
 
-@synthesize searchCallbackDelegate;
+@synthesize searchCallbackDelegate, artistTitleLabel, outerWebViewFrame, innerWebViewFrame;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil searchCallback:(id<SearchCallback>)searchCallback searchResult:(RhymePart *)searchResult
 {
@@ -28,10 +27,16 @@
         return nil;
 	
 	//CGRectMake(CGFloat x, CGFloat y, CGFloat width, CGFloat height)
-	CGRect myImageRect = CGRectMake(10.0f, 58.0f, 300.0f, 200.0f);
-	UIImageView *imageView = [[UIImageView alloc] initWithFrame:myImageRect];
-	[imageView setImage:[UIImage imageNamed:@"whiteBorder.png"]];
+	CGRect myImageRect = CGRectMake(10.0f, 68.0f, 300.0f, 200.0f);
+	UIView *view = [[UIView alloc] initWithFrame:myImageRect];
+	view.backgroundColor = [UIColor blackColor];
+//	UIImageView *imageView = [[UIImageView alloc] initWithFrame:myImageRect];
+//	[imageView setImage:[UIImage imageNamed:@"whiteBorder.png"]];
 
+	view.layer.cornerRadius = 6;
+
+	view.layer.borderColor = [[UIColor grayColor] CGColor];
+	view.layer.borderWidth = 1;
 	
 	NSSet *set = [searchResult wordsNotInIndexDeserialised];
 	NSLog(@"other rhyme words are: %@", set);
@@ -44,7 +49,7 @@
 	
 	//[self.view setBackgroundColor:[UIColor darkGrayColor]];
 	
-	UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(12, 61, 292, 185)];
+	UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(15, 76, 292, 185)];
 	[webView loadHTMLString:html baseURL:nil];
 	[webView setDelegate:self];
 	webView.backgroundColor = [UIColor clearColor];
@@ -57,40 +62,19 @@
 	gradient.colors = [NSArray arrayWithObjects:(id)[darkerGrey CGColor], (id)[lighterGrey CGColor], nil];
 	[self.view.layer insertSublayer:gradient atIndex:0];
 	
-	[self.view addSubview:[self artistTitleLabel:searchResult.song.album.artist.name title:searchResult.song.title]];
-	[self.view addSubview:imageView];
+	self.artistTitleLabel.text = [NSString stringWithFormat:@"%@ - %@", [searchResult.song.album.artist.name uppercaseString], searchResult.song.title];
+	
+	
+	//[self.view addSubview:[self artistTitleLabel:searchResult.song.album.artist.name title:searchResult.song.title]];
+	[self.view addSubview:view];
 	[self.view addSubview:webView];
-	[self.view addSubview:[self instructionLabel]];
-	[self.view addSubview:[self iTunesLinkLabel]];
-	[self.view addSubview:[self twitterLinkLabel]];
+	//[self.view addSubview:[self iTunesLinkLabel]];
+	//[self.view addSubview:[self twitterLinkLabel]];
 
 	[htmlBuilder dealloc];
 	return self;
 }
 
--(UILabel *)artistTitleLabel:(NSString *)artist title:(NSString *)title{
-	UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 300, 49)];
-	label.backgroundColor = [UIColor clearColor];
-	label.text = [NSString stringWithFormat:@"%@ - %@", [artist uppercaseString], title];
-	label.textColor = [UIColor whiteColor];
-	label.lineBreakMode = UILineBreakModeWordWrap;
-	label.numberOfLines = 2;
-	label.font = [UIFont boldSystemFontOfSize:20.0];
-	return label;
-}
-
--(UILabel *)instructionLabel{
-	NSString* textString = @"Underlined words start new search";
-	UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0, 262, 320, 23)];
-	//UILabel* label = [[UILabel alloc] init];
-	label.backgroundColor = [UIColor clearColor];
-	label.textAlignment = UITextAlignmentCenter;
-	label.text = textString;
-	label.textColor = [UIColor lightGrayColor];
-	label.font = [UIFont boldSystemFontOfSize:14.0];
-	label.numberOfLines = 1;
-	return label;
-}
 
 -(UILabel *)twitterLinkLabel{
 	NSString* textString = @"twitter";

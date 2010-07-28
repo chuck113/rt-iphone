@@ -15,7 +15,6 @@
 		4309834311D63086003AA017 /* ActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4309834211D63086003AA017 /* ActivityView.m */; };
 		4309839111D6356D003AA017 /* NoResultsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4309839011D6356D003AA017 /* NoResultsView.m */; };
 		43363BFA11EB924D00114DD6 /* RhymeTimeTTStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 43363BF911EB924D00114DD6 /* RhymeTimeTTStyleSheet.m */; };
-		434D3CDC11B6FE90004D7867 /* whiteBorder.png in Resources */ = {isa = PBXBuildFile; fileRef = 434D3CDB11B6FE90004D7867 /* whiteBorder.png */; };
 		434D3CED11B700B6004D7867 /* iPhoneArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 434D3CEC11B700B6004D7867 /* iPhoneArrow.png */; };
 		434D41E511C3F415004D7867 /* RhymePart.m in Sources */ = {isa = PBXBuildFile; fileRef = 434D41E411C3F415004D7867 /* RhymePart.m */; };
 		43650AF011F61DC700E7F6A6 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43650AEF11F61DC700E7F6A6 /* MainViewController.m */; };
@@ -212,7 +211,6 @@
 		4309839011D6356D003AA017 /* NoResultsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoResultsView.m; sourceTree = "<group>"; };
 		43363BF811EB924D00114DD6 /* RhymeTimeTTStyleSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RhymeTimeTTStyleSheet.h; sourceTree = "<group>"; };
 		43363BF911EB924D00114DD6 /* RhymeTimeTTStyleSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RhymeTimeTTStyleSheet.m; sourceTree = "<group>"; };
-		434D3CDB11B6FE90004D7867 /* whiteBorder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteBorder.png; sourceTree = "<group>"; };
 		434D3CEC11B700B6004D7867 /* iPhoneArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPhoneArrow.png; sourceTree = "<group>"; };
 		434D41E311C3F415004D7867 /* RhymePart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RhymePart.h; sourceTree = "<group>"; };
 		434D41E411C3F415004D7867 /* RhymePart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RhymePart.m; sourceTree = "<group>"; };
@@ -344,7 +342,6 @@
 				43DC8D0911CEBA84009EBD46 /* header.png */,
 				43DC8CEC11CEB80B009EBD46 /* icon.png */,
 				434D3CEC11B700B6004D7867 /* iPhoneArrow.png */,
-				434D3CDB11B6FE90004D7867 /* whiteBorder.png */,
 				468576BC11A0257100814B9E /* rhymeTimeIPhonePrototype.xcdatamodel */,
 				28F335F01007B36200424DE2 /* MainViewController.xib */,
 				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
@@ -654,7 +651,6 @@
 				28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */,
 				28F335F11007B36200424DE2 /* MainViewController.xib in Resources */,
 				46321230119EA0F300222659 /* RhymeDetailViewController.xib in Resources */,
-				434D3CDC11B6FE90004D7867 /* whiteBorder.png in Resources */,
 				434D3CED11B700B6004D7867 /* iPhoneArrow.png in Resources */,
 				43DC8CEE11CEB80B009EBD46 /* icon.png in Resources */,
 				43DC8D0A11CEBA84009EBD46 /* header.png in Resources */,

@@ -80,18 +80,6 @@
 	return [self buildHtml:rhymePart bodyStyle:kResultTablebodyStyle withLinks:NO ];
 }
 
-//- (NSString *)buildTableResult320:(RhymePart*)rhymePart{
-//	return [self buildHtml320:rhymePart];
-//}
-//
-//- (NSString *)buildTableResultLines320:(RhymePart*)rhymePart{
-//	return [self buildHtml320:rhymePart];
-//}
-//
-//- (NSString *)buildTableResultArtistAndTitle320:(RhymePart*)rhymePart{
-//	return [self buildHtml320:rhymePart];
-//}
-
 - (NSString *)buildTableResultWithLinesOnly:(RhymePart*)rhymePart{
 	return [self buildHtml:rhymePart bodyStyle:kResultTablebodyStyle linesDiv:[self buildHtmlLines:rhymePart styleString:kResultTableLineStyle withLinks:NO] titleDiv:@""];
 }
@@ -184,7 +172,7 @@
 
 -(NSString *)detailViewCss{
 	NSString *cssPart = @"{color:white; text-decoration:none; border-bottom: 1px solid gray;}";
-	return [NSString stringWithFormat:@"body {background-color:black;} A:link %@ A:active %@ A:hover %@ A:visited %@",cssPart,cssPart,cssPart,cssPart];
+	return [NSString stringWithFormat:@"div#lines{position:fixed;top:0px;} body {background-color:black;} A:link %@ A:active %@ A:hover %@ A:visited %@",cssPart,cssPart,cssPart,cssPart];
 	
 //@"A:link {color:black; text-decoration:none; border-bottom: 1px solid lightgray;}	
 //A:active {color:black;text-decoration:none;border-bottom: 1px solid lightgray;}	
