@@ -245,14 +245,6 @@
     }
 }
 
--(void)installTestData{
-
-	RhymePart* part = [[RhymePart alloc] init];
-	part.word = @"crack";
-	part.rhymeParts=@"mack%%%attack";
-	part.rhymeLines=@"some sill words that someone once said";
-	//part.
-}
 
 #pragma mark -
 #pragma mark Core Data stack

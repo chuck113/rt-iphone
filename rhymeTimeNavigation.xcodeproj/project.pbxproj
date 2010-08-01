@@ -16,21 +16,22 @@
 		4309839111D6356D003AA017 /* NoResultsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4309839011D6356D003AA017 /* NoResultsView.m */; };
 		43363BFA11EB924D00114DD6 /* RhymeTimeTTStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 43363BF911EB924D00114DD6 /* RhymeTimeTTStyleSheet.m */; };
 		434D3CED11B700B6004D7867 /* iPhoneArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 434D3CEC11B700B6004D7867 /* iPhoneArrow.png */; };
-		434D41E511C3F415004D7867 /* RhymePart.m in Sources */ = {isa = PBXBuildFile; fileRef = 434D41E411C3F415004D7867 /* RhymePart.m */; };
 		43650AF011F61DC700E7F6A6 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43650AEF11F61DC700E7F6A6 /* MainViewController.m */; };
 		4394AEFD11A9B2B800BE9DEC /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4394AEFC11A9B2B800BE9DEC /* CoreData.framework */; };
 		4394AEFF11A9B2B800BE9DEC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4394AEFE11A9B2B800BE9DEC /* CoreGraphics.framework */; };
 		4394AF0111A9B2B800BE9DEC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4394AF0011A9B2B800BE9DEC /* Foundation.framework */; };
 		4394AF0311A9B2B800BE9DEC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4394AF0211A9B2B800BE9DEC /* QuartzCore.framework */; };
 		4394AF0511A9B2B800BE9DEC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4394AF0411A9B2B800BE9DEC /* UIKit.framework */; };
+		43B81FA91205CCD200C72ED6 /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B81FA01205CCD200C72ED6 /* Album.m */; };
+		43B81FAA1205CCD200C72ED6 /* Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B81FA21205CCD200C72ED6 /* Artist.m */; };
+		43B81FAB1205CCD200C72ED6 /* Rhyme.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B81FA41205CCD200C72ED6 /* Rhyme.m */; };
+		43B81FAC1205CCD200C72ED6 /* RhymePart.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B81FA61205CCD200C72ED6 /* RhymePart.m */; };
+		43B81FAD1205CCD200C72ED6 /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B81FA81205CCD200C72ED6 /* Song.m */; };
 		43DC8CEE11CEB80B009EBD46 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 43DC8CEC11CEB80B009EBD46 /* icon.png */; };
 		43DC8D0A11CEBA84009EBD46 /* header.png in Resources */ = {isa = PBXBuildFile; fileRef = 43DC8D0911CEBA84009EBD46 /* header.png */; };
 		43DC8D5E11CEC925009EBD46 /* rhymeTime.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 43DC8D5D11CEC925009EBD46 /* rhymeTime.sqlite */; };
 		46321230119EA0F300222659 /* RhymeDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4632122F119EA0F300222659 /* RhymeDetailViewController.xib */; };
 		46321235119EA15300222659 /* RhymeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46321234119EA15300222659 /* RhymeDetailViewController.m */; };
-		468576B511A0255900814B9E /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = 468576A711A0255900814B9E /* Album.m */; };
-		468576B711A0255900814B9E /* Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = 468576AB11A0255900814B9E /* Artist.m */; };
-		468576B811A0255900814B9E /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = 468576AD11A0255900814B9E /* Song.m */; };
 		468576B911A0255900814B9E /* DataAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 468576B011A0255900814B9E /* DataAccess.m */; };
 		468576BA11A0255900814B9E /* HtmlBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 468576B111A0255900814B9E /* HtmlBuilder.m */; };
 		468576BE11A0257100814B9E /* rhymeTimeIPhonePrototype.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 468576BC11A0257100814B9E /* rhymeTimeIPhonePrototype.xcdatamodel */; };
@@ -212,8 +213,6 @@
 		43363BF811EB924D00114DD6 /* RhymeTimeTTStyleSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RhymeTimeTTStyleSheet.h; sourceTree = "<group>"; };
 		43363BF911EB924D00114DD6 /* RhymeTimeTTStyleSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RhymeTimeTTStyleSheet.m; sourceTree = "<group>"; };
 		434D3CEC11B700B6004D7867 /* iPhoneArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPhoneArrow.png; sourceTree = "<group>"; };
-		434D41E311C3F415004D7867 /* RhymePart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RhymePart.h; sourceTree = "<group>"; };
-		434D41E411C3F415004D7867 /* RhymePart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RhymePart.m; sourceTree = "<group>"; };
 		43650AEE11F61DC700E7F6A6 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		43650AEF11F61DC700E7F6A6 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		4394AEFC11A9B2B800BE9DEC /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.0.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
@@ -221,18 +220,22 @@
 		4394AF0011A9B2B800BE9DEC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		4394AF0211A9B2B800BE9DEC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.0.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		4394AF0411A9B2B800BE9DEC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		43B81F9F1205CCD200C72ED6 /* Album.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Album.h; sourceTree = "<group>"; };
+		43B81FA01205CCD200C72ED6 /* Album.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Album.m; sourceTree = "<group>"; };
+		43B81FA11205CCD200C72ED6 /* Artist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Artist.h; sourceTree = "<group>"; };
+		43B81FA21205CCD200C72ED6 /* Artist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Artist.m; sourceTree = "<group>"; };
+		43B81FA31205CCD200C72ED6 /* Rhyme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rhyme.h; sourceTree = "<group>"; };
+		43B81FA41205CCD200C72ED6 /* Rhyme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rhyme.m; sourceTree = "<group>"; };
+		43B81FA51205CCD200C72ED6 /* RhymePart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RhymePart.h; sourceTree = "<group>"; };
+		43B81FA61205CCD200C72ED6 /* RhymePart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RhymePart.m; sourceTree = "<group>"; };
+		43B81FA71205CCD200C72ED6 /* Song.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Song.h; sourceTree = "<group>"; };
+		43B81FA81205CCD200C72ED6 /* Song.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Song.m; sourceTree = "<group>"; };
 		43DC8CEC11CEB80B009EBD46 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		43DC8D0911CEBA84009EBD46 /* header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = header.png; sourceTree = "<group>"; };
 		43DC8D5D11CEC925009EBD46 /* rhymeTime.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = rhymeTime.sqlite; sourceTree = "<group>"; };
 		4632122F119EA0F300222659 /* RhymeDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RhymeDetailViewController.xib; sourceTree = "<group>"; };
 		46321233119EA15300222659 /* RhymeDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RhymeDetailViewController.h; sourceTree = "<group>"; };
 		46321234119EA15300222659 /* RhymeDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RhymeDetailViewController.m; sourceTree = "<group>"; };
-		468576A611A0255800814B9E /* Album.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Album.h; sourceTree = "<group>"; };
-		468576A711A0255900814B9E /* Album.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Album.m; sourceTree = "<group>"; };
-		468576AA11A0255900814B9E /* Artist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Artist.h; sourceTree = "<group>"; };
-		468576AB11A0255900814B9E /* Artist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Artist.m; sourceTree = "<group>"; };
-		468576AC11A0255900814B9E /* Song.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Song.h; sourceTree = "<group>"; };
-		468576AD11A0255900814B9E /* Song.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Song.m; sourceTree = "<group>"; };
 		468576AF11A0255900814B9E /* DataAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataAccess.h; sourceTree = "<group>"; };
 		468576B011A0255900814B9E /* DataAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataAccess.m; sourceTree = "<group>"; };
 		468576B111A0255900814B9E /* HtmlBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HtmlBuilder.m; sourceTree = "<group>"; };
@@ -377,14 +380,16 @@
 		468576A511A0255800814B9E /* dto */ = {
 			isa = PBXGroup;
 			children = (
-				434D41E311C3F415004D7867 /* RhymePart.h */,
-				434D41E411C3F415004D7867 /* RhymePart.m */,
-				468576A611A0255800814B9E /* Album.h */,
-				468576A711A0255900814B9E /* Album.m */,
-				468576AA11A0255900814B9E /* Artist.h */,
-				468576AB11A0255900814B9E /* Artist.m */,
-				468576AC11A0255900814B9E /* Song.h */,
-				468576AD11A0255900814B9E /* Song.m */,
+				43B81F9F1205CCD200C72ED6 /* Album.h */,
+				43B81FA01205CCD200C72ED6 /* Album.m */,
+				43B81FA11205CCD200C72ED6 /* Artist.h */,
+				43B81FA21205CCD200C72ED6 /* Artist.m */,
+				43B81FA31205CCD200C72ED6 /* Rhyme.h */,
+				43B81FA41205CCD200C72ED6 /* Rhyme.m */,
+				43B81FA51205CCD200C72ED6 /* RhymePart.h */,
+				43B81FA61205CCD200C72ED6 /* RhymePart.m */,
+				43B81FA71205CCD200C72ED6 /* Song.h */,
+				43B81FA81205CCD200C72ED6 /* Song.m */,
 			);
 			name = dto;
 			sourceTree = "<group>";
@@ -671,17 +676,18 @@
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */,
 				46321235119EA15300222659 /* RhymeDetailViewController.m in Sources */,
-				468576B511A0255900814B9E /* Album.m in Sources */,
-				468576B711A0255900814B9E /* Artist.m in Sources */,
-				468576B811A0255900814B9E /* Song.m in Sources */,
 				468576B911A0255900814B9E /* DataAccess.m in Sources */,
 				468576BA11A0255900814B9E /* HtmlBuilder.m in Sources */,
 				468576BE11A0257100814B9E /* rhymeTimeIPhonePrototype.xcdatamodel in Sources */,
-				434D41E511C3F415004D7867 /* RhymePart.m in Sources */,
 				4309834311D63086003AA017 /* ActivityView.m in Sources */,
 				4309839111D6356D003AA017 /* NoResultsView.m in Sources */,
 				43363BFA11EB924D00114DD6 /* RhymeTimeTTStyleSheet.m in Sources */,
 				43650AF011F61DC700E7F6A6 /* MainViewController.m in Sources */,
+				43B81FA91205CCD200C72ED6 /* Album.m in Sources */,
+				43B81FAA1205CCD200C72ED6 /* Artist.m in Sources */,
+				43B81FAB1205CCD200C72ED6 /* Rhyme.m in Sources */,
+				43B81FAC1205CCD200C72ED6 /* RhymePart.m in Sources */,
+				43B81FAD1205CCD200C72ED6 /* Song.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
