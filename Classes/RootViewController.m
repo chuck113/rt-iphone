@@ -368,7 +368,9 @@ bool isAwaitingResults = FALSE;
 	
 	//NSArray* result = [self findRhymes:text];
 	AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 
-	NSArray *results = [appDelegate.dataAccess rhymesWithPrefix:text];
+//	NSArray *results = [appDelegate.dataAccess rhymesWithPrefix:text];
+	NSArray *results = [appDelegate.dataAccess rhymesWithPrefixCheap:text];
+
 	
 	[self performSelectorOnMainThread:@selector(filterSearchComplete:) withObject:results waitUntilDone:NO];
     [pool release];

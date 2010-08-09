@@ -18,19 +18,22 @@
 
 - (NSArray *)buildResultsArray:(NSArray *)items maxResults:(double)maxResults;
 - (NSString *)applicationDocumentsDirectory;
-- (NSArray *)allRhymesUnsorted;
+- (NSArray *)allRhymesSorted;
+- (NSDictionary *)buildPrefixSearchMap;
+
 
 @end
 
 @implementation DataAccess
 
 @synthesize managedObjectContext, persistentStoreCoordinator, managedObjectModel;
-@synthesize allEntries;
+@synthesize allEntries, prefixSearchMap;
 
 - (DataAccess*)init{
 	[self managedObjectContext];
 	
-	self.allEntries = [self allRhymesUnsorted];
+	//self.allEntries = [self allRhymesSorted];
+	self.prefixSearchMap = [self buildPrefixSearchMap];
 	return self;
 }
 
@@ -117,10 +120,22 @@
 	return part.word;
 }
 
-- (NSArray*)allRhymesUnsorted{
+- (NSArray*)allRhymesSorted{
+	CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+
 	NSFetchRequest *req = [[NSFetchRequest alloc] init];
 	NSEntityDescription *entityDesc = [NSEntityDescription entityForName:@"RhymePart" inManagedObjectContext:managedObjectContext];
 	[req setEntity:entityDesc];
+	
+	NSSortDescriptor *sortByName = [[NSSortDescriptor alloc] initWithKey:@"word" ascending:YES];
+	
+	[req setSortDescriptors:[NSArray arrayWithObject:sortByName]];
+	[req setResultType:NSDictionaryResultType];
+	
+	
+	NSDictionary *entityProperties = [entityDesc propertiesByName];
+	[req setPropertiesToFetch:[NSArray arrayWithObject:[entityProperties objectForKey:@"word"]]];
+	[req setReturnsDistinctResults:TRUE];
 	
 	NSError *error;
 	NSArray *items = [managedObjectContext executeFetchRequest:req error:&error];
@@ -132,36 +147,72 @@
         return [NSArray init];
     }
 	
+	NSLog(@"allRhymes: took %f", (CFAbsoluteTimeGetCurrent() - startTime));
+
+	
 	return items;
 }
 //
 //
-//-(NSDictionary *)buildPrefixSearchMap{
-//	NSArray *allRhymes = [self allRhymes];
-//	NSMutableDictionary *result = [NSMutableDictionary dictionary];
-//
-//	for(int i=0; i<[allRhymes count];i++){
-//		//RhymePart *rhymePart = [allRhymes objectAtIndex:i];
-//		NSString *word = [[allRhymes objectAtIndex:i] valueForKey:@"word"];
-//		//NSLog(@"word is %@", word);
-//		
-//		NSString *subString = [word length] > 2 ? [word substringToIndex:3] : word;
-//		
-//		if([result objectForKey:subString] == nil){
-//			[result setValue:[NSMutableArray array] forKey:subString];
-//		}
-//		
-//		NSMutableArray *words = (NSMutableArray *)[result objectForKey:subString];
-//		[words addObject:word];
-//		//NSLog(@"added substring %@, array is now %i", subString, [words count]);
-//			
-//	}
-//	
-//	NSLog(@"created dictionary of size %i", [result count]);
-//	//TODO convert mutable arrays to immutable
-//	
-//	return [NSDictionary dictionaryWithDictionary:result];
-//}
+-(NSDictionary *)buildPrefixSearchMap{
+	NSArray *allRhymes = [self allRhymesSorted];
+	CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+
+	NSMutableDictionary *result = [NSMutableDictionary dictionary];
+
+	for(int i=0; i<[allRhymes count];i++){
+		//RhymePart *rhymePart = [allRhymes objectAtIndex:i];
+		NSString *word = [[allRhymes objectAtIndex:i] valueForKey:@"word"];
+		//NSLog(@"word is %@", word);
+		
+		NSString *subString = [word length] > 2 ? [word substringToIndex:3] : word;
+		
+		if([result objectForKey:subString] == nil){
+			[result setValue:[NSMutableArray array] forKey:subString];
+		}
+		
+		NSMutableArray *words = (NSMutableArray *)[result objectForKey:subString];
+		[words addObject:word];
+		//NSLog(@"added substring %@, array is now %i", subString, [words count]);
+			
+	}
+	
+	NSLog(@"created dictionary of size %i", [result count]);
+	//TODO convert mutable arrays to immutable
+	NSLog(@"buildPrefixSearchMap: took %f", (CFAbsoluteTimeGetCurrent() - startTime));
+
+	
+	return [NSDictionary dictionaryWithDictionary:result];
+}
+
+-(NSArray *)rhymesWithPrefixCheap:(NSString *)queryRaw{
+	CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+
+	NSString* query = [queryRaw uppercaseString];
+	//NSLog(@"query length: %i", [query length]);
+	//NSLog(@"query length: %@", [self.prefixSearchMap objectForKey:query]);
+
+	if([query length] == 3 && ([self.prefixSearchMap objectForKey:query] != nil)){
+		return [self.prefixSearchMap objectForKey:query];
+	}else if([query length] > 3){
+		NSString *key = [query substringToIndex:3];
+		id res = [self.prefixSearchMap objectForKey:key];
+		if(res != nil){
+			NSArray *entries = (NSArray*)res;
+			NSMutableArray *resultArray = [[NSMutableArray alloc] init];
+			for(NSString *word in entries){
+				if([word hasPrefix:query]){
+					[resultArray addObject:word];
+				}
+			}
+			NSLog(@"rhymesWithPrefixCheap: took %f", (CFAbsoluteTimeGetCurrent() - startTime));
+
+			return [NSArray arrayWithArray:resultArray];
+		}
+			
+	}
+	return [NSArray array];
+}
 
 //-(NSSet *)rhymingWordsContainedIn:(NSString *)words{
 //	NSMutableSet* buffer = [[NSMutableSet alloc] init];
