@@ -216,7 +216,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43B81FFC1205CFFD00C72ED6</string>
+						<string>43B820A61210B4E700C72ED6</string>
 						<key>history</key>
 						<array>
 							<string>43B81FF61205CFEF00C72ED6</string>
@@ -256,7 +256,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43B81FFD1205CFFD00C72ED6</string>
+						<string>43B820A71210B4E700C72ED6</string>
 						<key>history</key>
 						<array>
 							<string>43B81F311205C5C800C72ED6</string>
@@ -347,11 +347,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateExpansionKey</key>
 							<array>
 								<string>29B97314FDCFA39411CA2CEA</string>
-								<string>080E96DDFE201D6D7F000001</string>
-								<string>468576AE11A0255900814B9E</string>
-								<string>468576A511A0255800814B9E</string>
 								<string>29B97317FDCFA39411CA2CEA</string>
-								<string>29B97323FDCFA39411CA2CEA</string>
 								<string>1C37FBAC04509CD000000102</string>
 								<string>1C37FAAC04509CD000000102</string>
 								<string>1C37FABC05509CD000000102</string>
@@ -359,14 +355,16 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>13</integer>
-									<integer>11</integer>
-									<integer>9</integer>
+									<integer>1</integer>
+									<integer>0</integer>
+								</array>
+								<array>
+									<integer>2</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 131}, {251, 795}}</string>
+							<string>{{0, 0}, {251, 795}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -401,7 +399,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>RhymePart.h</string>
+								<string>Icon@2x.png</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -409,11 +407,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>RhymePart.h</string>
+										<string>Icon@2x.png</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>43B81FF91205CFFD00C72ED6</string>
+										<string>43B820A51210B4E700C72ED6</string>
 										<key>history</key>
 										<array>
 											<string>434D3C9C11B45650004D7867</string>
@@ -448,14 +446,15 @@
 											<string>43650B7511F65BA300E7F6A6</string>
 											<string>43650B8911F65CDF00E7F6A6</string>
 											<string>43650B8A11F65CDF00E7F6A6</string>
-											<string>43B81FB31205CDBF00C72ED6</string>
 											<string>43B81FB41205CDBF00C72ED6</string>
 											<string>43B81FB51205CDBF00C72ED6</string>
 											<string>43B81FD01205CEA400C72ED6</string>
 											<string>43B81FD11205CEA400C72ED6</string>
-											<string>43B81FD61205CEF100C72ED6</string>
-											<string>43B81FF71205CFFD00C72ED6</string>
-											<string>43B81FF81205CFFD00C72ED6</string>
+											<string>43B82014120F4F9100C72ED6</string>
+											<string>43B82015120F4F9100C72ED6</string>
+											<string>43B82016120F4F9100C72ED6</string>
+											<string>43B82096120F62E800C72ED6</string>
+											<string>43B82097120F62E800C72ED6</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -657,8 +656,8 @@
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>43B81FBB1205CDBF00C72ED6</string>
 		<string>43F2285911A0598500FA9656</string>
-		<string>/Users/ck/dev/rt-iphone/rt-iphone/rhymeTimeNavigation.xcodeproj</string>
 		<string>43B81FFA1205CFFD00C72ED6</string>
+		<string>/Users/ck/dev/rt-iphone/rt-iphone/rhymeTimeNavigation.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>30 174 1492 854 0 0 1680 1028 </string>
@@ -985,6 +984,8 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>

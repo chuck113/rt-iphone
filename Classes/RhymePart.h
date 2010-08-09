@@ -13,9 +13,6 @@
 
 @interface RhymePart :  NSManagedObject  
 {
-//	NSString* rhymeLines;
-//	NSString* rhymeParts;
-//	NSString* wordsNotInIndex;
 }
 
 

@@ -19,7 +19,7 @@
 - (NSArray *)buildResultsArray:(NSArray *)items maxResults:(double)maxResults;
 - (NSString *)applicationDocumentsDirectory;
 - (NSArray *)allRhymesSorted;
-- (NSDictionary *)buildPrefixSearchMap;
+- (NSDictionary *)buildPrefixSearchMap:(NSArray*)allEntries;
 
 
 @end
@@ -32,8 +32,8 @@
 - (DataAccess*)init{
 	[self managedObjectContext];
 	
-	//self.allEntries = [self allRhymesSorted];
-	self.prefixSearchMap = [self buildPrefixSearchMap];
+	self.allEntries = [self allRhymesSorted];
+	self.prefixSearchMap = [self buildPrefixSearchMap:self.allEntries];
 	return self;
 }
 
@@ -116,8 +116,7 @@
 }
 
 -(NSString *)randomWord{
-	RhymePart *part = [self.allEntries objectAtIndex:(arc4random() % [self.allEntries count])];
-	return part.word;
+	return [[self.allEntries objectAtIndex:(arc4random() % [self.allEntries count])]valueForKey:@"word"];
 }
 
 - (NSArray*)allRhymesSorted{
@@ -154,8 +153,7 @@
 }
 //
 //
--(NSDictionary *)buildPrefixSearchMap{
-	NSArray *allRhymes = [self allRhymesSorted];
+-(NSDictionary *)buildPrefixSearchMap:(NSArray*)allRhymes{
 	CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
 
 	NSMutableDictionary *result = [NSMutableDictionary dictionary];

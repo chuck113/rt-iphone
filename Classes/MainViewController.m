@@ -60,7 +60,7 @@
     [self.searchDisplayController release];
 	
 	UIImage *image = [UIImage imageNamed: @"header.png"];
-	UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 250, 45)];
+	UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 2, 200, 40)];
 	imageView.image = image;
 	
 	self.navigationItem.titleView = imageView;
