@@ -12,7 +12,7 @@
 
 @implementation MainViewController
 
-@synthesize searchBar, titleImage, searchDisplayController, searchResultTableView, tableController;
+@synthesize tableSearchBar, titleImage, searchDisplayController, searchResultTableView, tableController;
 
 /*
  // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -28,9 +28,6 @@
 	[searchBar resignFirstResponder];
 	NSLog(@"search for %@", searchBar.text);
 	[self.tableController updateResults:[self findRhymes:searchBar.text]];
-	
-	//[self.searchResultTableView setContentOffset:CGPointMake(0, 0) animated:NO];
-	//[self.searchResultTableView reloadData];
 }
 
 - (NSArray*)findRhymes:(NSString *)toFind{
@@ -51,7 +48,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	self.searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:tableController];  
+	self.searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:tableSearchBar contentsController:tableController];  
 	[tableController setSearchDisplayController:searchDisplayController];
 	
     [self.searchDisplayController setDelegate:tableController];  

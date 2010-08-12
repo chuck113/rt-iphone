@@ -13,18 +13,19 @@
 @interface MainViewController : UIViewController<UISearchBarDelegate> {
 	
 	IBOutlet UIImage *titleImage;
-	IBOutlet UISearchBar *searchBar;
+	IBOutlet UISearchBar *tableSearchBar;
 	
 	UISearchDisplayController* searchDisplayController;
 	IBOutlet UITableView *searchResultTableView;
 	IBOutlet RootViewController *tableController;
-	
 }
+
+- (NSArray*)findRhymes:(NSString *)toFind;
 
 @property (nonatomic, retain) IBOutlet UITableView *searchResultTableView;
 @property (nonatomic, retain) UISearchDisplayController* searchDisplayController;
 @property (nonatomic, retain) IBOutlet UIImage* titleImage;
-@property (nonatomic, retain) IBOutlet UISearchBar* searchBar;
+@property (nonatomic, retain) IBOutlet UISearchBar* tableSearchBar;
 @property (nonatomic, retain) IBOutlet RootViewController* tableController;
 
 

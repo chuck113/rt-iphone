@@ -142,14 +142,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">searchBar</string>
-						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="58646864"/>
-					</object>
-					<int key="connectionID">27</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">tableController</string>
 						<reference key="source" ref="841351856"/>
 						<reference key="destination" ref="503856144"/>
@@ -187,6 +179,14 @@
 						<reference key="destination" ref="755337500"/>
 					</object>
 					<int key="connectionID">34</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">tableSearchBar</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="58646864"/>
+					</object>
+					<int key="connectionID">52</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -296,7 +296,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">51</int>
+			<int key="maxID">52</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -308,16 +308,16 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>searchBar</string>
 							<string>searchResultTableView</string>
 							<string>tableController</string>
+							<string>tableSearchBar</string>
 							<string>titleImage</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>UISearchBar</string>
 							<string>UITableView</string>
 							<string>RootViewController</string>
+							<string>UISearchBar</string>
 							<string>UIImage</string>
 						</object>
 					</object>
@@ -325,17 +325,13 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>searchBar</string>
 							<string>searchResultTableView</string>
 							<string>tableController</string>
+							<string>tableSearchBar</string>
 							<string>titleImage</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBToOneOutletInfo">
-								<string key="name">searchBar</string>
-								<string key="candidateClassName">UISearchBar</string>
-							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">searchResultTableView</string>
 								<string key="candidateClassName">UITableView</string>
@@ -343,6 +339,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">tableController</string>
 								<string key="candidateClassName">RootViewController</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">tableSearchBar</string>
+								<string key="candidateClassName">UISearchBar</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">titleImage</string>
