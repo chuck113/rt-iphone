@@ -42,6 +42,9 @@
 //new methods
 - (void)updateResults:(NSArray*)results;
 
+-(void)disableScrolling;
+-(void)enableScrolling;
+
 @property (nonatomic, retain) IBOutlet UITableView *searchResultTableView;
 @property (nonatomic, retain) UISearchBar *searchBar;
 @property (nonatomic, retain) NSArray *searchResult;

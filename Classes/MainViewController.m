@@ -14,34 +14,22 @@
 
 @synthesize tableSearchBar, titleImage, searchDisplayController, searchResultTableView, tableController;
 
-/*
- // The designated initializer. Override to perform setup that is required before the view is loaded.
- - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
- if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
- // Custom initialization
- }
- return self;
- }
- */
-
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
 	[searchBar resignFirstResponder];
 	NSLog(@"search for %@", searchBar.text);
+	
+	[self.tableController enableScrolling];
 	[self.tableController updateResults:[self findRhymes:searchBar.text]];
+}
+
+- (void) searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar {
+	[self.tableController disableScrolling];
 }
 
 - (NSArray*)findRhymes:(NSString *)toFind{
 	AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 
 	return [appDelegate.dataAccess findRhymes:toFind]; 
 }
-
-/*
- Implement loadView to create a view hierarchy programmatically, without using a nib.
- - (void)loadView {
- 
- }
- */
-
 
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.

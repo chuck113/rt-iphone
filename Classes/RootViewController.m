@@ -335,7 +335,9 @@ bool isAwaitingResults = FALSE;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (tableView == self.searchDisplayController.searchResultsTableView){	
+	if (tableView == self.searchDisplayController.searchResultsTableView){
+		[self enableScrolling];
+		
 		[self.searchDisplayController.searchResultsTableView removeFromSuperview];
 		[self setSearchTextAndDoSearch:[filteredSearchSuggestions objectAtIndex:indexPath.row]];
 		[filteredSearchSuggestions removeAllObjects];
@@ -350,6 +352,21 @@ bool isAwaitingResults = FALSE;
 		AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 	
 		[appDelegate.navigationController pushViewController:targetViewController animated:YES];
 	}
+}
+
+
+
+//
+// scroll disable/enabling methods to stop the user scrolling up the search result table and errouneously
+// revealing the result table underneath
+//
+
+-(void)disableScrolling{
+	self.tableView.scrollEnabled = NO;
+}
+
+-(void)enableScrolling{
+	self.tableView.scrollEnabled = YES;
 }
 
 
