@@ -18,8 +18,10 @@
 	[searchBar resignFirstResponder];
 	NSLog(@"search for %@", searchBar.text);
 	
+	[self.searchDisplayController.searchResultsTableView removeFromSuperview];
+	
 	[self.tableController enableScrolling];
-	[self.tableController updateResults:[self findRhymes:searchBar.text]];
+	[self.tableController setSearchTextAndDoSearch:searchBar.text];
 }
 
 - (void) searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar {

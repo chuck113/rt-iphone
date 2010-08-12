@@ -51,19 +51,19 @@ bool isAwaitingResults = FALSE;
 // Search Bar delegates
 //
 
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBarRef {	
-	// Make the keyboard go away.
-	[searchBarRef resignFirstResponder];
-	NSLog(@"search text was %@", searchBarRef.text);
-	[self beginSearch:searchBarRef.text];
-	[self.searchDisplayController setActive:NO animated:TRUE];
-}
-
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
-	if([noResultsView.view isDescendantOfView:self.navigationController.view]){
-		[noResultsView.view removeFromSuperview];
-	}
-}
+//- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBarRef {	
+//	// Make the keyboard go away.
+//	[searchBarRef resignFirstResponder];
+//	NSLog(@"search text was %@", searchBarRef.text);
+//	[self beginSearch:searchBarRef.text];
+//	[self.searchDisplayController setActive:NO animated:TRUE];
+//}
+//
+//- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
+//	if([noResultsView.view isDescendantOfView:self.navigationController.view]){
+//		[noResultsView.view removeFromSuperview];
+//	}
+//}
 
 
 //
@@ -110,7 +110,7 @@ bool isAwaitingResults = FALSE;
 
 -(void)searchComplete:(NSArray*)result{
 	[self performSelector:@selector(hideActivityView) withObject:nil afterDelay:1.5]; 
-	//htmlLoadingsComplete = 0;
+	[noResultsView.view removeFromSuperview];
 	self.searchResult = result;
 	
 	if([result count] == 0){
