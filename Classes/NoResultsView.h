@@ -14,6 +14,8 @@
 	UILabel *noResults;
 }
 
+-(void)updateWord:(NSString*)newWord;
+
 @property (nonatomic, retain) UILabel *noResults;
 
 @end

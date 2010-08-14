@@ -30,6 +30,9 @@
 - (void)searchPopulateAndReloadInNewThread:(NSString*)text;
 - (NSArray*)rhymesWithPrefix:(NSString *)prefix;
 
+-(void)searchComplete:(NSDictionary*)resultParameters;
+-(void)searchComplete:(NSArray*)result word:(NSString*)word;
+
 bool isAwaitingResults = FALSE;
 
 
@@ -47,23 +50,7 @@ bool isAwaitingResults = FALSE;
 @synthesize searchDisplayController;
 @synthesize filteredSearchSuggestions;
 
-//
-// Search Bar delegates
-//
 
-//- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBarRef {	
-//	// Make the keyboard go away.
-//	[searchBarRef resignFirstResponder];
-//	NSLog(@"search text was %@", searchBarRef.text);
-//	[self beginSearch:searchBarRef.text];
-//	[self.searchDisplayController setActive:NO animated:TRUE];
-//}
-//
-//- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
-//	if([noResultsView.view isDescendantOfView:self.navigationController.view]){
-//		[noResultsView.view removeFromSuperview];
-//	}
-//}
 
 
 //
@@ -103,17 +90,29 @@ bool isAwaitingResults = FALSE;
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	NSArray* result = [self findRhymes:text];
-	[self performSelectorOnMainThread:@selector(searchComplete:) withObject:result waitUntilDone:NO];
+	NSDictionary *resultParameters = [[NSDictionary alloc] initWithObjectsAndKeys:
+		result, @"result",
+		text, @"text",							  
+		nil];
+	[self performSelectorOnMainThread:@selector(searchComplete:) withObject:resultParameters waitUntilDone:NO];
     [pool release];
 	
 }
 
--(void)searchComplete:(NSArray*)result{
+-(void)searchComplete:(NSDictionary*)resultParameters{
+	NSArray *result = (NSArray *)[resultParameters objectForKey:@"result"];
+	NSString *word = (NSString *)[resultParameters objectForKey:@"text"];
+	
+	[self searchComplete:result word:word];
+}
+
+-(void)searchComplete:(NSArray*)result word:(NSString*)word{
 	[self performSelector:@selector(hideActivityView) withObject:nil afterDelay:1.5]; 
 	[noResultsView.view removeFromSuperview];
 	self.searchResult = result;
 	
 	if([result count] == 0){
+		[noResultsView updateWord:word];
 		[self hideActivityView];
 		[self.view addSubview:noResultsView.view];
 	}else{
@@ -183,9 +182,9 @@ bool isAwaitingResults = FALSE;
 //
 //NEW METHODS
 //
-- (void)updateResults:(NSArray*)results{
-	[self searchComplete:results];
-}
+//- (void)updateResults:(NSArray*)results{
+//	[self searchComplete:results];
+//}
 
 
 

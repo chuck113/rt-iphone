@@ -40,7 +40,7 @@
 - (void)searchWorker:(NSString*)text;
 
 //new methods
-- (void)updateResults:(NSArray*)results;
+//- (void)updateResults:(NSArray*)results;
 
 -(void)disableScrolling;
 -(void)enableScrolling;
