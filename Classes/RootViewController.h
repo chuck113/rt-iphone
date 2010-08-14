@@ -7,6 +7,7 @@
 //
 
 #import "HtmlBuilder.h"
+#import "ResultCell.h"
 #import "ActivityView.h"
 #import "NoResultsView.h"
 #import "DataAccess.h"
@@ -35,6 +36,8 @@
 	IBOutlet UITableView *searchResultTableView;
 	IBOutlet UISearchDisplayController* searchDisplayController;
 	NSMutableArray* filteredSearchSuggestions;
+	
+	ResultCellFactory* resultCellFactory;
 }
 
 - (void)searchWorker:(NSString*)text;
@@ -55,6 +58,7 @@
 @property (nonatomic, retain) NoResultsView *noResultsView;
 @property (nonatomic, retain) UISearchDisplayController* searchDisplayController;
 @property (nonatomic, retain) NSMutableArray* filteredSearchSuggestions;
+@property (nonatomic, retain, readonly) ResultCellFactory* resultCellFactory;
 
 
 @end

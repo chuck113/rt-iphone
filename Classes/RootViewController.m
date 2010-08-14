@@ -1,11 +1,3 @@
-//
-//  RootViewController.m
-//  rhymeTimeNavigation
-//
-//  Created by Charles on 15/05/2010.
-//  Copyright __MyCompanyName__ 2010. All rights reserved.
-//
-
 #import "RootViewController.h"
 #import "RhymeDetailViewController.h"
 #import "HtmlBuilder.h"
@@ -16,10 +8,12 @@
 #import "Three20/Three20.h"
 #import "RhymeTimeTTStyleSheet.h"
 
+#import "ResultCell.h"
+
 @interface RootViewController()
 
 - (NSArray*)findRhymes:(NSString *)toFind;
-- (CGFloat)heightOfString:(NSString *)string;
+//- (CGFloat)heightOfString:(NSString *)string;
 - (CGFloat)heightOfLinesString:(NSString *)string;
 - (NSArray *)buildResultCells:(NSArray *)results;
 - (void)searchPopulateAndReload:(NSString*)text;
@@ -50,7 +44,7 @@ bool isAwaitingResults = FALSE;
 @synthesize searchDisplayController;
 @synthesize filteredSearchSuggestions;
 
-
+@synthesize resultCellFactory;
 
 
 //
@@ -127,36 +121,7 @@ bool isAwaitingResults = FALSE;
 	NSMutableArray* cellBuffer = [NSMutableArray array];
 	
 	for(RhymePart* part in results){
-		CGFloat linesStringheight = [self heightOfLinesString:part.rhymeLines];
-		CGFloat titleStringHeight = 30.0f;
-		CGFloat marginOffset = 5.0f;
-		CGFloat cellHeight = linesStringheight + titleStringHeight + (marginOffset * 2);
-		
-		UITableViewCell* cell = [[[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, 320, 0)] autorelease];
-		cell.accessoryView = [[ UIImageView alloc ]  initWithImage:[UIImage imageNamed:@"AccDisclosure.png" ]];
-		
-		UIColor* darkterGrey = [UIColor colorWithRed:.15 green:.15 blue:.15 alpha:1];
-		CAGradientLayer *gradient = [CAGradientLayer layer];
-		gradient.frame = CGRectMake(0, 0, 320, cellHeight);
-		gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor blackColor] CGColor], (id)[darkterGrey CGColor], nil];
-		
-		NSString* linesHtml = [htmlBuilder buildHtmlLines320:part];
-		//NSLog(@"html is %@", linesHtml);
-		TTStyledTextLabel *linesLabel = [[[TTStyledTextLabel alloc] initWithFrame:CGRectMake(5, 5, kLinesWidth, linesStringheight)] autorelease];
-		linesLabel.backgroundColor = [UIColor clearColor];
-		linesLabel.text = [TTStyledText textFromXHTML:linesHtml];
-		//[linesLabel sizeToFit];
-		
-		UILabel *titlelabel = [[[UILabel alloc] initWithFrame: CGRectMake(5, linesStringheight + (marginOffset), kLinesWidth, titleStringHeight)] autorelease];
-		titlelabel.text = [NSString stringWithFormat:@"%@ - %@", [part.song.album.artist.name uppercaseString], part.song.title];
-		titlelabel.textColor = [UIColor lightGrayColor];
-		titlelabel.font = [UIFont fontWithName:@"Helvetica" size:14];
-		titlelabel.textAlignment = UITextAlignmentRight;
-		titlelabel.backgroundColor = [UIColor clearColor]; 		
-
-		[cell addSubview:linesLabel];
-		[cell addSubview:titlelabel];
-		[cell.layer insertSublayer:gradient atIndex:0];
+		ResultCell* cell = [resultCellFactory build:part];
 		[cellBuffer addObject:cell];
 	}
 	
@@ -205,13 +170,11 @@ bool isAwaitingResults = FALSE;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	self.htmlBuilder = [HtmlBuilder alloc];
 	self.activityView = [[ActivityView alloc] init];
 	self.noResultsView = [[NoResultsView alloc] init];
 	self.filteredSearchSuggestions = [NSMutableArray arrayWithCapacity:0];
-
-	[TTStyleSheet setGlobalStyleSheet:[[[RhymeTimeTTStyleSheet alloc] init] autorelease]];
-
+	
+	resultCellFactory = [[ResultCellFactory alloc] init];
 }
 
 
@@ -228,8 +191,7 @@ bool isAwaitingResults = FALSE;
 }
 
 - (void)dealloc {
-	[self.htmlBuilder dealloc];
-    [super dealloc];
+	[super dealloc];
 }
 
 
@@ -257,7 +219,6 @@ bool isAwaitingResults = FALSE;
 	}
 	else
 	{
-		NSLog(@"get count, result is %@", (isAwaitingResults ? @"T" : @"F"));
 		return isAwaitingResults ? 0 : [self.searchResult count];
 	}
 }
@@ -270,25 +231,11 @@ bool isAwaitingResults = FALSE;
     }
 	else
 	{
-		RhymePart* rhymePart = (RhymePart*)[self.searchResult objectAtIndex:indexPath.row];
-		NSLog(@"got cell cell for index");
-		return [self heightOfLinesString:rhymePart.rhymeLines] + 40.0f;
+		ResultCell* cell = [self.resultCache objectAtIndex:indexPath.row];
+		return cell.calculatedHeight;
 	}
 }
 
-- (CGFloat)heightOfLinesString:(NSString *)string{
-	struct CGSize size;
-	size = [string sizeWithFont:[UIFont fontWithName:@"Helvetica-Bold" size:15] constrainedToSize:CGSizeMake(kLinesWidth, 10000) lineBreakMode:UILineBreakModeCharacterWrap];
-	return size.height;
-}
-
-
-// TODO needs refinement
-- (CGFloat)heightOfString:(NSString *)string{
-	struct CGSize size;
-	size = [string sizeWithFont:[UIFont fontWithName:@"Helvetica-Bold" size:16] constrainedToSize:CGSizeMake(kLinesWidth-20, kLinesWidth-20) lineBreakMode:UILineBreakModeCharacterWrap];
-	return size.height +15.0f + 30.0f;
-}
 
 - (UITableViewCell *)createSearchResultCell:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	static NSString *CellIdentifier = @"searchResultId";
@@ -306,7 +253,6 @@ bool isAwaitingResults = FALSE;
 	}else {
 		cell.textLabel.text = [filteredSearchSuggestions objectAtIndex:indexPath.row];
 	}
-	//NSLog(@"returning cell, index: %i", indexPath.row);
 	return cell;
 }
 
@@ -374,12 +320,8 @@ bool isAwaitingResults = FALSE;
 
 -(void)filterSearchWorker:(NSString*)text{
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	//NSArray* result = [self findRhymes:text];
 	AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 
-//	NSArray *results = [appDelegate.dataAccess rhymesWithPrefix:text];
 	NSArray *results = [appDelegate.dataAccess rhymesWithPrefixCheap:text];
-
 	
 	[self performSelectorOnMainThread:@selector(filterSearchComplete:) withObject:results waitUntilDone:NO];
     [pool release];
