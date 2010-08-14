@@ -24,6 +24,7 @@
 @property (nonatomic, retain) NSDictionary* prefixSearchMap;
 
 
+- (NSString *)randomWord;
 - (NSArray*)findRhymes:(NSString *)toFind;
 - (void)onApplicationTermination:(UIApplication *)application;
 - (NSArray*)rhymesWithPrefix:(NSString *)prefix;

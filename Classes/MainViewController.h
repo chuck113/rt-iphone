@@ -18,6 +18,7 @@
 	UISearchDisplayController* searchDisplayController;
 	IBOutlet UITableView *searchResultTableView;
 	IBOutlet RootViewController *tableController;
+	UIBarButtonItem *randomButton;
 }
 
 - (NSArray*)findRhymes:(NSString *)toFind;
@@ -27,6 +28,6 @@
 @property (nonatomic, retain) IBOutlet UIImage* titleImage;
 @property (nonatomic, retain) IBOutlet UISearchBar* tableSearchBar;
 @property (nonatomic, retain) IBOutlet RootViewController* tableController;
-
+@property (nonatomic, retain) UIBarButtonItem *randomButton;
 
 @end

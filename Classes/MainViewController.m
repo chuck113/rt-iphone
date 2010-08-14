@@ -9,10 +9,16 @@
 #import "MainViewController.h"
 #import "AppDelegate.h"
 
+@interface MainViewController()
+
+-(void)disableRandomButton;
+
+@end
+
 
 @implementation MainViewController
 
-@synthesize tableSearchBar, titleImage, searchDisplayController, searchResultTableView, tableController;
+@synthesize tableSearchBar, titleImage, searchDisplayController, searchResultTableView, tableController, randomButton;
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
 	[searchBar resignFirstResponder];
@@ -24,8 +30,13 @@
 	[self.tableController setSearchTextAndDoSearch:searchBar.text];
 }
 
-- (void) searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar {
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar {
 	[self.tableController disableScrolling];
+	self.randomButton.enabled = NO;
+}
+	 
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
+	self.randomButton.enabled = YES;
 }
 
 - (NSArray*)findRhymes:(NSString *)toFind{
@@ -55,37 +66,24 @@
 	
 	[imageView release];
 
-	UIBarButtonItem *randomButton = [[UIBarButtonItem alloc] initWithTitle:@"RANDOM" 
+	UIBarButtonItem *randomButtonTmp = [[UIBarButtonItem alloc] initWithTitle:@"RANDOM" 
                                                                   style:UIBarButtonItemStyleBordered 
                                                                  target:self 
                                                                  action:@selector(randomButtonTouched)];    
 	
-    self.navigationItem.rightBarButtonItem = randomButton;
-	
-	
+    self.navigationItem.rightBarButtonItem = randomButtonTmp;
+	self.randomButton = randomButtonTmp;
+	[randomButtonTmp release];
 }
 
 -(void)randomButtonTouched{
 	AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 
 	NSString* randomWord = [appDelegate.dataAccess randomWord]; 
-
+	tableSearchBar.text = randomWord;
+	[self.searchDisplayController.searchResultsTableView removeFromSuperview];
 
 	[tableController setSearchTextAndDoSearch:randomWord];
-	//self.searchBar.text = @"walk";
-	//NSLog(@"random");
 }
-
-
-//-(void)viewWillAppear:(BOOL)animated{
-//	[self.navigationController setNavigationBarHidden:NO animated:animated];
-//	[super viewWillAppear:animated];
-//}
-//
-//- (void) viewWillDisappear:(BOOL)animated
-//{
-//	[self.navigationController setNavigationBarHidden:NO animated:animated];
-//    [super viewWillDisappear:animated];
-//}
 
 
 - (void)didReceiveMemoryWarning {

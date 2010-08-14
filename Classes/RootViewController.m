@@ -58,12 +58,13 @@ bool isAwaitingResults = FALSE;
 //
 
 -(void)setSearchTextAndDoSearch:(NSString *)text{
+	self.searchDisplayController.searchBar.text = [text uppercaseString];
+	[self.searchDisplayController.searchResultsTableView removeFromSuperview];
+	
 	self.searchResult = [NSArray array];
 	isAwaitingResults = TRUE;
 	
-	[self reloadTableData];
-	
-	self.searchBar.placeholder = text;
+	[self reloadTableData];	
 	[self beginSearch:text];
 }
 
@@ -178,14 +179,6 @@ bool isAwaitingResults = FALSE;
 	[self reloadTableData];
 	
 }
-
-//
-//NEW METHODS
-//
-//- (void)updateResults:(NSArray*)results{
-//	[self searchComplete:results];
-//}
-
 
 
 
@@ -335,12 +328,12 @@ bool isAwaitingResults = FALSE;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	if (tableView == self.searchDisplayController.searchResultsTableView){
+		NSString *word = [filteredSearchSuggestions objectAtIndex:indexPath.row];
 		[self enableScrolling];
 		
-		[self.searchDisplayController.searchResultsTableView removeFromSuperview];
-		[self setSearchTextAndDoSearch:[filteredSearchSuggestions objectAtIndex:indexPath.row]];
 		[filteredSearchSuggestions removeAllObjects];
 		[self.searchDisplayController setActive:NO animated:TRUE];
+		[self setSearchTextAndDoSearch:word];
     }
 	else
 	{
