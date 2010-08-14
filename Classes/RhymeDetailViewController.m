@@ -19,7 +19,7 @@
 
 @implementation RhymeDetailViewController
 
-@synthesize searchCallbackDelegate, artistTitleLabel, outerWebViewFrame, innerWebViewFrame;
+@synthesize searchCallbackDelegate, artistTitleLabel, outerWebViewFrame, innerWebViewFrame, webView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil searchCallback:(id<SearchCallback>)searchCallback searchResult:(RhymePart *)searchResult
 {
@@ -30,8 +30,6 @@
 	CGRect myImageRect = CGRectMake(10.0f, 68.0f, 300.0f, 200.0f);
 	UIView *view = [[UIView alloc] initWithFrame:myImageRect];
 	view.backgroundColor = [UIColor blackColor];
-//	UIImageView *imageView = [[UIImageView alloc] initWithFrame:myImageRect];
-//	[imageView setImage:[UIImage imageNamed:@"whiteBorder.png"]];
 
 	view.layer.cornerRadius = 6;
 
@@ -49,10 +47,12 @@
 	
 	//[self.view setBackgroundColor:[UIColor darkGrayColor]];
 	
-	UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(15, 76, 292, 185)];
-	[webView loadHTMLString:html baseURL:nil];
-	[webView setDelegate:self];
-	webView.backgroundColor = [UIColor clearColor];
+	UIWebView *webViewTmp = [[UIWebView alloc] initWithFrame:CGRectMake(15, 76, 292, 185)];
+	[webViewTmp loadHTMLString:html baseURL:nil];
+	[webViewTmp setDelegate:self];
+	webViewTmp.backgroundColor = [UIColor clearColor];
+	[webViewTmp setHidden:YES];
+	self.webView = webViewTmp;
 	
 	// background colour stuff
 	CAGradientLayer *gradient = [CAGradientLayer layer];
@@ -70,6 +70,8 @@
 	[self.view addSubview:webView];
 	//[self.view addSubview:[self iTunesLinkLabel]];
 	//[self.view addSubview:[self twitterLinkLabel]];
+	
+	[webViewTmp release];
 
 	[htmlBuilder dealloc];
 	return self;
@@ -103,6 +105,14 @@
 	NSString* lines = [searchResult linesDeserialisedAsString];
 	AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 
 	return [appDelegate.dataAccess rhymingWordsContainedIn:lines]; 
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+	[self performSelector:@selector(showWebView) withObject:nil afterDelay:.2];          
+}
+
+- (void)showWebView{
+	[self.webView setHidden:NO];
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
