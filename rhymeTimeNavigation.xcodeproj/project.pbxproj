@@ -34,6 +34,7 @@
 		43B82082120F5F3C00C72ED6 /* header@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 43B82080120F5F3C00C72ED6 /* header@2x.png */; };
 		43B8208E120F627E00C72ED6 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 43B8208C120F627E00C72ED6 /* Default.png */; };
 		43B8208F120F627E00C72ED6 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 43B8208D120F627E00C72ED6 /* Default@2x.png */; };
+		43D548831217288600929970 /* ResultCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 43D548821217288600929970 /* ResultCell.m */; };
 		43DC8CEE11CEB80B009EBD46 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 43DC8CEC11CEB80B009EBD46 /* icon.png */; };
 		43DC8D0A11CEBA84009EBD46 /* header.png in Resources */ = {isa = PBXBuildFile; fileRef = 43DC8D0911CEBA84009EBD46 /* header.png */; };
 		46321230119EA0F300222659 /* RhymeDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4632122F119EA0F300222659 /* RhymeDetailViewController.xib */; };
@@ -243,6 +244,8 @@
 		43B82080120F5F3C00C72ED6 /* header@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "header@2x.png"; sourceTree = "<group>"; };
 		43B8208C120F627E00C72ED6 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		43B8208D120F627E00C72ED6 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		43D548811217288600929970 /* ResultCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultCell.h; sourceTree = "<group>"; };
+		43D548821217288600929970 /* ResultCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultCell.m; sourceTree = "<group>"; };
 		43DC8CEC11CEB80B009EBD46 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		43DC8D0911CEBA84009EBD46 /* header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = header.png; sourceTree = "<group>"; };
 		4632122F119EA0F300222659 /* RhymeDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RhymeDetailViewController.xib; sourceTree = "<group>"; };
@@ -391,6 +394,8 @@
 				4309834211D63086003AA017 /* ActivityView.m */,
 				4309838F11D6356D003AA017 /* NoResultsView.h */,
 				4309839011D6356D003AA017 /* NoResultsView.m */,
+				43D548811217288600929970 /* ResultCell.h */,
+				43D548821217288600929970 /* ResultCell.m */,
 			);
 			name = subViews;
 			sourceTree = "<group>";
@@ -712,6 +717,7 @@
 				43B81FAB1205CCD200C72ED6 /* Rhyme.m in Sources */,
 				43B81FAC1205CCD200C72ED6 /* RhymePart.m in Sources */,
 				43B81FAD1205CCD200C72ED6 /* Song.m in Sources */,
+				43D548831217288600929970 /* ResultCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

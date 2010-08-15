@@ -14,12 +14,12 @@
 @interface AppDelegate : NSObject <UIApplicationDelegate> {
     
     IBOutlet UIWindow *window;
-    DataAccess *dataAccess;
+    IBOutlet DataAccess *dataAccess;
 	UINavigationController *navigationController;
 	IBOutlet MainViewController* mainViewController;
 }
 
-@property (nonatomic, retain) DataAccess *dataAccess;
+@property (nonatomic, retain) IBOutlet DataAccess *dataAccess;
 @property (nonatomic, retain) UINavigationController *navigationController;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet MainViewController* mainViewController;

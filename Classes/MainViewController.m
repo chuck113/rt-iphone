@@ -40,8 +40,7 @@
 }
 
 - (NSArray*)findRhymes:(NSString *)toFind{
-	AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 
-	return [appDelegate.dataAccess findRhymes:toFind]; 
+	return [dataAccess findRhymes:toFind];
 }
 
 
@@ -77,8 +76,7 @@
 }
 
 -(void)randomButtonTouched{
-	AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 
-	NSString* randomWord = [appDelegate.dataAccess randomWord]; 
+	NSString* randomWord = [dataAccess randomWord]; 
 	tableSearchBar.text = randomWord;
 	[self.searchDisplayController.searchResultsTableView removeFromSuperview];
 

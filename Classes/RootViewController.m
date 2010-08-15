@@ -12,8 +12,6 @@
 
 @interface RootViewController()
 
-- (NSArray*)findRhymes:(NSString *)toFind;
-//- (CGFloat)heightOfString:(NSString *)string;
 - (CGFloat)heightOfLinesString:(NSString *)string;
 - (NSArray *)buildResultCells:(NSArray *)results;
 - (void)searchPopulateAndReload:(NSString*)text;
@@ -22,7 +20,6 @@
 - (void)reloadTableData;
 - (void)beginSearch:(NSString *)text;
 - (void)searchPopulateAndReloadInNewThread:(NSString*)text;
-- (NSArray*)rhymesWithPrefix:(NSString *)prefix;
 
 -(void)searchComplete:(NSDictionary*)resultParameters;
 -(void)searchComplete:(NSArray*)result word:(NSString*)word;
@@ -45,7 +42,7 @@ bool isAwaitingResults = FALSE;
 @synthesize filteredSearchSuggestions;
 
 @synthesize resultCellFactory;
-
+@synthesize dataAccess;
 
 //
 // Internal search  methods
@@ -84,7 +81,7 @@ bool isAwaitingResults = FALSE;
 -(void)searchWorker:(NSString*)text{
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
-	NSArray* result = [self findRhymes:text];
+	NSArray* result = [dataAccess findRhymes:text]; 
 	NSDictionary *resultParameters = [[NSDictionary alloc] initWithObjectsAndKeys:
 		result, @"result",
 		text, @"text",							  
@@ -146,24 +143,6 @@ bool isAwaitingResults = FALSE;
 }
 
 
-
-//
-// dataAccess search methods
-//
-
-- (NSArray*)findRhymes:(NSString *)toFind{
-	AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 
-	return [appDelegate.dataAccess findRhymes:toFind]; 
-}
-
-- (NSArray*)rhymesWithPrefix:(NSString *)prefix{
-	AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 
-	return [appDelegate.dataAccess rhymesWithPrefix:prefix]; 
-}
-
-
-
-
 //
 // View delegate methods
 //
@@ -209,12 +188,11 @@ bool isAwaitingResults = FALSE;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	if (tableView == self.searchDisplayController.searchResultsTableView)
 	{
-        if([filteredSearchSuggestions count] == 0){
+        NSInteger filteredSearchCount = [filteredSearchSuggestions count];
+		if(filteredSearchCount == 0){
 			return 1;
-		}else if([filteredSearchSuggestions count] > 40){
-			return 40;
 		}else{
-			return [filteredSearchSuggestions count];
+			return filteredSearchCount > 40 ? 40 : filteredSearchCount;
 		}
 	}
 	else
@@ -289,6 +267,7 @@ bool isAwaitingResults = FALSE;
 		//TODO dont' refer to app delegate
 		AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 	
 		[appDelegate.navigationController pushViewController:targetViewController animated:YES];
+		//[self.parentViewController.navigationController pushViewController:targetViewController animated:YES];
 	}
 }
 
@@ -320,8 +299,7 @@ bool isAwaitingResults = FALSE;
 
 -(void)filterSearchWorker:(NSString*)text{
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 
-	NSArray *results = [appDelegate.dataAccess rhymesWithPrefixCheap:text];
+	NSArray *results = [dataAccess rhymesWithPrefixCheap:text];
 	
 	[self performSelectorOnMainThread:@selector(filterSearchComplete:) withObject:results waitUntilDone:NO];
     [pool release];
@@ -343,9 +321,6 @@ bool isAwaitingResults = FALSE;
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
-	NSLog(@"searchDisplayController, search string is %@", searchString);
-	
-	
 	if([searchString length] > 2){
 		[self filterSearchPopulateAndReloadInNewThread:searchString];
 		return NO;
@@ -359,12 +334,6 @@ bool isAwaitingResults = FALSE;
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
 {
     return NO;
-}
-
-- (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
-}
-
-- (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller {
 }
 
 

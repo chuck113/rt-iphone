@@ -1,11 +1,3 @@
-//
-//  DataAccess.m
-//  rhymeTimeIPhoneUI
-//
-//  Created by Charles on 15/05/2010.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
-
 #import "DataAccess.h"
 #import "RhymePart.h"
 #import "Song.h"

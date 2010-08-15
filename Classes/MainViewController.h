@@ -19,6 +19,7 @@
 	IBOutlet UITableView *searchResultTableView;
 	IBOutlet RootViewController *tableController;
 	UIBarButtonItem *randomButton;
+	IBOutlet DataAccess *dataAccess;
 }
 
 - (NSArray*)findRhymes:(NSString *)toFind;
@@ -29,5 +30,6 @@
 @property (nonatomic, retain) IBOutlet UISearchBar* tableSearchBar;
 @property (nonatomic, retain) IBOutlet RootViewController* tableController;
 @property (nonatomic, retain) UIBarButtonItem *randomButton;
+@property (nonatomic, retain, readonly) IBOutlet DataAccess *dataAccess;
 
 @end

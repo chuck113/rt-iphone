@@ -38,12 +38,10 @@
 	NSMutableArray* filteredSearchSuggestions;
 	
 	ResultCellFactory* resultCellFactory;
+	IBOutlet DataAccess *dataAccess;
 }
 
 - (void)searchWorker:(NSString*)text;
-
-//new methods
-//- (void)updateResults:(NSArray*)results;
 
 -(void)disableScrolling;
 -(void)enableScrolling;
@@ -59,7 +57,7 @@
 @property (nonatomic, retain) UISearchDisplayController* searchDisplayController;
 @property (nonatomic, retain) NSMutableArray* filteredSearchSuggestions;
 @property (nonatomic, retain, readonly) ResultCellFactory* resultCellFactory;
-
+@property (nonatomic, retain, readonly) IBOutlet DataAccess *dataAccess;
 
 @end
 

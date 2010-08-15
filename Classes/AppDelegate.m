@@ -28,10 +28,8 @@
 	
 	navigationController.view.backgroundColor = [UIColor blackColor];
 	
-	navigationController = [[UINavigationController alloc]
-							initWithRootViewController:mainViewController];
+	navigationController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
 	
-	//[window addSubview:mainViewController.view];
 	[window addSubview:navigationController.view];
     [window makeKeyAndVisible];
 	self.dataAccess = [[DataAccess alloc] init];
