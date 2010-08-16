@@ -11,10 +11,11 @@
 #import "ActivityView.h"
 #import "NoResultsView.h"
 #import "DataAccess.h"
+#import "Search.h"
 
 @protocol HtmlLoadedCallback;
 
-@protocol SearchCallback<NSObject>
+@protocol BeginSearchCallback<NSObject>
 
 @required
 
@@ -23,10 +24,9 @@
 @end
 
 
-@interface RootViewController : UITableViewController<UISearchDisplayDelegate, SearchCallback, UISearchBarDelegate, HtmlLoadedCallback> {
+@interface RootViewController : UITableViewController<UISearchDisplayDelegate, BeginSearchCallback, UISearchBarDelegate, SearchCallback> {
 	NSArray *searchResult;	
 	HtmlBuilder* htmlBuilder;	
-	UISearchBar* searchBar;
 	NSArray* tableCellPool;
 	NSArray* resultCache;
 	
@@ -39,18 +39,16 @@
 	
 	ResultCellFactory* resultCellFactory;
 	IBOutlet DataAccess *dataAccess;
+	Search *search;
 }
 
-- (void)searchWorker:(NSString*)text;
+//-(void)searchWorker:(NSString*)text;
 
 -(void)disableScrolling;
 -(void)enableScrolling;
 
 @property (nonatomic, retain) IBOutlet UITableView *searchResultTableView;
-@property (nonatomic, retain) UISearchBar *searchBar;
 @property (nonatomic, retain) NSArray *searchResult;
-@property (nonatomic, retain) HtmlBuilder *htmlBuilder;
-@property (nonatomic, retain) NSArray *cellCache;
 @property (nonatomic, retain) NSArray *resultCache;
 @property (nonatomic, retain) ActivityView *activityView;
 @property (nonatomic, retain) NoResultsView *noResultsView;
@@ -58,6 +56,8 @@
 @property (nonatomic, retain) NSMutableArray* filteredSearchSuggestions;
 @property (nonatomic, retain, readonly) ResultCellFactory* resultCellFactory;
 @property (nonatomic, retain, readonly) IBOutlet DataAccess *dataAccess;
+@property (nonatomic, retain, readonly) Search *search;
+
 
 @end
 

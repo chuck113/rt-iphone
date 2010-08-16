@@ -12,17 +12,10 @@
 
 @interface RootViewController()
 
-- (CGFloat)heightOfLinesString:(NSString *)string;
 - (NSArray *)buildResultCells:(NSArray *)results;
-- (void)searchPopulateAndReload:(NSString*)text;
 - (void)showActivityView:(NSString*)text;;
 - (void)hideActivityView;
 - (void)reloadTableData;
-- (void)beginSearch:(NSString *)text;
-- (void)searchPopulateAndReloadInNewThread:(NSString*)text;
-
--(void)searchComplete:(NSDictionary*)resultParameters;
--(void)searchComplete:(NSArray*)result word:(NSString*)word;
 
 bool isAwaitingResults = FALSE;
 
@@ -32,8 +25,6 @@ bool isAwaitingResults = FALSE;
 @implementation RootViewController
 
 @synthesize searchResult;
-@synthesize htmlBuilder;
-@synthesize searchBar;
 @synthesize searchResultTableView;
 @synthesize resultCache;
 @synthesize activityView;
@@ -43,6 +34,8 @@ bool isAwaitingResults = FALSE;
 
 @synthesize resultCellFactory;
 @synthesize dataAccess;
+@synthesize search;
+
 
 //
 // Internal search  methods
@@ -56,7 +49,8 @@ bool isAwaitingResults = FALSE;
 	isAwaitingResults = TRUE;
 	
 	[self reloadTableData];	
-	[self beginSearch:text];
+	[self showActivityView:text];
+	[self.search search:text];
 }
 
 -(void)reloadTableData{
@@ -64,39 +58,6 @@ bool isAwaitingResults = FALSE;
 	[self.searchResultTableView reloadData];
 }
 
--(void)beginSearch:(NSString *)text{
-	[self showActivityView:text];
-	[self searchPopulateAndReloadInNewThread:text];
-}
-
-
-//
-// search threading methods and callback
-//
-
--(void)searchPopulateAndReloadInNewThread:(NSString*)text{
-	[NSThread detachNewThreadSelector:@selector(searchWorker:) toTarget:self withObject:text];
-}
-
--(void)searchWorker:(NSString*)text{
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	NSArray* result = [dataAccess findRhymes:text]; 
-	NSDictionary *resultParameters = [[NSDictionary alloc] initWithObjectsAndKeys:
-		result, @"result",
-		text, @"text",							  
-		nil];
-	[self performSelectorOnMainThread:@selector(searchComplete:) withObject:resultParameters waitUntilDone:NO];
-    [pool release];
-	
-}
-
--(void)searchComplete:(NSDictionary*)resultParameters{
-	NSArray *result = (NSArray *)[resultParameters objectForKey:@"result"];
-	NSString *word = (NSString *)[resultParameters objectForKey:@"text"];
-	
-	[self searchComplete:result word:word];
-}
 
 -(void)searchComplete:(NSArray*)result word:(NSString*)word{
 	[self performSelector:@selector(hideActivityView) withObject:nil afterDelay:1.5]; 
@@ -154,6 +115,7 @@ bool isAwaitingResults = FALSE;
 	self.filteredSearchSuggestions = [NSMutableArray arrayWithCapacity:0];
 	
 	resultCellFactory = [[ResultCellFactory alloc] init];
+	search = [[Search alloc] initWithDataAccess:dataAccess searchCallbackObj:self];			  
 }
 
 
@@ -293,19 +255,6 @@ bool isAwaitingResults = FALSE;
 // async search methods
 //
 
--(void)filterSearchPopulateAndReloadInNewThread:(NSString*)text{
-	[NSThread detachNewThreadSelector:@selector(filterSearchWorker:) toTarget:self withObject:text];
-}
-
--(void)filterSearchWorker:(NSString*)text{
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	NSArray *results = [dataAccess rhymesWithPrefixCheap:text];
-	
-	[self performSelectorOnMainThread:@selector(filterSearchComplete:) withObject:results waitUntilDone:NO];
-    [pool release];
-	
-}
-
 -(void)filterSearchComplete:(NSArray*)results{
 	[filteredSearchSuggestions removeAllObjects];
 	
@@ -322,7 +271,8 @@ bool isAwaitingResults = FALSE;
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
 	if([searchString length] > 2){
-		[self filterSearchPopulateAndReloadInNewThread:searchString];
+		//[self filterSearchPopulateAndReloadInNewThread:searchString];
+		[self.search filterSearch:searchString];
 		return NO;
 	}else{
 		[filteredSearchSuggestions removeAllObjects];

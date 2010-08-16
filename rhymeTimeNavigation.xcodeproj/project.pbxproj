@@ -35,6 +35,7 @@
 		43B8208E120F627E00C72ED6 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 43B8208C120F627E00C72ED6 /* Default.png */; };
 		43B8208F120F627E00C72ED6 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 43B8208D120F627E00C72ED6 /* Default@2x.png */; };
 		43D548831217288600929970 /* ResultCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 43D548821217288600929970 /* ResultCell.m */; };
+		43D54BBC1217F9B600929970 /* Search.m in Sources */ = {isa = PBXBuildFile; fileRef = 43D54BBB1217F9B600929970 /* Search.m */; };
 		43DC8CEE11CEB80B009EBD46 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 43DC8CEC11CEB80B009EBD46 /* icon.png */; };
 		43DC8D0A11CEBA84009EBD46 /* header.png in Resources */ = {isa = PBXBuildFile; fileRef = 43DC8D0911CEBA84009EBD46 /* header.png */; };
 		46321230119EA0F300222659 /* RhymeDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4632122F119EA0F300222659 /* RhymeDetailViewController.xib */; };
@@ -246,6 +247,8 @@
 		43B8208D120F627E00C72ED6 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		43D548811217288600929970 /* ResultCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultCell.h; sourceTree = "<group>"; };
 		43D548821217288600929970 /* ResultCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultCell.m; sourceTree = "<group>"; };
+		43D54BBA1217F9B600929970 /* Search.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Search.h; sourceTree = "<group>"; };
+		43D54BBB1217F9B600929970 /* Search.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Search.m; sourceTree = "<group>"; };
 		43DC8CEC11CEB80B009EBD46 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		43DC8D0911CEBA84009EBD46 /* header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = header.png; sourceTree = "<group>"; };
 		4632122F119EA0F300222659 /* RhymeDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RhymeDetailViewController.xib; sourceTree = "<group>"; };
@@ -311,6 +314,8 @@
 				43363BF911EB924D00114DD6 /* RhymeTimeTTStyleSheet.m */,
 				43650AEE11F61DC700E7F6A6 /* MainViewController.h */,
 				43650AEF11F61DC700E7F6A6 /* MainViewController.m */,
+				43D54BBA1217F9B600929970 /* Search.h */,
+				43D54BBB1217F9B600929970 /* Search.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -718,6 +723,7 @@
 				43B81FAC1205CCD200C72ED6 /* RhymePart.m in Sources */,
 				43B81FAD1205CCD200C72ED6 /* Song.m in Sources */,
 				43D548831217288600929970 /* ResultCell.m in Sources */,
+				43D54BBC1217F9B600929970 /* Search.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -812,7 +818,7 @@
 				PREBINDING = NO;
 				PROVISIONING_PROFILE = "25334654-ED02-4C3C-90A8-788778EBA092";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "25334654-ED02-4C3C-90A8-788778EBA092";
-				SDKROOT = iphoneos4.0;
+				SDKROOT = iphonesimulator4.0;
 			};
 			name = Debug;
 		};
