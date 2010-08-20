@@ -32,12 +32,8 @@
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar {
 	[self.tableController disableScrolling];
-	self.randomButton.enabled = NO;
 }
-	 
-- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
-	self.randomButton.enabled = YES;
-}
+
 
 - (NSArray*)findRhymes:(NSString *)toFind{
 	return [dataAccess findRhymes:toFind];
@@ -79,7 +75,9 @@
 	NSString* randomWord = [dataAccess randomWord]; 
 	tableSearchBar.text = randomWord;
 	[self.searchDisplayController.searchResultsTableView removeFromSuperview];
+	[self.searchDisplayController.searchBar resignFirstResponder];
 
+	[self.tableController enableScrolling];
 	[tableController setSearchTextAndDoSearch:randomWord];
 }
 

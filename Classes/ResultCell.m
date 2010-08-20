@@ -72,7 +72,7 @@
 		
 		
 		TTStyledTextLabel *linesLabel = [self linesLabel:CGRectMake(xMargin, yMargin, kLinesWidth, linesHeight) linesHtml:linesHtml];
-		UILabel *titlelabel = [self titleLabel:CGRectMake(xMargin, (linesHeight + (yMargin * 2)), kLinesWidth, titleHeight)];
+		UILabel *titlelabel = [self titleLabel:CGRectMake(xMargin, (linesHeight + (yMargin +(5.0f))), kLinesWidth, titleHeight)];
 		CAGradientLayer *gradient = [self gradient:calculatedHeight];
 
 		[self addSubview:linesLabel];
