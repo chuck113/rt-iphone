@@ -19,7 +19,7 @@
 
 @implementation RhymeDetailViewController
 
-@synthesize searchCallbackDelegate, artistTitleLabel, outerWebViewFrame, innerWebViewFrame, webView;
+@synthesize searchCallbackDelegate, artistLabel, titleLabel, outerWebViewFrame, innerWebViewFrame, webView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil searchCallback:(id<BeginSearchCallback>)searchCallback searchResult:(RhymePart *)searchResult
 {
@@ -27,7 +27,7 @@
         return nil;
 	
 	//CGRectMake(CGFloat x, CGFloat y, CGFloat width, CGFloat height)
-	CGRect myImageRect = CGRectMake(10.0f, 68.0f, 300.0f, 200.0f);
+	CGRect myImageRect = CGRectMake(10.0f, 80.0f, 300.0f, 200.0f);
 	UIView *view = [[UIView alloc] initWithFrame:myImageRect];
 	view.backgroundColor = [UIColor blackColor];
 
@@ -43,11 +43,9 @@
 	NSString *html = [htmlBuilder linesForDetailView:searchResult];
 	NSLog(@"using string %@", html);
 	self.searchCallbackDelegate = searchCallback;
-    self.title = [NSString stringWithFormat:@"\"%@\"", [[searchResult.word lowercaseString] capitalizedString]];
+    //self.title = [NSString stringWithFormat:@"\"%@\"", [[searchResult.word lowercaseString] capitalizedString]];
 	
-	//[self.view setBackgroundColor:[UIColor darkGrayColor]];
-	
-	UIWebView *webViewTmp = [[UIWebView alloc] initWithFrame:CGRectMake(15, 76, 292, 185)];
+	UIWebView *webViewTmp = [[UIWebView alloc] initWithFrame:CGRectMake(15, 88, 292, 185)];
 	[webViewTmp loadHTMLString:html baseURL:nil];
 	[webViewTmp setDelegate:self];
 	webViewTmp.backgroundColor = [UIColor clearColor];
@@ -62,8 +60,8 @@
 	gradient.colors = [NSArray arrayWithObjects:(id)[darkerGrey CGColor], (id)[lighterGrey CGColor], nil];
 	[self.view.layer insertSublayer:gradient atIndex:0];
 	
-	self.artistTitleLabel.text = [NSString stringWithFormat:@"%@ - %@", [searchResult.song.album.artist.name uppercaseString], searchResult.song.title];
-	
+	self.artistLabel.text = [NSString stringWithFormat:@"%@", [searchResult.song.album.artist.name uppercaseString]];
+	self.titleLabel.text = [NSString stringWithFormat:@"%@", searchResult.song.title];
 	
 	//[self.view addSubview:[self artistTitleLabel:searchResult.song.album.artist.name title:searchResult.song.title]];
 	[self.view addSubview:view];

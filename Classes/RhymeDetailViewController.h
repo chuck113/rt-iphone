@@ -4,7 +4,8 @@
 @interface RhymeDetailViewController : UIViewController<UIWebViewDelegate>
 {
 	id<BeginSearchCallback> searchCallbackDelegate;
-	IBOutlet UILabel *artistTitleLabel;
+	IBOutlet UILabel *artistLabel;
+	IBOutlet UILabel *titleLabel;
 	
 	IBOutlet UIView *outerWebViewFrame;
 	IBOutlet UIView *innerWebViewFrame;
@@ -12,7 +13,8 @@
 }
 
 @property (nonatomic, retain) id<BeginSearchCallback> searchCallbackDelegate;
-@property (nonatomic, retain) UILabel *artistTitleLabel;
+@property (nonatomic, retain, readonly) UILabel *artistLabel;
+@property (nonatomic, retain, readonly) UILabel *titleLabel;
 @property (nonatomic, retain) IBOutlet UIView *outerWebViewFrame;
 @property (nonatomic, retain) IBOutlet UIView *innerWebViewFrame;
 @property (nonatomic, retain) UIWebView *webView;

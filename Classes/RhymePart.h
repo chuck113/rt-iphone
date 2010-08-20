@@ -15,6 +15,15 @@
 {
 }
 
+-(NSString *)rhymeLines;
+-(NSString *)rhymeParts;
+-(NSString *)wordsNotInIndex;
+-(NSArray *)deSerializeArray:(NSString*)string;
+-(NSString *)linesDeserialisedAsString;
+-(NSArray *)linesDeserialised;
+-(NSSet *)wordsNotInIndexDeserialised;
+-(NSArray *)partsDeserialised;
+
 
 @property (nonatomic, retain) NSNumber * rhymeScore;
 @property (nonatomic, retain) NSString * word;
