@@ -29,13 +29,7 @@
 }
 
 - (NSString *)removePunctuation:(NSString *)line{
-	//DO THIS ON BUILDER SIDE and remove this method
-	NSString *lineStripped = [line stringByTrimmingCharactersInSet:[NSCharacterSet punctuationCharacterSet]];
-
-	
-	NSMutableString *ms = [NSMutableString stringWithString:lineStripped];
-	[ms replaceOccurrencesOfString:@"-" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0,[ms length])];
-	return [NSString stringWithString:ms];
+	return [line stringByTrimmingCharactersInSet:[NSCharacterSet punctuationCharacterSet]];
 }
 
 //FIXME does not apply formatting to rhymes such as 'me' that rhyme with B.I.G - needs to break down words
@@ -51,7 +45,10 @@
 		NSString* upperCaseCleanedWord = [cleanedWord uppercaseString];
 		
 
-		if(withLinks && !([unIndexedWords containsObject:upperCaseCleanedWord])){
+		if(withLinks && !([unIndexedWords containsObject:upperCaseCleanedWord]) 
+		   && ![upperCaseCleanedWord isEqualToString:@""]
+		   && ![upperCaseCleanedWord isEqualToString:@"I"]
+		   ){
 			decoratedWord = [NSString stringWithFormat:@"<a href=\"rhymetime://local/lookup/%@\">%@</a>", cleanedWord, word];
 		}
 		
@@ -111,7 +108,7 @@
 	
 	NSString* linesWithFormatting = [self applyFormatToRhymeParts:line parts:parts withLinks:NO unIndexedWords:unindexedWords prefix:@"<b>" suffix:@"</b>"];
 
-	return [NSString stringWithFormat:@"%@%@</span>", divAndStyle, linesWithFormatting];
+	return [NSString stringWithFormat:@"%@\"%@\"</span>", divAndStyle, linesWithFormatting];
 }
 
 - (NSString *)buildHtmlLines:(RhymePart*)rhymePart styleString:(NSString*)styleString withLinks:(BOOL)withLinks{
