@@ -66,7 +66,11 @@
                                                                  target:self 
                                                                  action:@selector(randomButtonTouched)];    
 	
-    self.navigationItem.rightBarButtonItem = randomButtonTmp;
+    self.navigationItem.leftBarButtonItem = randomButtonTmp;
+//	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"?" 
+//																			  style:UIBarButtonItemStylePlain 
+//																			 target:self 
+//																			 action:@selector(randomButtonTouched)];
 	self.randomButton = randomButtonTmp;
 	[randomButtonTmp release];
 }

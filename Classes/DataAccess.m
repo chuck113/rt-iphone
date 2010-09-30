@@ -108,6 +108,7 @@
 }
 
 -(NSString *)randomWord{
+	if([self.allEntries count] == 0)return @"rap";
 	return [[self.allEntries objectAtIndex:(arc4random() % [self.allEntries count])]valueForKey:@"word"];
 }
 
@@ -204,44 +205,6 @@
 	return [NSArray array];
 }
 
-//-(NSSet *)rhymingWordsContainedIn:(NSString *)words{
-//	NSMutableSet* buffer = [[NSMutableSet alloc] init];
-//	NSArray* wordsArray = [words componentsSeparatedByString:@" "];
-//	
-//	for(NSString *st in wordsArray){
-//		if([self containsWord:st]){
-//			[buffer addObject:st];
-//		}
-//	}
-//	NSSet* result =	[NSSet setWithSet:buffer];
-//	[buffer dealloc];
-//	return result;	
-//}
-//
-//-(BOOL)containsWord:(NSString *)word{
-//	NSFetchRequest *req = [[NSFetchRequest alloc] init];
-//	[req setEntity:[NSEntityDescription entityForName:@"RhymePart" inManagedObjectContext:self.managedObjectContext]];
-//	
-//	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"word like[cd] %@", word];
-//	[req setPredicate:predicate];
-//	
-//	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"score" ascending:NO];
-//	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
-//	[req setSortDescriptors:sortDescriptors];
-//	
-//	[req setIncludesSubentities:NO]; //Omit subentities. Default is YES (i.e. include subentities)
-//	
-//	NSError *err;
-//	NSUInteger count = [managedObjectContext countForFetchRequest:req error:&err];
-//	if(count == NSNotFound) {
-//		//Handle error
-//	}	
-//	[req release];
-//	NSLog(@"count for %@ was %i", word, count);
-//	
-//	return count != 0;
-//}
-//
 -(NSArray *)buildResultsArray:(NSArray *)items maxResults:(double)maxResults{
 	double resultsToShowDouble = fmin(maxResults, [[[NSNumber alloc] initWithInt:items.count] doubleValue]);
 	NSLog(@"will show %f results", resultsToShowDouble);
@@ -355,6 +318,12 @@
  If the coordinator doesn't already exist, it is created and the application's store added to it.
  */
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
+	/**
+	 *
+	 *
+	 * RUN THE APP WITH THIS LINE COMMENTED OUT TO CREATE THE EMPTY SQLITE DATABASE
+	 *
+	 */
 	[self createEditableCopyOfDatabaseIfNeeded];
 	
     if (persistentStoreCoordinator != nil) {

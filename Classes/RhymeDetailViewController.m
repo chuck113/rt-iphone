@@ -5,13 +5,14 @@
 #import "AppDelegate.h"
 #import <QuartzCore/QuartzCore.h>
 #import "Three20/Three20.h"
+#import "LyricsView.h"
 
 
 @interface RhymeDetailViewController()
 
--(UILabel *)instructionLabel;
 -(UILabel *)twitterLinkLabel;
 -(UILabel *)iTunesLinkLabel;
+-(CAGradientLayer *)gradient:(CGRect)frame;
 
 
 @end
@@ -19,7 +20,7 @@
 
 @implementation RhymeDetailViewController
 
-@synthesize searchCallbackDelegate, artistLabel, titleLabel, outerWebViewFrame, innerWebViewFrame, webView;
+@synthesize searchCallbackDelegate, artistLabel, titleLabel, outerWebViewFrame, innerWebViewFrame, webView, lyricsButton, itunesButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil searchCallback:(id<BeginSearchCallback>)searchCallback searchResult:(RhymePart *)searchResult
 {
@@ -52,12 +53,8 @@
 	[webViewTmp setHidden:YES];
 	self.webView = webViewTmp;
 	
-	// background colour stuff
-	CAGradientLayer *gradient = [CAGradientLayer layer];
-	gradient.frame = CGRectMake(0, 0, 320, 480);
-	UIColor* darkerGrey = [UIColor colorWithRed:.05 green:.05 blue:.05 alpha:1];
-	UIColor* lighterGrey = [UIColor colorWithRed:.30 green:.30 blue:.30 alpha:1];
-	gradient.colors = [NSArray arrayWithObjects:(id)[darkerGrey CGColor], (id)[lighterGrey CGColor], nil];
+	CAGradientLayer *gradient = [self gradient:CGRectMake(0, 0, 320, 480)];
+
 	[self.view.layer insertSublayer:gradient atIndex:0];
 	
 	self.artistLabel.text = [NSString stringWithFormat:@"%@", [searchResult.song.album.artist.name uppercaseString]];
@@ -73,6 +70,16 @@
 
 	[htmlBuilder dealloc];
 	return self;
+}
+
+-(CAGradientLayer *)gradient:(CGRect)frame{
+	CAGradientLayer *gradient = [CAGradientLayer layer];
+	gradient.frame = frame;
+	UIColor* darkerGrey = [UIColor colorWithRed:.05 green:.05 blue:.05 alpha:1];
+	UIColor* lighterGrey = [UIColor colorWithRed:.30 green:.30 blue:.30 alpha:1];
+	gradient.colors = [NSArray arrayWithObjects:(id)[darkerGrey CGColor], (id)[lighterGrey CGColor], nil];
+	
+	return gradient;
 }
 
 
@@ -127,6 +134,53 @@
 		
 		return FALSE;
 	}
+}
+
+-(IBAction)itunesButtonTouched{
+	NSString *wuUrl = @"http://phobos.apple.com/us/artist/wu-tang-clan/id200986?uo=4";
+	//NSString *wuUrl = @"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=284417350&mt=8";
+	//[webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:wuUrl]]];
+	
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:wuUrl]];
+}
+
+//
+// TABLE DELEGATES
+//
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+	LyricsView *lyricsViewController = [[LyricsView alloc] initWithNibName:@"LyricsView" bundle:nil];
+	
+	lyricsViewController.url = @"http://www.google.com";
+	
+	//TODO dont' refer to app delegate
+	AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 	
+	[appDelegate.navigationController pushViewController:lyricsViewController animated:YES];
+	
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"detailId"];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"detailId"];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+	
+	cell.textLabel.textColor = [UIColor whiteColor];
+	cell.textLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:14.0f];
+	cell.textLabel.text = @"lyrics";
+	cell.accessoryView = [[ UIImageView alloc ]  initWithImage:[UIImage imageNamed:@"AccDisclosure.png" ]];
+	
+	return cell;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+	return 1;
 }
 
 
