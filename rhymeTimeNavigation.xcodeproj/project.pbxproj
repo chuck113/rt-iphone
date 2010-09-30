@@ -308,12 +308,12 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				46D402A712552A4100184774 /* RhymeDetailTableViewController.h */,
-				46D402A812552A4100184774 /* RhymeDetailTableViewController.m */,
 				4309834011D63061003AA017 /* subViews */,
 				468576AE11A0255900814B9E /* dao */,
 				468576A511A0255800814B9E /* dto */,
 				4685788411A02F8500814B9E /* Constants.h */,
+				46D402A712552A4100184774 /* RhymeDetailTableViewController.h */,
+				46D402A812552A4100184774 /* RhymeDetailTableViewController.m */,
 				468576B111A0255900814B9E /* HtmlBuilder.m */,
 				468576B211A0255900814B9E /* HtmlBuilder.h */,
 				46321233119EA15300222659 /* RhymeDetailViewController.h */,

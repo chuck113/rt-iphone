@@ -23,7 +23,7 @@ typedef enum {
 - (NSString *)buildHtml:(RhymePart*)rhymePart bodyStyle:(NSString *)bodyStyle linesDiv:(NSString*)linesDiv titleDiv:(NSString*)titleDiv;
 - (NSString *)buildTableResultWithLinesOnly:(RhymePart*)rhymePart;
 - (NSString *)linesForTableView:(RhymePart*)rhymePart;
-- (NSString *)buildHtmlLines:(RhymePart*)rhymePart styleString:(NSString*)styleString withLinks:(BOOL)withLinks;
+- (NSString *)buildHtmlLines:(RhymePart*)rhymePart styleString:(NSString*)styleString withLinks:(BOOL)withLinks emphasizeParts:(BOOL)emphasizeParts deEmphasizeUnindexedWords:(BOOL)deEmphasizeUnindexedWords;
 - (NSString*)linesForDetailView:(RhymePart*)rhymePart;
 - (NSString*)buildTableResult:(RhymePart*)rhymePart;
 - (NSString*)buildStyledHtmlWithLinks:(RhymePart*)rhymePart;

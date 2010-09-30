@@ -17,9 +17,6 @@
 #import "LyricsView.h"
 #import "AppDelegate.h"
 
-
-
-
 @implementation AbstractDetailItem : NSObject
 
 - (void)configureTextCell:(UITableViewCell *)cell text:(NSString *)text{
@@ -84,8 +81,15 @@
 	[self configureTextCell:cell text:@"iTunes"];
 }
 
+- (NSString *)getUserCountry
+{
+    NSLocale *locale = [NSLocale currentLocale];
+    return [locale objectForKey: NSLocaleCountryCode];
+}
+
 - (void)onSelect{
-	NSString *url = [NSString stringWithFormat:@"http://phobos.apple.com/us/%@", rhymePart.song.album.iTunesUsId];
+	NSString *userCountry = [self getUserCountry];
+	NSString *url = [NSString stringWithFormat:@"http://phobos.apple.com/%@/%@", userCountry, rhymePart.song.album.iTunesUsId];
 	//[webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:wuUrl]]];
 	
 	
@@ -197,13 +201,11 @@
 	UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 320, 20)];
 	titleLabel.textColor = [UIColor whiteColor];
 	titleLabel.backgroundColor = [UIColor blackColor];
-	titleLabel.text = @"New Search - use unerlined words";
+	titleLabel.text = @"Word Search";
 	
 	
 	HtmlBuilder *htmlBuilder = [HtmlBuilder alloc]; 
-	NSString *html = [htmlBuilder linesForDetailView:rhymePart];
-	NSLog(@"using string %@", html);
-	
+	NSString *html = [htmlBuilder linesForDetailView:rhymePart];	
 	
 	UIWebView *webViewTmp = [[UIWebView alloc] initWithFrame:CGRectMake(13, 40, 292, 185)];
 	[webViewTmp loadHTMLString:html baseURL:nil];
