@@ -226,7 +226,8 @@ bool isAwaitingResults = FALSE;
 	{
 		self.navigationItem.title = @"back";
 		//RhymeDetailViewController *targetViewController = [[RhymeDetailViewController alloc] initWithNibName:@"RhymeDetailViewController" bundle:nil searchCallback:self searchResult:[self.searchResult objectAtIndex:indexPath.row]];
-		RhymeDetailTableViewController *targetViewController = [[RhymeDetailTableViewController alloc] initWithNibName:@"RhymeDetailTableViewController" bundle:nil searchCallback:self searchResult:[self.searchResult objectAtIndex:indexPath.row]];
+		//RhymeDetailTableViewController *targetViewController = [[RhymeDetailTableViewController alloc] initWithNibName:@"RhymeDetailTableViewController" bundle:nil searchCallback:self searchResult:[self.searchResult objectAtIndex:indexPath.row]];
+		RhymeDetailTableViewController *targetViewController = [[RhymeDetailTableViewController alloc] initWithNibName:nil bundle:nil searchCallback:self searchResult:[self.searchResult objectAtIndex:indexPath.row]];
 		
 		//TODO dont' refer to app delegate
 		AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 	

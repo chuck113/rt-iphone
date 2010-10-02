@@ -16,6 +16,7 @@
 #import "Three20/Three20.h"
 #import "LyricsView.h"
 #import "AppDelegate.h"
+#import "YouTubeView.h"
 
 
 
@@ -39,13 +40,18 @@
 }
 @end
 
+//
+//
+// TitleItem
+//
+//
 @interface TitleItem: AbstractDetailItem<DetailItem>
 @end
 
 @implementation TitleItem
 
 - (CGFloat)height{
-	return 80.0f;
+	return 60.0f;
 }
 
 - (void)configureCell:(UITableViewCell *)cell nav:(UINavigationController *)nav{
@@ -71,6 +77,11 @@
 
 @end
 
+//
+//
+// iTunesItem
+//
+//
 @interface iTunesItem: AbstractDetailItem<DetailItem>
 @end
 
@@ -85,21 +96,71 @@
 }
 
 - (void)onSelect{
-	NSString *url = [NSString stringWithFormat:@"http://phobos.apple.com/us/%@", rhymePart.song.album.iTunesUsId];
-	//[webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:wuUrl]]];
+	NSString *buyString=[NSString stringWithFormat:
+							 @"itms://phobos.apple.com/WebObjects/MZSearch.woa/wa/com.apple.jingle.search.DirectAction/search?term=%@ - %@",
+							 rhymePart.song.album.artist.name, 
+							 rhymePart.song.title];
+	NSURL *url = [[NSURL alloc] initWithString:[buyString stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+	NSLog(@"will open url: %@", buyString);
 	
-	
-	//NSString *wuUrl = @"http://phobos.apple.com/us/artist/wu-tang-clan/id200986?uo=4";
-	//NSString *wuUrl = @"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=284417350&mt=8";
-	//[webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:wuUrl]]];
-	
-	//[[UIApplication sharedApplication] openURL:[NSURL URLWithString:wuUrl]];
-	
-	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+
+	[[UIApplication sharedApplication] openURL:url];
 }
 
 @end
-	 
+
+//
+//
+// YouTubeItem
+//
+//
+@interface YouTubeItem: AbstractDetailItem<DetailItem>
+
+-(NSString *)encodeUrlString:(NSString *)unencodedString;
+@end
+
+@implementation YouTubeItem
+
+- (CGFloat)height{
+	return 40.0f;
+}
+
+
+- (void)configureCell:(UITableViewCell *)cell nav:(UINavigationController *)nav{
+	[self configureTextCell:cell text:@"You Tube"];
+}
+
+- (void)onSelect{
+		YouTubeView *targetViewController = [[YouTubeView alloc] init];
+		
+	//@"http://www.youtube.com/results?search_query=wu+tang+clan+bring+the+ruckus&aq=0
+		NSString *url = [[NSString stringWithFormat:@"http://www.youtube.com/results?search_query=%@ %@&aq=0", 
+						   [self encodeUrlString:rhymePart.song.album.artist.name],
+						   [self encodeUrlString:rhymePart.song.title]] stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+	
+		NSLog(@"lyric wiki url is %@", url);
+		targetViewController.url = url;
+		
+		AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 	
+		[appDelegate.navigationController pushViewController:targetViewController animated:YES];
+}
+
+-(NSString *)encodeUrlString:(NSString *)unencodedString{
+	return (NSString *)CFURLCreateStringByAddingPercentEscapes(
+															   NULL,
+															   (CFStringRef)unencodedString,
+															   NULL,
+															   (CFStringRef)@"!*'();:@&=+$,/?%#[]",
+															   kCFStringEncodingUTF8 );
+}
+
+@end
+
+//
+//
+// LyricsItem
+//
+//
 @interface LyricsItem: AbstractDetailItem<DetailItem>
 
 -(NSString *)encodeUrlString:(NSString *)unencodedString;
@@ -160,7 +221,11 @@
 
 @end
 
-
+//
+//
+// LyricLinksItem
+//
+//
 @implementation WebViewItem
 
 @synthesize navController;
@@ -176,7 +241,7 @@
 
 
 - (CGFloat)height{
-	return 300.0f;
+	return 237.0f;
 }
 
 - (void)configureCell:(UITableViewCell *)cell nav:(UINavigationController *)nav{
@@ -277,15 +342,18 @@
 	
 	searchResult = theSearchResult;
 	searchCallbackDelegate = searchCallback;
-		
-	self.tableView.separatorColor = [UIColor darkGrayColor];
-	webViewItem = [[WebViewItem alloc] init:theSearchResult searchCallback:searchCallback];
 	
+	self.tableView.backgroundColor = [UIColor blackColor];
+	self.tableView.separatorColor = [UIColor darkGrayColor];
+	self.tableView.bounces = NO;
+	
+	webViewItem = [[WebViewItem alloc] init:theSearchResult searchCallback:searchCallback];
 	
 	items = [[NSArray alloc] initWithObjects:
 					 [[TitleItem alloc] init], 
 					  [[iTunesItem alloc] init], 
 					 [[LyricsItem alloc] init],
+					[[YouTubeItem alloc] init],
 					  webViewItem,
 					 nil];
 	
@@ -295,6 +363,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+	
+	
 	webViewItem.navController = self.navigationController;
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;

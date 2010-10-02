@@ -326,6 +326,7 @@
 	 */
 	[self createEditableCopyOfDatabaseIfNeeded];
 	
+	
     if (persistentStoreCoordinator != nil) {
         return persistentStoreCoordinator;
     }

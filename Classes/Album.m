@@ -12,9 +12,7 @@
 
 @implementation Album 
 
-@dynamic iTunesUsId;
 @dynamic title;
-@dynamic iTunesEuId;
 @dynamic artist;
 
 @end

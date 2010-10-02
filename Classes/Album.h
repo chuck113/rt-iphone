@@ -14,9 +14,7 @@
 {
 }
 
-@property (nonatomic, retain) NSNumber * iTunesUsId;
 @property (nonatomic, retain) NSString * title;
-@property (nonatomic, retain) NSNumber * iTunesEuId;
 @property (nonatomic, retain) Artist * artist;
 
 @end
