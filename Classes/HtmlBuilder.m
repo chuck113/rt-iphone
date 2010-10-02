@@ -33,7 +33,7 @@
 }
 
 //FIXME does not apply formatting to rhymes such as 'me' that rhyme with B.I.G - needs to break down words
-- (NSString *)applyFormatToRhymeParts:(NSString *)lines parts:(NSArray *)parts withLinks:(BOOL)withLinks unIndexedWords:(NSSet *)unIndexedWords prefix:(NSString  *)prefix suffix:(NSString *)suffix{
+- (NSString *)applyFormatToRhymeParts:(NSString *)lines parts:(NSArray *)parts withLinks:(BOOL)withLinks unIndexedWords:(NSSet *)unIndexedWords prefix:(NSString  *)prefix suffix:(NSString *)suffix emphasizeParts:(Boolean)emphasizeParts deEmphasizeUnindexedWords:(Boolean)deEmphasizeUnindexedWords{
 	NSSet* partSet = [NSSet setWithArray:parts];
 	NSArray* words = [lines componentsSeparatedByString:@" "];
 	NSMutableArray* wordBuffer = [[NSMutableArray alloc] init];
@@ -45,14 +45,18 @@
 		NSString* upperCaseCleanedWord = [cleanedWord uppercaseString];
 		
 
-		if(withLinks && !([unIndexedWords containsObject:upperCaseCleanedWord]) 
+		if(deEmphasizeUnindexedWords && [unIndexedWords containsObject:upperCaseCleanedWord]){
+			decoratedWord = [NSString stringWithFormat:@"<span style=\"color: gray;\">%@</span>", word];
+		}else if(withLinks && !([unIndexedWords containsObject:upperCaseCleanedWord]) 
 		   && ![upperCaseCleanedWord isEqualToString:@""]
-		   && ![upperCaseCleanedWord isEqualToString:@"I"]
-		   ){
+		   && ![upperCaseCleanedWord isEqualToString:@"I"])
+		{
+			NSLog(@"word: %@, deemp:%@", word, deEmphasizeUnindexedWords == FALSE ?@"false":@"true");
 			decoratedWord = [NSString stringWithFormat:@"<a href=\"rhymetime://local/lookup/%@\">%@</a>", cleanedWord, word];
 		}
+
 		
-		if([partSet containsObject:upperCaseCleanedWord]){
+		if(emphasizeParts && [partSet containsObject:upperCaseCleanedWord]){
 			decoratedWord = [NSString stringWithFormat:@"%@%@%@", prefix, decoratedWord, suffix];
 		}
 		
@@ -85,16 +89,16 @@
 }
 
 - (NSString *)buildTableResultWithLinesOnly:(RhymePart*)rhymePart{
-	return [self buildHtml:rhymePart bodyStyle:kResultTablebodyStyle linesDiv:[self buildHtmlLines:rhymePart styleString:kResultTableLineStyle withLinks:NO] titleDiv:@""];
+	return [self buildHtml:rhymePart bodyStyle:kResultTablebodyStyle linesDiv:[self buildHtmlLines:rhymePart styleString:kResultTableLineStyle withLinks:NO emphasizeParts:NO deEmphasizeUnindexedWords:NO] titleDiv:@""];
 }
 
 - (NSString *)linesForDetailView:(RhymePart*)rhymePart{
 	NSString* linkColorCss = [self detailViewCss];
-	return [self buildHtml:linkColorCss linesDiv:[self buildHtmlLines: rhymePart styleString:kDetailLineStyle withLinks:YES]];
+	return [self buildHtml:linkColorCss linesDiv:[self buildHtmlLines: rhymePart styleString:kDetailLineStyle withLinks:YES emphasizeParts:NO deEmphasizeUnindexedWords:YES]];
 }
 
 - (NSString *)linesForTableView:(RhymePart*)rhymePart{
-	return [self buildHtmlLines: rhymePart styleString:kResultTableLineStyle withLinks:NO];
+	return [self buildHtmlLines: rhymePart styleString:kResultTableLineStyle withLinks:NO emphasizeParts:YES deEmphasizeUnindexedWords:NO];
 }
 
 - (NSString *)buildHtmlLines320:(RhymePart*)rhymePart{
@@ -106,12 +110,12 @@
 	
 	NSSet* unindexedWords = [NSSet set];
 	
-	NSString* linesWithFormatting = [self applyFormatToRhymeParts:line parts:parts withLinks:NO unIndexedWords:unindexedWords prefix:@"<b>" suffix:@"</b>"];
+	NSString* linesWithFormatting = [self applyFormatToRhymeParts:line parts:parts withLinks:NO unIndexedWords:unindexedWords prefix:@"<b>" suffix:@"</b>" emphasizeParts:YES deEmphasizeUnindexedWords:NO];
 
 	return [NSString stringWithFormat:@"%@\"%@\"</span>", divAndStyle, linesWithFormatting];
 }
 
-- (NSString *)buildHtmlLines:(RhymePart*)rhymePart styleString:(NSString*)styleString withLinks:(BOOL)withLinks{
+- (NSString *)buildHtmlLines:(RhymePart*)rhymePart styleString:(NSString*)styleString withLinks:(BOOL)withLinks emphasizeParts:(BOOL)emphasizeParts deEmphasizeUnindexedWords:(BOOL)deEmphasizeUnindexedWords{
 	NSArray *parts = [rhymePart partsDeserialised];
 	NSArray *lines = [rhymePart linesDeserialised];
 	NSString* line = [self buildLines:lines];
@@ -123,7 +127,7 @@
 		unindexedWords = [rhymePart wordsNotInIndexDeserialised]; 
 	}
 	
-	NSString* linesWithFormatting = [self applyFormatToRhymeParts:line parts:parts withLinks:withLinks unIndexedWords:unindexedWords prefix:@"<b>" suffix:@"</b>"];
+	NSString* linesWithFormatting = [self applyFormatToRhymeParts:line parts:parts withLinks:withLinks unIndexedWords:unindexedWords prefix:@"<b>" suffix:@"</b>" emphasizeParts:emphasizeParts deEmphasizeUnindexedWords:deEmphasizeUnindexedWords];
 
 	// DEBUG
 	//return [NSString stringWithFormat:@"%@%@ DEBUG:%d</div>", divAndStyle, linesWithFormatting, rhymePart.rhymeScore];
@@ -175,6 +179,7 @@
 }
 
 -(NSString *)detailViewCss{
+	//NSString *cssPart = @"{color:white; text-decoration:none; border-bottom: 1px solid gray;}";
 	NSString *cssPart = @"{color:white; text-decoration:none; border-bottom: 1px solid gray;}";
 	return [NSString stringWithFormat:@"div#lines{position:fixed;top:0px;} body {background-color:black;} A:link %@ A:active %@ A:hover %@ A:visited %@",cssPart,cssPart,cssPart,cssPart];
 	

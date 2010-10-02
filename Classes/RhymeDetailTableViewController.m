@@ -18,9 +18,6 @@
 #import "AppDelegate.h"
 #import "YouTubeView.h"
 
-
-
-
 @implementation AbstractDetailItem : NSObject
 
 - (void)configureTextCell:(UITableViewCell *)cell text:(NSString *)text{
@@ -93,6 +90,12 @@
 
 - (void)configureCell:(UITableViewCell *)cell nav:(UINavigationController *)nav{
 	[self configureTextCell:cell text:@"iTunes"];
+}
+
+- (NSString *)getUserCountry
+{
+    NSLocale *locale = [NSLocale currentLocale];
+    return [locale objectForKey: NSLocaleCountryCode];
 }
 
 - (void)onSelect{
@@ -262,13 +265,11 @@
 	UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 320, 20)];
 	titleLabel.textColor = [UIColor whiteColor];
 	titleLabel.backgroundColor = [UIColor blackColor];
-	titleLabel.text = @"New Search - use unerlined words";
+	titleLabel.text = @"Word Search";
 	
 	
 	HtmlBuilder *htmlBuilder = [HtmlBuilder alloc]; 
-	NSString *html = [htmlBuilder linesForDetailView:rhymePart];
-	NSLog(@"using string %@", html);
-	
+	NSString *html = [htmlBuilder linesForDetailView:rhymePart];	
 	
 	UIWebView *webViewTmp = [[UIWebView alloc] initWithFrame:CGRectMake(13, 40, 292, 185)];
 	[webViewTmp loadHTMLString:html baseURL:nil];
