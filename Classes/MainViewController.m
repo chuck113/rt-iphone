@@ -61,10 +61,15 @@
 	
 	[imageView release];
 
-	UIBarButtonItem *randomButtonTmp = [[UIBarButtonItem alloc] initWithTitle:@"RANDOM" 
-                                                                  style:UIBarButtonItemStyleBordered 
-                                                                 target:self 
-                                                                 action:@selector(randomButtonTouched)];    
+//	UIBarButtonItem *randomButtonTmp = [[UIBarButtonItem alloc] initWithTitle:@"RANDOM" 
+//                                                                  style:UIBarButtonItemStyleBordered 
+//                                                                 target:self 
+//                                                                 action:@selector(randomButtonTouched)]; 
+	
+	UIBarButtonItem *randomButtonTmp = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed: @"lightbulb.png"]
+																		style:UIBarButtonItemStyleBordered 
+																	   target:self 
+																	   action:@selector(randomButtonTouched)];  
 	
     self.navigationItem.leftBarButtonItem = randomButtonTmp;
 //	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"?" 

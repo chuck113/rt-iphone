@@ -112,8 +112,18 @@
 	
 	NSString* linesWithFormatting = [self applyFormatToRhymeParts:line parts:parts withLinks:NO unIndexedWords:unindexedWords prefix:@"<b>" suffix:@"</b>" emphasizeParts:YES deEmphasizeUnindexedWords:NO];
 
-	return [NSString stringWithFormat:@"%@\"%@\"</span>", divAndStyle, linesWithFormatting];
+	NSLog(@"linesWithFormatting is %@", [self applyQuotes:linesWithFormatting]);
+	return [NSString stringWithFormat:@"%@%@</span>", divAndStyle, [self applyQuotes:linesWithFormatting]];
 }
+
+-(NSString *)applyQuotes:(NSString *)line{
+	return [NSString stringWithFormat:@"<b>\"</b>%@<b>\"</b>", line];	
+	//return [NSString stringWithFormat:@"<span style=\"font-size:28px;\">\" XX</span>%@<span style=\"font-size:28px;\">\"</span>", line];
+}
+
+//-(NSString *)applyQuotes:(NSString *)line{
+//	return [NSString stringWithFormat:@"<img src=\"bundle://backQuote.png\"/>%@", line];	
+//}
 
 - (NSString *)buildHtmlLines:(RhymePart*)rhymePart styleString:(NSString*)styleString withLinks:(BOOL)withLinks emphasizeParts:(BOOL)emphasizeParts deEmphasizeUnindexedWords:(BOOL)deEmphasizeUnindexedWords{
 	NSArray *parts = [rhymePart partsDeserialised];
