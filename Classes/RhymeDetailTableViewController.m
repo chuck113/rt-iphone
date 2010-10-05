@@ -20,8 +20,21 @@
 
 @implementation AbstractDetailItem : NSObject
 
+
+- (void)configureTextCell:(UITableViewCell *)cell text:(NSString *)text imagePath:(NSString *)imagePath{
+	NSInteger iconWidth = 32;
+	UIImage *image = [UIImage imageNamed:imagePath];
+	UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 3, iconWidth, 32)];
+	imageView.image = image;
+	
+	[cell.contentView addSubview:imageView];
+	
+	[self configureTextCell:cell text:text];
+}
+
 - (void)configureTextCell:(UITableViewCell *)cell text:(NSString *)text{
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 320, 30)];
+	NSInteger iconWidth = 32;
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(iconWidth + 15, 5, 320, 30)];
 	label.textColor = [UIColor whiteColor];
 	label.backgroundColor = [UIColor blackColor];
 	label.text = text;
@@ -51,15 +64,17 @@
 	return 60.0f;
 }
 
+
 - (void)configureCell:(UITableViewCell *)cell nav:(UINavigationController *)nav{
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
-	UILabel *artistLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, 320, 20)];
+	UILabel *artistLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, 320, 25)];
+	artistLabel.font = [UIFont systemFontOfSize:25];
 	artistLabel.textColor = [UIColor whiteColor];
 	artistLabel.backgroundColor = [UIColor blackColor];
 	artistLabel.text = [NSString stringWithFormat:@"%@", [rhymePart.song.album.artist.name uppercaseString]];
 	
-	UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 20, 320, 20)];
+	UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 25, 320, 20)];
 	titleLabel.textColor = [UIColor whiteColor];
 	titleLabel.backgroundColor = [UIColor blackColor];
 	titleLabel.text = [NSString stringWithFormat:@"%@", [NSString stringWithFormat:@"%@", rhymePart.song.title]];
@@ -89,7 +104,7 @@
 }
 
 - (void)configureCell:(UITableViewCell *)cell nav:(UINavigationController *)nav{
-	[self configureTextCell:cell text:@"iTunes"];
+	[self configureTextCell:cell text:@"iTunes" imagePath:@"iPod-black-64.png"];
 }
 
 - (NSString *)getUserCountry
@@ -130,7 +145,8 @@
 
 
 - (void)configureCell:(UITableViewCell *)cell nav:(UINavigationController *)nav{
-	[self configureTextCell:cell text:@"You Tube"];
+	[self configureTextCell:cell text:@"YouTube" imagePath:@"Youtube-black-64.png"];
+
 }
 
 - (void)onSelect{
@@ -188,12 +204,14 @@
 }
 
 - (void)configureCell:(UITableViewCell *)cell nav:(UINavigationController *)nav{
+	NSString* imagePath = @"Notes-black-64.png";
+
 	if([self hasSong]){
-		[self configureTextCell:cell text:@"Song Lyrics"];
+		[self configureTextCell:cell text:@"Song Lyrics" imagePath:imagePath];
 	}else if([self hasArtist]){
-		[self configureTextCell:cell text:@"Artist Lyrics"];
+		[self configureTextCell:cell text:@"Artist Lyrics" imagePath:imagePath];
 	}else{
-		[self configureTextCell:cell text:@"(Lyrics Unavailable)"];
+		[self configureTextCell:cell text:@"(Lyrics Unavailable)" imagePath:imagePath];
 	}
 }
 

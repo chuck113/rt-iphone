@@ -25,6 +25,7 @@
 
 RhymePart *rhymePart;
 - (void)configureTextCell:(UITableViewCell *)cell text:(NSString *)text;
+- (void)configureTextCell:(UITableViewCell *)cell text:(NSString *)text imagePath:(NSString *)imagePath;
 
 @end
 
