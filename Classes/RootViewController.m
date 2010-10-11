@@ -139,9 +139,6 @@ bool isAwaitingResults = FALSE;
 }
 
 
-
-
-
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

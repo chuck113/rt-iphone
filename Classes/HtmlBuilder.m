@@ -69,7 +69,7 @@
 	}
 	
 	[wordBuffer dealloc];
-	return [NSString stringWithString:stringBuffer];
+	return [[NSString stringWithString:stringBuffer] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
 }
 
 - (NSString *)testHtml{
@@ -105,14 +105,15 @@
 	NSArray *parts = [rhymePart partsDeserialised];
 	NSArray *lines = [rhymePart linesDeserialised];
 	NSString* line = [self buildLines:lines];
-	
+
 	NSString* divAndStyle = [NSString stringWithFormat:@"<span class='linesStyle'>"];
 	
 	NSSet* unindexedWords = [NSSet set];
 	
 	NSString* linesWithFormatting = [self applyFormatToRhymeParts:line parts:parts withLinks:NO unIndexedWords:unindexedWords prefix:@"<b>" suffix:@"</b>" emphasizeParts:YES deEmphasizeUnindexedWords:NO];
 
-	NSLog(@"linesWithFormatting is %@", [self applyQuotes:linesWithFormatting]);
+	NSLog(@"with quotes '%@'", [self applyQuotes:linesWithFormatting]);
+	
 	return [NSString stringWithFormat:@"%@%@</span>", divAndStyle, [self applyQuotes:linesWithFormatting]];
 }
 

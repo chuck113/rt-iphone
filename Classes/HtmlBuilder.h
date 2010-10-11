@@ -28,6 +28,7 @@ typedef enum {
 - (NSString*)buildTableResult:(RhymePart*)rhymePart;
 - (NSString*)buildStyledHtmlWithLinks:(RhymePart*)rhymePart;
 - (NSString *)buildHtmlLines320:(RhymePart*)rhymePart;
+-(NSString *)applyQuotes:(NSString *)line;
 
 //- (NSString *)linesForDetail:(RhymePart*)rhymePart :(NSString*)styleString :(BOOL)withLinks;
 

@@ -50,6 +50,8 @@
 -(CAGradientLayer*)gradient:(CGFloat)cellHeight;
 -(TTStyledTextLabel*)linesLabel:(CGRect)frame  linesHtml:(NSString*)linesHtml;
 -(CGFloat)heightOfLinesString;
+-(NSString *)replaceAmpersands:(NSString*)htmlString;
+
 
 @end
 
@@ -86,8 +88,15 @@
 -(TTStyledTextLabel*)linesLabel:(CGRect)frame  linesHtml:(NSString*)linesHtml{
 	TTStyledTextLabel *linesLabel = [[[TTStyledTextLabel alloc] initWithFrame:frame] autorelease];
 	linesLabel.backgroundColor = [UIColor clearColor];
-	linesLabel.text = [TTStyledText textFromXHTML:linesHtml];
+	NSLog(@"lines html: %@", linesHtml);
+		
+	linesLabel.text = [TTStyledText textFromXHTML:[self replaceAmpersands:linesHtml]];
+	NSLog(@"lines text: %@", linesLabel.text);
 	return linesLabel;
+}
+
+-(NSString *)replaceAmpersands:(NSString*)htmlString{
+	return [htmlString stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"];
 }
 
 -(CAGradientLayer*)gradient:(CGFloat)cellHeight{
