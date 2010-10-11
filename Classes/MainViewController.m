@@ -7,7 +7,7 @@
 //
 
 #import "MainViewController.h"
-#import "AppDelegate.h"
+#import "DASingleton.h"
 
 @interface MainViewController()
 
@@ -18,25 +18,15 @@
 
 @implementation MainViewController
 
-@synthesize tableSearchBar, titleImage, searchDisplayController, searchResultTableView, tableController, randomButton;
+@synthesize tableSearchBar, titleImage, searchDisplayController, searchResultTableView, tableController, randomButton, dataAccess;
 
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-	[searchBar resignFirstResponder];
-	NSLog(@"search for %@", searchBar.text);
+- (id)initWithNibName:(NSString *)nib bundle:(NSBundle *)bundle
+{
+	if ((self = [super initWithNibName:nib bundle:bundle]) == nil)
+        return nil;
 	
-	[self.searchDisplayController.searchResultsTableView removeFromSuperview];
-	
-	[self.tableController enableScrolling];
-	[self.tableController setSearchTextAndDoSearch:searchBar.text];
-}
-
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar {
-	[self.tableController disableScrolling];
-}
-
-
-- (NSArray*)findRhymes:(NSString *)toFind{
-	return [dataAccess findRhymes:toFind];
+	dataAccess = [[DASingleton instance] dataAccess];
+	return self;
 }
 
 
@@ -60,11 +50,11 @@
 	self.navigationController.navigationBar.tintColor = [UIColor blackColor];
 	
 	[imageView release];
-
-//	UIBarButtonItem *randomButtonTmp = [[UIBarButtonItem alloc] initWithTitle:@"RANDOM" 
-//                                                                  style:UIBarButtonItemStyleBordered 
-//                                                                 target:self 
-//                                                                 action:@selector(randomButtonTouched)]; 
+	
+	//	UIBarButtonItem *randomButtonTmp = [[UIBarButtonItem alloc] initWithTitle:@"RANDOM" 
+	//                                                                  style:UIBarButtonItemStyleBordered 
+	//                                                                 target:self 
+	//                                                                 action:@selector(randomButtonTouched)]; 
 	
 	UIBarButtonItem *randomButtonTmp = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed: @"lightbulb.png"]
 																		style:UIBarButtonItemStyleBordered 
@@ -72,13 +62,34 @@
 																	   action:@selector(randomButtonTouched)];  
 	
     self.navigationItem.leftBarButtonItem = randomButtonTmp;
-//	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"?" 
-//																			  style:UIBarButtonItemStylePlain 
-//																			 target:self 
-//																			 action:@selector(randomButtonTouched)];
+	//	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"?" 
+	//																			  style:UIBarButtonItemStylePlain 
+	//																			 target:self 
+	//																			 action:@selector(randomButtonTouched)];
 	self.randomButton = randomButtonTmp;
 	[randomButtonTmp release];
 }
+
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+	[searchBar resignFirstResponder];
+	NSLog(@"search for %@", searchBar.text);
+	
+	[self.searchDisplayController.searchResultsTableView removeFromSuperview];
+	
+	[self.tableController enableScrolling];
+	[self.tableController setSearchTextAndDoSearch:searchBar.text];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar {
+	[self.tableController disableScrolling];
+}
+
+
+- (NSArray*)findRhymes:(NSString *)toFind{
+	return [dataAccess findRhymes:toFind];
+}
+
 
 -(void)randomButtonTouched{
 	NSString* randomWord = [dataAccess randomWord]; 

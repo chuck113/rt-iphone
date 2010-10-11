@@ -55,7 +55,7 @@
 @property (nonatomic, retain) UISearchDisplayController* searchDisplayController;
 @property (nonatomic, retain) NSMutableArray* filteredSearchSuggestions;
 @property (nonatomic, retain, readonly) ResultCellFactory* resultCellFactory;
-@property (nonatomic, retain, readonly) IBOutlet DataAccess *dataAccess;
+@property (nonatomic, retain) IBOutlet DataAccess *dataAccess;
 @property (nonatomic, retain, readonly) Search *search;
 
 

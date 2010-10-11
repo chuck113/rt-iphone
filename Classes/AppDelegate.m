@@ -14,7 +14,6 @@
 
 @synthesize window;
 @synthesize mainViewController;
-@synthesize dataAccess;
 @synthesize navigationController;
 
 
@@ -28,11 +27,12 @@
 	
 	navigationController.view.backgroundColor = [UIColor blackColor];
 	
+	self.mainViewController = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
 	navigationController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
 	
 	[window addSubview:navigationController.view];
     [window makeKeyAndVisible];
-	self.dataAccess = [[DataAccess alloc] init];
+	
 }
 
 
@@ -47,7 +47,6 @@
 - (void)dealloc {
 	[mainViewController release];
 	[window release];
-	[dataAccess release];
 	[super dealloc];
 }
 

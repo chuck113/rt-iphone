@@ -30,6 +30,6 @@
 @property (nonatomic, retain) IBOutlet UISearchBar* tableSearchBar;
 @property (nonatomic, retain) IBOutlet RootViewController* tableController;
 @property (nonatomic, retain) UIBarButtonItem *randomButton;
-@property (nonatomic, retain, readonly) IBOutlet DataAccess *dataAccess;
+@property (nonatomic, retain) DataAccess *dataAccess;
 
 @end

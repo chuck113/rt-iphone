@@ -8,7 +8,7 @@
 #import "Three20/Three20.h"
 #import "RhymeTimeTTStyleSheet.h"
 #import "RhymeDetailTableViewController.h"
-
+#import "DASingleton.h"
 #import "ResultCell.h"
 
 @interface RootViewController()
@@ -116,7 +116,9 @@ bool isAwaitingResults = FALSE;
 	self.filteredSearchSuggestions = [NSMutableArray arrayWithCapacity:0];
 	
 	resultCellFactory = [[ResultCellFactory alloc] init];
-	search = [[Search alloc] initWithDataAccess:dataAccess searchCallbackObj:self];			  
+	
+	self.dataAccess = [[DASingleton instance] dataAccess];
+	search = [[Search alloc] initWithDataAccess:self.dataAccess searchCallbackObj:self];			  
 }
 
 

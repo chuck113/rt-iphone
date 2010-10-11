@@ -16,6 +16,7 @@
 
 @end
 
+
 @implementation DataAccess
 
 @synthesize managedObjectContext, persistentStoreCoordinator, managedObjectModel;
@@ -312,6 +313,14 @@
     } 
 }
 
+-(NSURL*)storeUrlFromDocumentsDir{
+	NSString* applicationDocumentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];		
+	return [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent: sqliteFileWithExtension]];
+}
+
+-(NSURL*)storeUrlFromBundle{
+    return [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:sqliteFileName ofType:@"sqlite"]];
+}
 
 /**
  Returns the persistent store coordinator for the application.
@@ -321,21 +330,18 @@
 	/**
 	 *
 	 *
-	 * RUN THE APP WITH THIS LINE COMMENTED OUT TO CREATE THE EMPTY SQLITE DATABASE
+	 * RUN THE APP WITH THIS LINE COMMENTED OUT TO CREATE THE EMPTY SQLITE DATABASE.
+	 * 
 	 *
 	 */
-	[self createEditableCopyOfDatabaseIfNeeded];
+	//[self createEditableCopyOfDatabaseIfNeeded];
 	
 	
     if (persistentStoreCoordinator != nil) {
         return persistentStoreCoordinator;
     }
 	
-	//NSString* applicationDocumentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];	
-    //NSString *databasePath = [[NSBundle mainBundle] pathForResource:sqliteFileName ofType:@"sqlite"];
-	
-	NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent: sqliteFileWithExtension]];
-	//NSURL *storeUrl = [NSURL fileURLWithPath:databasePath]; 
+	NSURL *storeUrl = [self storeUrlFromBundle];
 	
 	NSError *error = nil;
     persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
