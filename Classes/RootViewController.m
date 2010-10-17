@@ -5,6 +5,8 @@
 #import "Constants.h"
 #import "ActivityView.h"
 #import "NoResultsView.h"
+#import "Three20/Three20.h"
+#import "RhymeTimeTTStyleSheet.h"
 #import "RhymeDetailTableViewController.h"
 #import "DASingleton.h"
 #import "ResultCell.h"
@@ -204,12 +206,23 @@ bool firstSearch = TRUE;
 	cell.textLabel.textColor = [UIColor whiteColor];
 	cell.textLabel.font = [UIFont fontWithName:@"Arial-bold" size:16];
 	cell.backgroundView.backgroundColor = [UIColor blackColor];
-	if([filteredSearchSuggestions count] == 0){
+
+	if([self shouldShowNoResultsFoundTextInSeachSuggestionTable]){
+		cell.textLabel.textColor = [UIColor darkGrayColor];
+		cell.textLabel.font = [UIFont fontWithName:@"Arial-bold" size:14];
+		cell.textLabel.text = [NSString stringWithFormat:@"No results for '%@'", self.searchDisplayController.searchBar.text];
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	}else if([filteredSearchSuggestions count] == 0){
 		cell.textLabel.text = @"";
-	}else {
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	}else{
 		cell.textLabel.text = [filteredSearchSuggestions objectAtIndex:indexPath.row];
 	}
 	return cell;
+}
+
+-(BOOL)shouldShowNoResultsFoundTextInSeachSuggestionTable{
+	return ([filteredSearchSuggestions count] == 0 && [self.searchDisplayController.searchBar.text length] > 2);
 }
 
 
@@ -230,24 +243,23 @@ bool firstSearch = TRUE;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	if (tableView == self.searchDisplayController.searchResultsTableView){
-		NSString *word = [filteredSearchSuggestions objectAtIndex:indexPath.row];
-		[self enableScrolling];
-		
-		[filteredSearchSuggestions removeAllObjects];
-		[self.searchDisplayController setActive:NO animated:TRUE];
-		[self setSearchTextAndDoSearch:word];
+		if(![self shouldShowNoResultsFoundTextInSeachSuggestionTable]){
+			NSString *word = [filteredSearchSuggestions objectAtIndex:indexPath.row];
+			[self enableScrolling];
+			
+			[filteredSearchSuggestions removeAllObjects];
+			[self.searchDisplayController setActive:NO animated:TRUE];
+			[self setSearchTextAndDoSearch:word];
+		}
     }
 	else
-	{
+	{		
 		self.navigationItem.title = @"back";
-		//RhymeDetailViewController *targetViewController = [[RhymeDetailViewController alloc] initWithNibName:@"RhymeDetailViewController" bundle:nil searchCallback:self searchResult:[self.searchResult objectAtIndex:indexPath.row]];
-		//RhymeDetailTableViewController *targetViewController = [[RhymeDetailTableViewController alloc] initWithNibName:@"RhymeDetailTableViewController" bundle:nil searchCallback:self searchResult:[self.searchResult objectAtIndex:indexPath.row]];
 		RhymeDetailTableViewController *targetViewController = [[RhymeDetailTableViewController alloc] initWithNibName:nil bundle:nil searchCallback:self searchResult:[self.searchResult objectAtIndex:indexPath.row]];
 		
 		//TODO dont' refer to app delegate
 		AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 	
 		[appDelegate.navigationController pushViewController:targetViewController animated:YES];
-		//[self.parentViewController.navigationController pushViewController:targetViewController animated:YES];
 	}
 }
 
@@ -289,7 +301,6 @@ bool firstSearch = TRUE;
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
 	if([searchString length] > 2){
-		//[self filterSearchPopulateAndReloadInNewThread:searchString];
 		[self.search filterSearch:searchString];
 		return NO;
 	}else{

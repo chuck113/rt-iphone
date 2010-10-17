@@ -233,11 +233,11 @@
 
 -(NSString *)encodeUrlString:(NSString *)unencodedString{
 	return (NSString *)CFURLCreateStringByAddingPercentEscapes(
-																				   NULL,
-																				   (CFStringRef)unencodedString,
-																				   NULL,
-																				   (CFStringRef)@"!*'();:@&=+$,/?%#[]",
-																				   kCFStringEncodingUTF8 );
+		   NULL,
+		   (CFStringRef)unencodedString,
+		   NULL,
+		   (CFStringRef)@"!*'();:@&=+$,/?%#[]",
+		   kCFStringEncodingUTF8 );
 }
 
 @end

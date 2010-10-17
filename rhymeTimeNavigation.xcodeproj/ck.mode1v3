@@ -216,7 +216,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>43AB4A67126B60B7001549B7</string>
+						<string>43AB4AED126B6B56001549B7</string>
 						<key>history</key>
 						<array>
 							<string>435B5CC3126B5BA000BB4AFC</string>
@@ -319,13 +319,13 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>40</integer>
+									<integer>35</integer>
 									<integer>9</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 143}, {263, 795}}</string>
+							<string>{{0, 155}, {263, 795}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -362,7 +362,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>RhymeTimeTTStyleSheet.m</string>
+								<string>RootViewController.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -370,11 +370,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>RhymeTimeTTStyleSheet.m</string>
+										<string>RootViewController.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>43AB4A66126B60B7001549B7</string>
+										<string>43AB4AEC126B6B56001549B7</string>
 										<key>history</key>
 										<array>
 											<string>434D3C9C11B45650004D7867</string>
@@ -430,7 +430,6 @@
 											<string>435B5B9D1269D42C00BB4AFC</string>
 											<string>435B5B9E1269D42C00BB4AFC</string>
 											<string>435B5BBA1269D5E700BB4AFC</string>
-											<string>435B5BBB1269D5E700BB4AFC</string>
 											<string>435B5BBF1269D5E700BB4AFC</string>
 											<string>435B5BC91269D65C00BB4AFC</string>
 											<string>435B5C40126B51A600BB4AFC</string>
@@ -445,13 +444,15 @@
 											<string>435B5C82126B542B00BB4AFC</string>
 											<string>435B5C83126B542B00BB4AFC</string>
 											<string>435B5CA6126B57DD00BB4AFC</string>
-											<string>43AB4A33126B5E08001549B7</string>
 											<string>43AB4A34126B5E08001549B7</string>
 											<string>43AB4A36126B5E08001549B7</string>
 											<string>43AB4A37126B5E08001549B7</string>
 											<string>43AB4A50126B5F62001549B7</string>
 											<string>43AB4A65126B60B7001549B7</string>
-											<string>43AB4A51126B5F62001549B7</string>
+											<string>43AB4A6B126B61FC001549B7</string>
+											<string>43AB4A9B126B6656001549B7</string>
+											<string>43AB4AD2126B6ABB001549B7</string>
+											<string>43AB4AE4126B6B18001549B7</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -647,13 +648,13 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>43AB4A68126B60B7001549B7</string>
+		<string>43AB4AEE126B6B56001549B7</string>
 		<string>43AB4A3E126B5E08001549B7</string>
 		<string>43AB4A3F126B5E08001549B7</string>
-		<string>1C78EAAD065D492600B07095</string>
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>43F2285911A0598500FA9656</string>
 		<string>43DFE84B126500FC002A63AF</string>
+		<string>1C78EAAD065D492600B07095</string>
 		<string>/Users/ck/dev/rt-iphone/rt-iphone/rhymeTimeNavigation.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
@@ -981,6 +982,8 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -1026,7 +1029,7 @@
 			<key>WindowToolGUID</key>
 			<string>1C78EAAD065D492600B07095</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>Identifier</key>
