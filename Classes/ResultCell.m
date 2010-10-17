@@ -27,7 +27,6 @@
 
 -(id)init{
 	if (self = [super init]) {
-		[TTStyleSheet setGlobalStyleSheet:[[[RhymeTimeTTStyleSheet alloc] init] autorelease]];
 		htmlBuilder = [HtmlBuilder alloc];
 	}
 	return self;

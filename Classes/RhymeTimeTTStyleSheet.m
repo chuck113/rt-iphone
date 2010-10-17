@@ -7,11 +7,7 @@
 //
 
 #import <Three20/Three20.h>
-
-//#import "RhymeTimeTTStyleSheet.h"
-
-@interface RhymeTimeTTStyleSheet : TTDefaultStyleSheet
-@end
+#import "RhymeTimeTTStyleSheet.h"
 
 @implementation RhymeTimeTTStyleSheet
 
@@ -24,6 +20,11 @@
 - (TTStyle*)titleStyle {
 	return [TTBoxStyle styleWithMargin:UIEdgeInsetsMake(-10, 0, 0, 0) next:
 			[TTTextStyle styleWithFont:[UIFont fontWithName:@"Helvetica" size:14] color:[UIColor darkGrayColor] textAlignment:UITextAlignmentRight next:nil]];
+}
+
+- (TTStyle*)instructionsStyle {
+	return [TTBoxStyle styleWithMargin:UIEdgeInsetsMake(5, 0, 0, 0) next:
+			[TTTextStyle styleWithFont:[UIFont fontWithName:@"Arial" size:18] color:[UIColor grayColor] textAlignment:UITextAlignmentCenter next:nil]];
 }
 
 //- (TTStyle*)blueText {

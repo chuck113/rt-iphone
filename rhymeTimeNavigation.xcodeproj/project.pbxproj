@@ -16,6 +16,7 @@
 		4309839111D6356D003AA017 /* NoResultsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4309839011D6356D003AA017 /* NoResultsView.m */; };
 		431DF2121257629000674896 /* YouTubeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 431DF2111257629000674896 /* YouTubeView.m */; };
 		43363BFA11EB924D00114DD6 /* RhymeTimeTTStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 43363BF911EB924D00114DD6 /* RhymeTimeTTStyleSheet.m */; };
+		435B5C10126B4E1700BB4AFC /* InstructionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 435B5C0F126B4E1700BB4AFC /* InstructionsView.m */; };
 		43650AF011F61DC700E7F6A6 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43650AEF11F61DC700E7F6A6 /* MainViewController.m */; };
 		4394AEFD11A9B2B800BE9DEC /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4394AEFC11A9B2B800BE9DEC /* CoreData.framework */; };
 		4394AEFF11A9B2B800BE9DEC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4394AEFE11A9B2B800BE9DEC /* CoreGraphics.framework */; };
@@ -25,8 +26,6 @@
 		43B6A5651257A3A5009D60E8 /* HtmlBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B6A5641257A3A5009D60E8 /* HtmlBuilder.m */; };
 		43B81FAB1205CCD200C72ED6 /* Rhyme.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B81FA41205CCD200C72ED6 /* Rhyme.m */; };
 		43B81FAC1205CCD200C72ED6 /* RhymePart.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B81FA61205CCD200C72ED6 /* RhymePart.m */; };
-		43C5E2A3125BB6F300103201 /* lightbulb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 43C5E2A2125BB6F300103201 /* lightbulb@2x.png */; };
-		43C5E2A5125BB7A300103201 /* lightbulb.png in Resources */ = {isa = PBXBuildFile; fileRef = 43C5E2A4125BB7A300103201 /* lightbulb.png */; };
 		43C5E2C7125BBB0300103201 /* header.png in Resources */ = {isa = PBXBuildFile; fileRef = 43C5E2C5125BBB0300103201 /* header.png */; };
 		43C5E2C8125BBB0300103201 /* header@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 43C5E2C6125BBB0300103201 /* header@2x.png */; };
 		43C5E2E1125BBF5100103201 /* iPod-black-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 43C5E2E0125BBF5100103201 /* iPod-black-64.png */; };
@@ -35,7 +34,6 @@
 		43C5E336125BC7F900103201 /* rhymeTime.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 43C5E335125BC7F900103201 /* rhymeTime.sqlite */; };
 		43D548831217288600929970 /* ResultCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 43D548821217288600929970 /* ResultCell.m */; };
 		43D54BBC1217F9B600929970 /* Search.m in Sources */ = {isa = PBXBuildFile; fileRef = 43D54BBB1217F9B600929970 /* Search.m */; };
-		43DC8CEE11CEB80B009EBD46 /* iconOLD.png in Resources */ = {isa = PBXBuildFile; fileRef = 43DC8CEC11CEB80B009EBD46 /* iconOLD.png */; };
 		43DFE709126241C5002A63AF /* DASingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DFE708126241C4002A63AF /* DASingleton.m */; };
 		43DFE8281264E2F3002A63AF /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 43DFE8241264E2F3002A63AF /* Default.png */; };
 		43DFE8291264E2F3002A63AF /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 43DFE8251264E2F3002A63AF /* Default@2x.png */; };
@@ -228,8 +226,9 @@
 		4309839011D6356D003AA017 /* NoResultsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoResultsView.m; sourceTree = "<group>"; };
 		431DF2101257629000674896 /* YouTubeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YouTubeView.h; sourceTree = "<group>"; };
 		431DF2111257629000674896 /* YouTubeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YouTubeView.m; sourceTree = "<group>"; };
-		43363BF811EB924D00114DD6 /* RhymeTimeTTStyleSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RhymeTimeTTStyleSheet.h; sourceTree = "<group>"; };
 		43363BF911EB924D00114DD6 /* RhymeTimeTTStyleSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RhymeTimeTTStyleSheet.m; sourceTree = "<group>"; };
+		435B5C0E126B4E1700BB4AFC /* InstructionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstructionsView.h; sourceTree = "<group>"; };
+		435B5C0F126B4E1700BB4AFC /* InstructionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstructionsView.m; sourceTree = "<group>"; };
 		43650AEE11F61DC700E7F6A6 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		43650AEF11F61DC700E7F6A6 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		4394AEFC11A9B2B800BE9DEC /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.0.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
@@ -237,13 +236,12 @@
 		4394AF0011A9B2B800BE9DEC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		4394AF0211A9B2B800BE9DEC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.0.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		4394AF0411A9B2B800BE9DEC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		43AB4A25126B5D58001549B7 /* RhymeTimeTTStyleSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RhymeTimeTTStyleSheet.h; sourceTree = "<group>"; };
 		43B6A5641257A3A5009D60E8 /* HtmlBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HtmlBuilder.m; sourceTree = "<group>"; };
 		43B81FA31205CCD200C72ED6 /* Rhyme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rhyme.h; sourceTree = "<group>"; };
 		43B81FA41205CCD200C72ED6 /* Rhyme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rhyme.m; sourceTree = "<group>"; };
 		43B81FA51205CCD200C72ED6 /* RhymePart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RhymePart.h; sourceTree = "<group>"; };
 		43B81FA61205CCD200C72ED6 /* RhymePart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RhymePart.m; sourceTree = "<group>"; };
-		43C5E2A2125BB6F300103201 /* lightbulb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lightbulb@2x.png"; sourceTree = "<group>"; };
-		43C5E2A4125BB7A300103201 /* lightbulb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lightbulb.png; sourceTree = "<group>"; };
 		43C5E2C5125BBB0300103201 /* header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = header.png; sourceTree = "<group>"; };
 		43C5E2C6125BBB0300103201 /* header@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "header@2x.png"; sourceTree = "<group>"; };
 		43C5E2E0125BBF5100103201 /* iPod-black-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPod-black-64.png"; sourceTree = "<group>"; };
@@ -254,7 +252,6 @@
 		43D548821217288600929970 /* ResultCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultCell.m; sourceTree = "<group>"; };
 		43D54BBA1217F9B600929970 /* Search.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Search.h; sourceTree = "<group>"; };
 		43D54BBB1217F9B600929970 /* Search.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Search.m; sourceTree = "<group>"; };
-		43DC8CEC11CEB80B009EBD46 /* iconOLD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconOLD.png; sourceTree = "<group>"; };
 		43DFE707126241C4002A63AF /* DASingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DASingleton.h; sourceTree = "<group>"; };
 		43DFE708126241C4002A63AF /* DASingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DASingleton.m; sourceTree = "<group>"; };
 		43DFE8241264E2F3002A63AF /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
@@ -331,12 +328,12 @@
 				1D3623250D0F684500981E51 /* AppDelegate.m */,
 				46D402A712552A4100184774 /* RhymeDetailTableViewController.h */,
 				46D402A812552A4100184774 /* RhymeDetailTableViewController.m */,
-				43363BF811EB924D00114DD6 /* RhymeTimeTTStyleSheet.h */,
 				43363BF911EB924D00114DD6 /* RhymeTimeTTStyleSheet.m */,
 				43650AEE11F61DC700E7F6A6 /* MainViewController.h */,
 				43650AEF11F61DC700E7F6A6 /* MainViewController.m */,
 				43D54BBA1217F9B600929970 /* Search.h */,
 				43D54BBB1217F9B600929970 /* Search.m */,
+				43AB4A25126B5D58001549B7 /* RhymeTimeTTStyleSheet.h */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -391,11 +388,8 @@
 				43C5E2E0125BBF5100103201 /* iPod-black-64.png */,
 				43C5E2C5125BBB0300103201 /* header.png */,
 				43C5E2C6125BBB0300103201 /* header@2x.png */,
-				43C5E2A4125BB7A300103201 /* lightbulb.png */,
-				43C5E2A2125BB6F300103201 /* lightbulb@2x.png */,
 				4655FE0B1221BB670050AB70 /* LyricsView.xib */,
 				46A0E86111E311C700FD2C7C /* AccDisclosure.png */,
-				43DC8CEC11CEB80B009EBD46 /* iconOLD.png */,
 				468576BC11A0257100814B9E /* rhymeTimeIPhonePrototype.xcdatamodel */,
 				28F335F01007B36200424DE2 /* MainViewController.xib */,
 				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
@@ -431,6 +425,8 @@
 				43D548821217288600929970 /* ResultCell.m */,
 				4655FE091221BB670050AB70 /* LyricsView.h */,
 				4655FE0A1221BB670050AB70 /* LyricsView.m */,
+				435B5C0E126B4E1700BB4AFC /* InstructionsView.h */,
+				435B5C0F126B4E1700BB4AFC /* InstructionsView.m */,
 			);
 			name = subViews;
 			sourceTree = "<group>";
@@ -716,12 +712,9 @@
 			files = (
 				28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */,
 				28F335F11007B36200424DE2 /* MainViewController.xib in Resources */,
-				43DC8CEE11CEB80B009EBD46 /* iconOLD.png in Resources */,
 				46A0E86211E311C700FD2C7C /* AccDisclosure.png in Resources */,
 				46A0EE5E11E9EB5700FD2C7C /* Three20.bundle in Resources */,
 				4655FE0D1221BB670050AB70 /* LyricsView.xib in Resources */,
-				43C5E2A3125BB6F300103201 /* lightbulb@2x.png in Resources */,
-				43C5E2A5125BB7A300103201 /* lightbulb.png in Resources */,
 				43C5E2C7125BBB0300103201 /* header.png in Resources */,
 				43C5E2C8125BBB0300103201 /* header@2x.png in Resources */,
 				43C5E2E1125BBF5100103201 /* iPod-black-64.png in Resources */,
@@ -765,6 +758,7 @@
 				431DF2121257629000674896 /* YouTubeView.m in Sources */,
 				43B6A5651257A3A5009D60E8 /* HtmlBuilder.m in Sources */,
 				43DFE709126241C5002A63AF /* DASingleton.m in Sources */,
+				435B5C10126B4E1700BB4AFC /* InstructionsView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

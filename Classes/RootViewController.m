@@ -5,11 +5,10 @@
 #import "Constants.h"
 #import "ActivityView.h"
 #import "NoResultsView.h"
-#import "Three20/Three20.h"
-#import "RhymeTimeTTStyleSheet.h"
 #import "RhymeDetailTableViewController.h"
 #import "DASingleton.h"
 #import "ResultCell.h"
+#import "InstructionsView.h"
 
 @interface RootViewController()
 
@@ -17,9 +16,10 @@
 - (void)showActivityView:(NSString*)text;;
 - (void)hideActivityView;
 - (void)reloadTableData;
+-(void)firstSearchCheck;
 
 bool isAwaitingResults = FALSE;
-
+bool firstSearch = TRUE;
 
 @end
 
@@ -32,17 +32,17 @@ bool isAwaitingResults = FALSE;
 @synthesize noResultsView;
 @synthesize searchDisplayController;
 @synthesize filteredSearchSuggestions;
-
+@synthesize instructionsView;
 @synthesize resultCellFactory;
 @synthesize dataAccess;
 @synthesize search;
 
-
 //
-// Internal search  methods
+// kicks the search off
 //
 
 -(void)setSearchTextAndDoSearch:(NSString *)text{
+	[self firstSearchCheck];
 	self.searchDisplayController.searchBar.text = [text uppercaseString];
 	[self.searchDisplayController.searchResultsTableView removeFromSuperview];
 	
@@ -53,6 +53,19 @@ bool isAwaitingResults = FALSE;
 	[self showActivityView:text];
 	[self.search search:text];
 }
+
+-(void)firstSearchCheck{
+	if(firstSearch){
+		firstSearch = FALSE;
+		[instructionsView.view removeFromSuperview];
+	}
+}
+
+
+//
+// Internal search  methods
+//
+
 
 -(void)reloadTableData{
 	[self.searchResultTableView setContentOffset:CGPointMake(0, 0) animated:NO];
@@ -100,8 +113,7 @@ bool isAwaitingResults = FALSE;
 -(void)hideActivityView{
 	[activityView.view removeFromSuperview];
 	isAwaitingResults = FALSE;
-	[self reloadTableData];
-	
+	[self reloadTableData];	
 }
 
 
@@ -113,12 +125,16 @@ bool isAwaitingResults = FALSE;
     [super viewDidLoad];
 	self.activityView = [[ActivityView alloc] init];
 	self.noResultsView = [[NoResultsView alloc] init];
+	self.instructionsView = [[InstructionsView alloc] init];
+	
 	self.filteredSearchSuggestions = [NSMutableArray arrayWithCapacity:0];
 	
 	resultCellFactory = [[ResultCellFactory alloc] init];
 	
 	self.dataAccess = [[DASingleton instance] dataAccess];
-	search = [[Search alloc] initWithDataAccess:self.dataAccess searchCallbackObj:self];			  
+	search = [[Search alloc] initWithDataAccess:self.dataAccess searchCallbackObj:self];		
+	
+	[self.view addSubview:instructionsView.view];
 }
 
 

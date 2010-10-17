@@ -8,12 +8,8 @@
 
 #import "MainViewController.h"
 #import "DASingleton.h"
-
-@interface MainViewController()
-
--(void)disableRandomButton;
-
-@end
+#import "Three20/Three20.h"
+#import "RhymeTimeTTStyleSheet.h"
 
 
 @implementation MainViewController
@@ -33,7 +29,8 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	
+	[TTStyleSheet setGlobalStyleSheet:[[[RhymeTimeTTStyleSheet alloc] init] autorelease]];
+		
 	self.searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:tableSearchBar contentsController:tableController];  
 	[tableController setSearchDisplayController:searchDisplayController];
 	
@@ -50,22 +47,13 @@
 	self.navigationController.navigationBar.tintColor = [UIColor blackColor];
 	
 	[imageView release];
-	
-	//	UIBarButtonItem *randomButtonTmp = [[UIBarButtonItem alloc] initWithTitle:@"RANDOM" 
-	//                                                                  style:UIBarButtonItemStyleBordered 
-	//                                                                 target:self 
-	//                                                                 action:@selector(randomButtonTouched)]; 
-	
+
 	UIBarButtonItem *randomButtonTmp = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed: @"R.png"]
 																		style:UIBarButtonItemStyleBordered 
 																	   target:self 
 																	   action:@selector(randomButtonTouched)];  
 	
     self.navigationItem.leftBarButtonItem = randomButtonTmp;
-	//	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"?" 
-	//																			  style:UIBarButtonItemStylePlain 
-	//																			 target:self 
-	//																			 action:@selector(randomButtonTouched)];
 	self.randomButton = randomButtonTmp;
 	[randomButtonTmp release];
 }

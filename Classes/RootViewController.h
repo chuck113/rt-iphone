@@ -12,6 +12,7 @@
 #import "NoResultsView.h"
 #import "DataAccess.h"
 #import "Search.h"
+#import "InstructionsView.h"
 
 @protocol HtmlLoadedCallback;
 
@@ -32,6 +33,7 @@
 	
 	ActivityView *activityView;
 	NoResultsView *noResultsView;
+	InstructionsView *instructionsView;
 	
 	IBOutlet UITableView *searchResultTableView;
 	IBOutlet UISearchDisplayController* searchDisplayController;
@@ -40,6 +42,7 @@
 	ResultCellFactory* resultCellFactory;
 	IBOutlet DataAccess *dataAccess;
 	Search *search;
+	
 }
 
 //-(void)searchWorker:(NSString*)text;
@@ -51,6 +54,7 @@
 @property (nonatomic, retain) NSArray *searchResult;
 @property (nonatomic, retain) NSArray *resultCache;
 @property (nonatomic, retain) ActivityView *activityView;
+@property (nonatomic, retain) InstructionsView *instructionsView;
 @property (nonatomic, retain) NoResultsView *noResultsView;
 @property (nonatomic, retain) UISearchDisplayController* searchDisplayController;
 @property (nonatomic, retain) NSMutableArray* filteredSearchSuggestions;

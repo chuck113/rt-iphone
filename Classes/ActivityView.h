@@ -16,6 +16,7 @@
 }
 
 -(void)updateText:(NSString *)text;
+- (void)buildLabel;
 
 @property (nonatomic, retain) UILabel *spinnerLabel;
 @property (nonatomic, retain) UIActivityIndicatorView *spinner;
