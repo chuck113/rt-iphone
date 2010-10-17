@@ -28,6 +28,7 @@ static DataAccess *dataAccessInstance = nil;
         if (sharedInstance == nil){
 			sharedInstance = [[self alloc] init];
 			dataAccessInstance = [[DataAccess alloc] init];
+			[dataAccessInstance buildEntriesAsyc];
 		}
     }
     return sharedInstance;

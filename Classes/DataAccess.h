@@ -30,5 +30,6 @@
 - (NSArray*)rhymesWithPrefix:(NSString *)prefix;
 - (NSArray *)rhymesWithPrefixCheap:(NSString *)query;
 
+-(void)buildEntriesAsyc;
 
 @end

@@ -56,7 +56,7 @@
 	//                                                                 target:self 
 	//                                                                 action:@selector(randomButtonTouched)]; 
 	
-	UIBarButtonItem *randomButtonTmp = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed: @"lightbulb.png"]
+	UIBarButtonItem *randomButtonTmp = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed: @"R.png"]
 																		style:UIBarButtonItemStyleBordered 
 																	   target:self 
 																	   action:@selector(randomButtonTouched)];  

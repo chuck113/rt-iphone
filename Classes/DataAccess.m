@@ -13,6 +13,7 @@
 - (NSArray *)allRhymesSorted;
 - (NSDictionary *)buildPrefixSearchMap:(NSArray*)allEntries;
 
+-(void)buildEntriesWorker;
 
 @end
 
@@ -24,10 +25,22 @@
 
 - (DataAccess*)init{
 	[self managedObjectContext];
+	return self;
+}
+
+-(void)buildEntriesAsyc{
+	[NSThread detachNewThreadSelector:@selector(buildEntriesWorker) toTarget:self withObject:nil];
+}
+
+-(void)buildEntriesWorker{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	self.allEntries = [self allRhymesSorted];
 	self.prefixSearchMap = [self buildPrefixSearchMap:self.allEntries];
-	return self;
+	
+	//[self performSelectorOnMainThread:@selector(searchComplete:) withObject:resultParameters waitUntilDone:NO];
+	
+	[pool release];
 }
 
 /**
