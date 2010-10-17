@@ -4,4 +4,6 @@
 **/*.perspectivev*
 build/
 
+rhymeTime.sqlite
+
 .DS_Store
