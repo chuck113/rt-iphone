@@ -37,9 +37,7 @@
 	
 	self.allEntries = [self allRhymesSorted];
 	self.prefixSearchMap = [self buildPrefixSearchMap:self.allEntries];
-	
-	//[self performSelectorOnMainThread:@selector(searchComplete:) withObject:resultParameters waitUntilDone:NO];
-	
+
 	[pool release];
 }
 
@@ -63,16 +61,18 @@
 	NSError *error;
 	NSArray *items = [managedObjectContext executeFetchRequest:req error:&error];
 	
-	[req release];
-	
+	[req release];	
+	[sortByName release];
 	
 	NSLog(@"found rhymes: %i, took %f", items.count, (CFAbsoluteTimeGetCurrent() - startTime));
 	
 	if (![managedObjectContext save:&error]) {
         NSLog(@"Unresolved Core Data Save error %@, %@", error, [error userInfo]);
+		[error release];
         return [NSArray init];
     }
 	
+	[error release];
 	return [self buildResultsArray:items maxResults:20.0];
 }
 
@@ -99,7 +99,8 @@
 	NSError *error;
 	NSArray *items = [managedObjectContext executeFetchRequest:req error:&error];
 	
-	[req release];	
+	[req release];
+	[sortByName release];
 	
 	NSLog(@"allRhymes: %i, took %f", items.count, (CFAbsoluteTimeGetCurrent() - startTime));
 	
@@ -146,7 +147,8 @@
 	NSError *error;
 	NSArray *items = [managedObjectContext executeFetchRequest:req error:&error];
 	
-	[req release];	
+	[req release];
+	[sortByName release];
 	
 	if (![managedObjectContext save:&error]) {
         NSLog(@"Unresolved Core Data Save error %@, %@", error, [error userInfo]);
@@ -212,7 +214,9 @@
 			}
 			NSLog(@"rhymesWithPrefixCheap: took %f", (CFAbsoluteTimeGetCurrent() - startTime));
 
-			return [NSArray arrayWithArray:resultArray];
+			NSArray *res = [NSArray arrayWithArray:resultArray];
+			[resultArray release];
+			return res;
 		}
 			
 	}
@@ -220,10 +224,10 @@
 }
 
 -(NSArray *)buildResultsArray:(NSArray *)items maxResults:(double)maxResults{
-	double resultsToShowDouble = fmin(maxResults, [[[NSNumber alloc] initWithInt:items.count] doubleValue]);
+	double resultsToShowDouble = fmin(maxResults, [[NSNumber numberWithInt:items.count] doubleValue]);
 	NSLog(@"will show %f results", resultsToShowDouble);
 	
-	int resultsToShow = [[[NSNumber alloc] initWithDouble:resultsToShowDouble] intValue];
+	int resultsToShow = [[NSNumber numberWithDouble:resultsToShowDouble] intValue];
 	NSLog(@"will show %i results", resultsToShow);
 	
 	NSMutableArray* resultArray = [[NSMutableArray alloc] init];
@@ -238,10 +242,11 @@
 	}
 	
 	NSLog(@"result array has %i entreis", resultArray.count);
+
 	
-	NSArray* result = [NSArray arrayWithArray:resultArray];
-	[resultArray dealloc];
-	return result;
+	NSArray* res = [NSArray arrayWithArray:resultArray];
+	[resultArray release];
+	return res;
 }
 
 /**
@@ -327,7 +332,7 @@
 }
 
 -(NSURL*)storeUrlFromDocumentsDir{
-	NSString* applicationDocumentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];		
+	//NSString* applicationDocumentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];		
 	return [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent: sqliteFileWithExtension]];
 }
 

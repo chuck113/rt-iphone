@@ -18,7 +18,8 @@
 - (void)showActivityView:(NSString*)text;;
 - (void)hideActivityView;
 - (void)reloadTableData;
--(void)firstSearchCheck;
+- (void)firstSearchCheck;
+- (BOOL)shouldShowNoResultsFoundTextInSeachSuggestionTable;
 
 bool isAwaitingResults = FALSE;
 bool firstSearch = TRUE;

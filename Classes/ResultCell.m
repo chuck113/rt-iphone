@@ -37,7 +37,7 @@
 	
 	cell.accessoryView = [[ UIImageView alloc ]  initWithImage:[UIImage imageNamed:@"AccDisclosure.png" ]];
 	
-	return cell;
+	return [cell autorelease];
 }
 
 

@@ -25,7 +25,10 @@
 		[ms appendString:@" / "];
 	}
 	[ms appendString:[lines objectAtIndex:(lines.count -1)]];
-	return [[NSString alloc] initWithString:ms];
+	
+	NSString *res = [NSString stringWithString:ms];
+	[ms release];
+	return res; 
 }
 
 - (NSString *)removePunctuation:(NSString *)line{
@@ -69,14 +72,19 @@
 	}
 	
 	[wordBuffer dealloc];
-	return [[NSString stringWithString:stringBuffer] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
+	NSString *res = [NSString stringWithString:stringBuffer];
+	[stringBuffer release];
+	return [res stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
 }
 
 - (NSString *)testHtml{
 	NSMutableString* ms = [[NSMutableString alloc] initWithString:@"<html><head><title>/title></head><body>"];
 	[ms appendString:@"<p>I pour a hieneken <b>brew</b> to my dececed <b>crew</b> in memory lane</p>"];
 	[ms appendString:@"<p>NAS - Memory Lane</p>"];
-	return [[NSString alloc] initWithString:ms];
+	
+	NSString *res =[NSString stringWithString:ms];
+	[ms release];
+	return res;
 }
 
 
@@ -133,13 +141,16 @@
 	
 	NSString* divAndStyle = [NSString stringWithFormat:@"<div id=\"lines\" %@>", styleString];
 	
-	NSSet* unindexedWords = [[NSSet alloc] init];
+	NSMutableSet* unindexedWords = [[NSMutableSet alloc] init];
 	if(withLinks){
-		unindexedWords = [rhymePart wordsNotInIndexDeserialised]; 
+		[unindexedWords unionSet:[rhymePart wordsNotInIndexDeserialised]];
 	}
 	
-	NSString* linesWithFormatting = [self applyFormatToRhymeParts:line parts:parts withLinks:withLinks unIndexedWords:unindexedWords prefix:@"<b>" suffix:@"</b>" emphasizeParts:emphasizeParts deEmphasizeUnindexedWords:deEmphasizeUnindexedWords];
-
+	NSSet *unindexedWordsImmutable = [NSSet setWithSet:unindexedWords];
+	
+	NSString* linesWithFormatting = [self applyFormatToRhymeParts:line parts:parts withLinks:withLinks unIndexedWords:unindexedWordsImmutable prefix:@"<b>" suffix:@"</b>" emphasizeParts:emphasizeParts deEmphasizeUnindexedWords:deEmphasizeUnindexedWords];
+	[unindexedWordsImmutable release];
+	[unindexedWords release];
 	// DEBUG
 	//return [NSString stringWithFormat:@"%@%@ DEBUG:%d</div>", divAndStyle, linesWithFormatting, rhymePart.rhymeScore];
 	

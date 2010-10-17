@@ -1,0 +1,13 @@
+sqlite> select count(*) from ZSONG;
+11417
+sqlite> select count(*) from ZRHYME;
+89999
+sqlite> select count(*) from ZRHYMEPART;
+133638
+sqlite> select count(zword) from zrhymepart;
+133638
+sqlite> select count(zword) from zrhymepart distinct;
+SQL error: near "distinct": syntax error
+sqlite> select count(distinct zword) from zrhymepart 
+   ...> ;
+15825
