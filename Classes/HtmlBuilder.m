@@ -71,21 +71,21 @@
 		[stringBuffer appendString:word];
 	}
 	
-	[wordBuffer dealloc];
+	[wordBuffer release];
 	NSString *res = [NSString stringWithString:stringBuffer];
 	[stringBuffer release];
 	return [res stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
 }
 
-- (NSString *)testHtml{
-	NSMutableString* ms = [[NSMutableString alloc] initWithString:@"<html><head><title>/title></head><body>"];
-	[ms appendString:@"<p>I pour a hieneken <b>brew</b> to my dececed <b>crew</b> in memory lane</p>"];
-	[ms appendString:@"<p>NAS - Memory Lane</p>"];
-	
-	NSString *res =[NSString stringWithString:ms];
-	[ms release];
-	return res;
-}
+//- (NSString *)testHtml{
+//	NSMutableString* ms = [[NSMutableString alloc] initWithString:@"<html><head><title>/title></head><body>"];
+//	[ms appendString:@"<p>I pour a hieneken <b>brew</b> to my dececed <b>crew</b> in memory lane</p>"];
+//	[ms appendString:@"<p>NAS - Memory Lane</p>"];
+//	
+//	NSString *res =[NSString stringWithString:ms];
+//	[ms release];
+//	return res;
+//}
 
 
 - (NSString *)buildStyledHtmlWithLinks:(RhymePart*)rhymePart{
@@ -149,7 +149,6 @@
 	NSSet *unindexedWordsImmutable = [NSSet setWithSet:unindexedWords];
 	
 	NSString* linesWithFormatting = [self applyFormatToRhymeParts:line parts:parts withLinks:withLinks unIndexedWords:unindexedWordsImmutable prefix:@"<b>" suffix:@"</b>" emphasizeParts:emphasizeParts deEmphasizeUnindexedWords:deEmphasizeUnindexedWords];
-	[unindexedWordsImmutable release];
 	[unindexedWords release];
 	// DEBUG
 	//return [NSString stringWithFormat:@"%@%@ DEBUG:%d</div>", divAndStyle, linesWithFormatting, rhymePart.rhymeScore];
