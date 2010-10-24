@@ -68,11 +68,9 @@
 	
 	if (![managedObjectContext save:&error]) {
         NSLog(@"Unresolved Core Data Save error %@, %@", error, [error userInfo]);
-		[error release];
         return [NSArray init];
     }
 	
-	[error release];
 	return [self buildResultsArray:items maxResults:20.0];
 }
 

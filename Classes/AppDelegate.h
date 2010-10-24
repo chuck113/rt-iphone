@@ -10,17 +10,18 @@
 #import "MainViewController.h"
 #import "DataAccess.h"
 
-
 @interface AppDelegate : NSObject <UIApplicationDelegate> {
     
     IBOutlet UIWindow *window;
 	UINavigationController *navigationController;
 	IBOutlet MainViewController* mainViewController;
+	UIImageView *splashView;
 }
 
 @property (nonatomic, retain) UINavigationController *navigationController;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet MainViewController* mainViewController;
+@property (nonatomic, retain) UIImageView* splashView;
 
 @end
 

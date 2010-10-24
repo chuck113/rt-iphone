@@ -8,6 +8,7 @@
 
 #import "LyricsView.h"
 #import  <QuartzCore/QuartzCore.h>
+#import "Reachability.h"
 
 @implementation LyricsView
 
@@ -44,16 +45,27 @@
 
 	spinner = [[[UIActivityIndicatorView alloc]
                                          initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite] autorelease];
-    [spinner startAnimating];
-	activityItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
+    activityItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
 	
     return self;
+}
+
+//UIAlertViewDelegate method
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
+	NSLog(@"dismissed");
+	if (self.navigationItem.rightBarButtonItem == activityItem) {
+        [self.navigationItem setRightBarButtonItem:nil animated:NO];
+    }
 }
 
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+	
+	[Reachability showAlertIfNoInternetConnectionAsync:self];
+	
+	[spinner startAnimating];
 	self.browserTextField.text = self.url;
 	NSLog(@"loading request for %@", self.url);
 	[webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.url]]];

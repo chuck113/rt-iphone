@@ -165,12 +165,16 @@
 }
 
 -(NSString *)encodeUrlString:(NSString *)unencodedString{
-	return (NSString *)CFURLCreateStringByAddingPercentEscapes(
+	CFStringRef *encoded = (CFStringRef *)CFURLCreateStringByAddingPercentEscapes(
 															   NULL,
 															   (CFStringRef)unencodedString,
 															   NULL,
 															   (CFStringRef)@"!*'();:@&=+$,/?%#[]",
 															   kCFStringEncodingUTF8 );
+	
+	NSString *res = (NSString*)encoded;
+	CFRelease(encoded);
+	return res;
 }
 
 @end

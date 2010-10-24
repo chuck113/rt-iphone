@@ -40,6 +40,8 @@
 									  text, @"text",							  
 									  nil];
 	[self performSelectorOnMainThread:@selector(searchComplete:) withObject:resultParameters waitUntilDone:NO];
+	
+	[resultParameters release];
     [pool release];
 	
 }

@@ -54,6 +54,10 @@
 																	   action:@selector(randomButtonTouched)];  
 	
     self.navigationItem.leftBarButtonItem = randomButtonTmp;
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(randomButtonTouched) name:@"DeviceShaken" object:nil];
+	
 	self.randomButton = randomButtonTmp;
 	[randomButtonTmp release];
 }
@@ -88,6 +92,12 @@
 	[self.tableController enableScrolling];
 	[tableController setSearchTextAndDoSearch:randomWord];
 }
+
+//- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+//	if (event.type == UIEventSubtypeMotionShake) {
+//		[self randomButtonTouched];
+//	}
+//}
 
 
 - (void)didReceiveMemoryWarning {

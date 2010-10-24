@@ -40,6 +40,15 @@ bool firstSearch = TRUE;
 @synthesize dataAccess;
 @synthesize search;
 
+
+
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+	if (event.type == UIEventSubtypeMotionShake) {
+		NSLog(@"detected motion");//[self randomButtonTouched];
+	}
+}
+
+
 //
 // kicks the search off
 //

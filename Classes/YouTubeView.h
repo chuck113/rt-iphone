@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Reachability.h"
 
 
 @interface YouTubeView : UIViewController<UIWebViewDelegate> {
