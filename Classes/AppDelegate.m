@@ -32,7 +32,6 @@
 	
 	[window addSubview:navigationController.view];
     [window makeKeyAndVisible];
-	
 }
 
 
