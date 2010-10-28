@@ -150,31 +150,30 @@
 }
 
 - (void)onSelect{
-		YouTubeView *targetViewController = [[YouTubeView alloc] init];
-		
-	//@"http://www.youtube.com/results?search_query=wu+tang+clan+bring+the+ruckus&aq=0
-		NSString *url = [[NSString stringWithFormat:@"http://www.youtube.com/results?search_query=%@ %@&aq=0", 
-						   [self encodeUrlString:rhymePart.song.album.artist.name],
-						   [self encodeUrlString:rhymePart.song.title]] stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+	YouTubeView *targetViewController = [[YouTubeView alloc] init];
 	
-		NSLog(@"lyric wiki url is %@", url);
-		targetViewController.url = url;
-		
-		AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 	
-		[appDelegate.navigationController pushViewController:targetViewController animated:YES];
+	NSLog(@"encoded artist %@", [self encodeUrlString:rhymePart.song.album.artist.name]);
+	NSLog(@"song: %@, encoded song %@", rhymePart.song.title, [self encodeUrlString:rhymePart.song.title]);
+	
+	NSString *url = [[NSString stringWithFormat:@"http://www.youtube.com/results?search_query=%@ %@&aq=0", 
+					   [self encodeUrlString:rhymePart.song.album.artist.name],
+					  [self encodeUrlString:rhymePart.song.title]] stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+
+	NSLog(@"youtube url is %@", url);
+	targetViewController.url = url;
+	
+	AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate]; 	
+	[appDelegate.navigationController pushViewController:targetViewController animated:YES];
 }
 
 -(NSString *)encodeUrlString:(NSString *)unencodedString{
-	CFStringRef *encoded = (CFStringRef *)CFURLCreateStringByAddingPercentEscapes(
+	NSString *encoded = (NSString *)CFURLCreateStringByAddingPercentEscapes(
 															   NULL,
 															   (CFStringRef)unencodedString,
 															   NULL,
 															   (CFStringRef)@"!*'();:@&=+$,/?%#[]",
 															   kCFStringEncodingUTF8 );
-	
-	NSString *res = (NSString*)encoded;
-	CFRelease(encoded);
-	return res;
+	return [encoded autorelease];
 }
 
 @end
@@ -353,6 +352,7 @@
 @implementation RhymeDetailTableViewController
 
 @synthesize items, webViewItem;
+
 
 
 #pragma mark -

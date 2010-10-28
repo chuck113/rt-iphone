@@ -43,6 +43,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
+	self.navigationItem.title = @"Loading...";
 	[Reachability showAlertIfNoInternetConnectionAsync:self];
 	
 	self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 320, 400)];
@@ -89,11 +90,12 @@
 	if (self.navigationItem.rightBarButtonItem == activityItem) {
         [self.navigationItem setRightBarButtonItem:nil animated:YES];
     }
-	
+	self.navigationItem.title = @"";
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
-	NSLog(@"Failed to load due to %@", [error userInfo]);	
+	NSLog(@"Failed to load due to %@", [error userInfo]);
+	self.navigationItem.title = @"";
 }
 
 

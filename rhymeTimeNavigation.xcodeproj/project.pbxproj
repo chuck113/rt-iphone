@@ -43,6 +43,7 @@
 		43DFE8811269A059002A63AF /* R@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 43DFE87F1269A059002A63AF /* R@2x.png */; };
 		4655FE0C1221BB670050AB70 /* LyricsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4655FE0A1221BB670050AB70 /* LyricsView.m */; };
 		4655FE0D1221BB670050AB70 /* LyricsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4655FE0B1221BB670050AB70 /* LyricsView.xib */; };
+		46604B561274B5B6009C2940 /* MotionWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 46604B551274B5B6009C2940 /* MotionWindow.m */; };
 		468576B911A0255900814B9E /* DataAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 468576B011A0255900814B9E /* DataAccess.m */; };
 		468576BE11A0257100814B9E /* rhymeTimeIPhonePrototype.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 468576BC11A0257100814B9E /* rhymeTimeIPhonePrototype.xcdatamodel */; };
 		46A0E86211E311C700FD2C7C /* AccDisclosure.png in Resources */ = {isa = PBXBuildFile; fileRef = 46A0E86111E311C700FD2C7C /* AccDisclosure.png */; };
@@ -58,6 +59,8 @@
 		46D402A512552A2200184774 /* Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = 46D402A112552A2200184774 /* Artist.m */; };
 		46D402A612552A2200184774 /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = 46D402A312552A2200184774 /* Song.m */; };
 		46D402A912552A4100184774 /* RhymeDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46D402A812552A4100184774 /* RhymeDetailTableViewController.m */; };
+		46E41F49127336390006275F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E41F48127336390006275F /* Reachability.m */; };
+		46E41F69127338F80006275F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46E41F68127338F80006275F /* SystemConfiguration.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -263,6 +266,8 @@
 		4655FE091221BB670050AB70 /* LyricsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LyricsView.h; sourceTree = "<group>"; };
 		4655FE0A1221BB670050AB70 /* LyricsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LyricsView.m; sourceTree = "<group>"; };
 		4655FE0B1221BB670050AB70 /* LyricsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LyricsView.xib; path = Classes/LyricsView.xib; sourceTree = "<group>"; };
+		46604B541274B5B6009C2940 /* MotionWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MotionWindow.h; sourceTree = "<group>"; };
+		46604B551274B5B6009C2940 /* MotionWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MotionWindow.m; sourceTree = "<group>"; };
 		468576AF11A0255900814B9E /* DataAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataAccess.h; sourceTree = "<group>"; };
 		468576B011A0255900814B9E /* DataAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataAccess.m; sourceTree = "<group>"; };
 		468576B211A0255900814B9E /* HtmlBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HtmlBuilder.h; sourceTree = "<group>"; };
@@ -285,6 +290,9 @@
 		46D402A312552A2200184774 /* Song.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Song.m; sourceTree = "<group>"; };
 		46D402A712552A4100184774 /* RhymeDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RhymeDetailTableViewController.h; sourceTree = "<group>"; };
 		46D402A812552A4100184774 /* RhymeDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RhymeDetailTableViewController.m; sourceTree = "<group>"; };
+		46E41F47127336390006275F /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		46E41F48127336390006275F /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		46E41F68127338F80006275F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* rhymeTimeNavigation-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "rhymeTimeNavigation-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -305,6 +313,7 @@
 				46A0EE4911E9EAB000FD2C7C /* libThree20UI.a in Frameworks */,
 				46A0EE4A11E9EAB100FD2C7C /* libThree20UICommon.a in Frameworks */,
 				46A0EE4B11E9EAB300FD2C7C /* libThree20UINavigator.a in Frameworks */,
+				46E41F69127338F80006275F /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,6 +327,8 @@
 				468576AE11A0255900814B9E /* dao */,
 				468576A511A0255800814B9E /* dto */,
 				4685788411A02F8500814B9E /* Constants.h */,
+				46E41F47127336390006275F /* Reachability.h */,
+				46E41F48127336390006275F /* Reachability.m */,
 				46D402A712552A4100184774 /* RhymeDetailTableViewController.h */,
 				46D402A812552A4100184774 /* RhymeDetailTableViewController.m */,
 				468576B211A0255900814B9E /* HtmlBuilder.h */,
@@ -334,6 +345,8 @@
 				43D54BBA1217F9B600929970 /* Search.h */,
 				43D54BBB1217F9B600929970 /* Search.m */,
 				43AB4A25126B5D58001549B7 /* RhymeTimeTTStyleSheet.h */,
+				46604B541274B5B6009C2940 /* MotionWindow.h */,
+				46604B551274B5B6009C2940 /* MotionWindow.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -408,6 +421,7 @@
 				4394AF0011A9B2B800BE9DEC /* Foundation.framework */,
 				4394AF0211A9B2B800BE9DEC /* QuartzCore.framework */,
 				4394AF0411A9B2B800BE9DEC /* UIKit.framework */,
+				46E41F68127338F80006275F /* SystemConfiguration.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -759,6 +773,8 @@
 				43B6A5651257A3A5009D60E8 /* HtmlBuilder.m in Sources */,
 				43DFE709126241C5002A63AF /* DASingleton.m in Sources */,
 				435B5C10126B4E1700BB4AFC /* InstructionsView.m in Sources */,
+				46E41F49127336390006275F /* Reachability.m in Sources */,
+				46604B561274B5B6009C2940 /* MotionWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
