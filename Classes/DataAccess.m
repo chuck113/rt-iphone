@@ -1,11 +1,3 @@
-//
-//  DataAccess.m
-//  rhymeTimeIPhoneUI
-//
-//  Created by Charles on 15/05/2010.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
-
 #import "DataAccess.h"
 #import "RhymePart.h"
 #import "Song.h"
@@ -18,15 +10,35 @@
 
 - (NSArray *)buildResultsArray:(NSArray *)items maxResults:(double)maxResults;
 - (NSString *)applicationDocumentsDirectory;
+- (NSArray *)allRhymesSorted;
+- (NSDictionary *)buildPrefixSearchMap:(NSArray*)allEntries;
+
+-(void)buildEntriesWorker;
+
 @end
+
 
 @implementation DataAccess
 
 @synthesize managedObjectContext, persistentStoreCoordinator, managedObjectModel;
+@synthesize allEntries, prefixSearchMap;
 
 - (DataAccess*)init{
 	[self managedObjectContext];
 	return self;
+}
+
+-(void)buildEntriesAsyc{
+	[NSThread detachNewThreadSelector:@selector(buildEntriesWorker) toTarget:self withObject:nil];
+}
+
+-(void)buildEntriesWorker{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	self.allEntries = [self allRhymesSorted];
+	self.prefixSearchMap = [self buildPrefixSearchMap:self.allEntries];
+
+	[pool release];
 }
 
 /**
@@ -49,8 +61,8 @@
 	NSError *error;
 	NSArray *items = [managedObjectContext executeFetchRequest:req error:&error];
 	
-	[req release];
-	
+	[req release];	
+	[sortByName release];
 	
 	NSLog(@"found rhymes: %i, took %f", items.count, (CFAbsoluteTimeGetCurrent() - startTime));
 	
@@ -85,7 +97,8 @@
 	NSError *error;
 	NSArray *items = [managedObjectContext executeFetchRequest:req error:&error];
 	
-	[req release];	
+	[req release];
+	[sortByName release];
 	
 	NSLog(@"allRhymes: %i, took %f", items.count, (CFAbsoluteTimeGetCurrent() - startTime));
 	
@@ -107,108 +120,112 @@
 	
 }
 
-//- (NSArray*)allRhymes{
-//	CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
-//	
-//	NSFetchRequest *req = [[NSFetchRequest alloc] init];
-//	NSEntityDescription *entityDesc = [NSEntityDescription entityForName:@"RhymePart" inManagedObjectContext:managedObjectContext];
-//	[req setEntity:entityDesc];
-//
-//	NSSortDescriptor *sortByName = [[NSSortDescriptor alloc] initWithKey:@"word" ascending:YES];
-//	
-//	[req setSortDescriptors:[NSArray arrayWithObject:sortByName]];
-//	[req setResultType:NSDictionaryResultType];
-//	
-//	NSDictionary *entityProperties = [entityDesc propertiesByName];
-//	[req setPropertiesToFetch:[NSArray arrayWithObject:[entityProperties objectForKey:@"word"]]];
-//	[req setReturnsDistinctResults:TRUE];
-//	
-//	NSError *error;
-//	NSArray *items = [managedObjectContext executeFetchRequest:req error:&error];
-//	
-//	[req release];	
-//	
-//	NSLog(@"allRhymes: %i, took %f", items.count, (CFAbsoluteTimeGetCurrent() - startTime));
-//	
-//	if (![managedObjectContext save:&error]) {
-//        NSLog(@"Unresolved Core Data Save error %@, %@", error, [error userInfo]);
-//        return [NSArray init];
-//    }
-//	
-//	return items;
-//}
-//
-//
-//-(NSDictionary *)buildPrefixSearchMap{
-//	NSArray *allRhymes = [self allRhymes];
-//	NSMutableDictionary *result = [NSMutableDictionary dictionary];
-//
-//	for(int i=0; i<[allRhymes count];i++){
-//		//RhymePart *rhymePart = [allRhymes objectAtIndex:i];
-//		NSString *word = [[allRhymes objectAtIndex:i] valueForKey:@"word"];
-//		//NSLog(@"word is %@", word);
-//		
-//		NSString *subString = [word length] > 2 ? [word substringToIndex:3] : word;
-//		
-//		if([result objectForKey:subString] == nil){
-//			[result setValue:[NSMutableArray array] forKey:subString];
-//		}
-//		
-//		NSMutableArray *words = (NSMutableArray *)[result objectForKey:subString];
-//		[words addObject:word];
-//		//NSLog(@"added substring %@, array is now %i", subString, [words count]);
-//			
-//	}
-//	
-//	NSLog(@"created dictionary of size %i", [result count]);
-//	//TODO convert mutable arrays to immutable
-//	
-//	return [NSDictionary dictionaryWithDictionary:result];
-//}
+-(NSString *)randomWord{
+	if([self.allEntries count] == 0)return @"rap";
+	return [[self.allEntries objectAtIndex:(arc4random() % [self.allEntries count])]valueForKey:@"word"];
+}
 
-//-(NSSet *)rhymingWordsContainedIn:(NSString *)words{
-//	NSMutableSet* buffer = [[NSMutableSet alloc] init];
-//	NSArray* wordsArray = [words componentsSeparatedByString:@" "];
-//	
-//	for(NSString *st in wordsArray){
-//		if([self containsWord:st]){
-//			[buffer addObject:st];
-//		}
-//	}
-//	NSSet* result =	[NSSet setWithSet:buffer];
-//	[buffer dealloc];
-//	return result;	
-//}
+- (NSArray*)allRhymesSorted{
+	CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+
+	NSFetchRequest *req = [[NSFetchRequest alloc] init];
+	NSEntityDescription *entityDesc = [NSEntityDescription entityForName:@"RhymePart" inManagedObjectContext:managedObjectContext];
+	[req setEntity:entityDesc];
+	
+	NSSortDescriptor *sortByName = [[NSSortDescriptor alloc] initWithKey:@"word" ascending:YES];
+	
+	[req setSortDescriptors:[NSArray arrayWithObject:sortByName]];
+	[req setResultType:NSDictionaryResultType];
+	
+	
+	NSDictionary *entityProperties = [entityDesc propertiesByName];
+	[req setPropertiesToFetch:[NSArray arrayWithObject:[entityProperties objectForKey:@"word"]]];
+	[req setReturnsDistinctResults:TRUE];
+	
+	NSError *error;
+	NSArray *items = [managedObjectContext executeFetchRequest:req error:&error];
+	
+	[req release];
+	[sortByName release];
+	
+	if (![managedObjectContext save:&error]) {
+        NSLog(@"Unresolved Core Data Save error %@, %@", error, [error userInfo]);
+        return [NSArray init];
+    }
+	
+	NSLog(@"allRhymes: took %f", (CFAbsoluteTimeGetCurrent() - startTime));
+
+	
+	return items;
+}
 //
-//-(BOOL)containsWord:(NSString *)word{
-//	NSFetchRequest *req = [[NSFetchRequest alloc] init];
-//	[req setEntity:[NSEntityDescription entityForName:@"RhymePart" inManagedObjectContext:self.managedObjectContext]];
-//	
-//	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"word like[cd] %@", word];
-//	[req setPredicate:predicate];
-//	
-//	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"score" ascending:NO];
-//	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
-//	[req setSortDescriptors:sortDescriptors];
-//	
-//	[req setIncludesSubentities:NO]; //Omit subentities. Default is YES (i.e. include subentities)
-//	
-//	NSError *err;
-//	NSUInteger count = [managedObjectContext countForFetchRequest:req error:&err];
-//	if(count == NSNotFound) {
-//		//Handle error
-//	}	
-//	[req release];
-//	NSLog(@"count for %@ was %i", word, count);
-//	
-//	return count != 0;
-//}
 //
+-(NSDictionary *)buildPrefixSearchMap:(NSArray*)allRhymes{
+	CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+
+	NSMutableDictionary *result = [NSMutableDictionary dictionary];
+
+	for(int i=0; i<[allRhymes count];i++){
+		//RhymePart *rhymePart = [allRhymes objectAtIndex:i];
+		NSString *word = [[allRhymes objectAtIndex:i] valueForKey:@"word"];
+		//NSLog(@"word is %@", word);
+		
+		NSString *subString = [word length] > 2 ? [word substringToIndex:3] : word;
+		
+		if([result objectForKey:subString] == nil){
+			[result setValue:[NSMutableArray array] forKey:subString];
+		}
+		
+		NSMutableArray *words = (NSMutableArray *)[result objectForKey:subString];
+		[words addObject:word];
+		//NSLog(@"added substring %@, array is now %i", subString, [words count]);
+			
+	}
+	
+	NSLog(@"created dictionary of size %i", [result count]);
+	//TODO convert mutable arrays to immutable
+	NSLog(@"buildPrefixSearchMap: took %f", (CFAbsoluteTimeGetCurrent() - startTime));
+
+	
+	return [NSDictionary dictionaryWithDictionary:result];
+}
+
+-(NSArray *)rhymesWithPrefixCheap:(NSString *)queryRaw{
+	CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+
+	NSString* query = [queryRaw uppercaseString];
+	//NSLog(@"query length: %i", [query length]);
+	//NSLog(@"query length: %@", [self.prefixSearchMap objectForKey:query]);
+
+	if([query length] == 3 && ([self.prefixSearchMap objectForKey:query] != nil)){
+		return [self.prefixSearchMap objectForKey:query];
+	}else if([query length] > 3){
+		NSString *key = [query substringToIndex:3];
+		id res = [self.prefixSearchMap objectForKey:key];
+		if(res != nil){
+			NSArray *entries = (NSArray*)res;
+			NSMutableArray *resultArray = [[NSMutableArray alloc] init];
+			for(NSString *word in entries){
+				if([word hasPrefix:query]){
+					[resultArray addObject:word];
+				}
+			}
+			NSLog(@"rhymesWithPrefixCheap: took %f", (CFAbsoluteTimeGetCurrent() - startTime));
+
+			NSArray *res = [NSArray arrayWithArray:resultArray];
+			[resultArray release];
+			return res;
+		}
+			
+	}
+	return [NSArray array];
+}
+
 -(NSArray *)buildResultsArray:(NSArray *)items maxResults:(double)maxResults{
-	double resultsToShowDouble = fmin(maxResults, [[[NSNumber alloc] initWithInt:items.count] doubleValue]);
+	double resultsToShowDouble = fmin(maxResults, [[NSNumber numberWithInt:items.count] doubleValue]);
 	NSLog(@"will show %f results", resultsToShowDouble);
 	
-	int resultsToShow = [[[NSNumber alloc] initWithDouble:resultsToShowDouble] intValue];
+	int resultsToShow = [[NSNumber numberWithDouble:resultsToShowDouble] intValue];
 	NSLog(@"will show %i results", resultsToShow);
 	
 	NSMutableArray* resultArray = [[NSMutableArray alloc] init];
@@ -223,10 +240,11 @@
 	}
 	
 	NSLog(@"result array has %i entreis", resultArray.count);
+
 	
-	NSArray* result = [NSArray arrayWithArray:resultArray];
-	[resultArray dealloc];
-	return result;
+	NSArray* res = [NSArray arrayWithArray:resultArray];
+	[resultArray release];
+	return res;
 }
 
 /**
@@ -248,14 +266,6 @@
     }
 }
 
--(void)installTestData{
-
-	RhymePart* part = [[RhymePart alloc] init];
-	part.word = @"crack";
-	part.rhymeParts=@"mack%%%attack";
-	part.rhymeLines=@"some sill words that someone once said";
-	//part.
-}
 
 #pragma mark -
 #pragma mark Core Data stack
@@ -319,23 +329,35 @@
     } 
 }
 
+-(NSURL*)storeUrlFromDocumentsDir{
+	//NSString* applicationDocumentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];		
+	return [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent: sqliteFileWithExtension]];
+}
+
+-(NSURL*)storeUrlFromBundle{
+    return [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:sqliteFileName ofType:@"sqlite"]];
+}
 
 /**
  Returns the persistent store coordinator for the application.
  If the coordinator doesn't already exist, it is created and the application's store added to it.
  */
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
-	[self createEditableCopyOfDatabaseIfNeeded];
+	/**
+	 *
+	 *
+	 * RUN THE APP WITH THIS LINE COMMENTED OUT TO CREATE THE EMPTY SQLITE DATABASE.
+	 * 
+	 *
+	 */
+	//[self createEditableCopyOfDatabaseIfNeeded];
+	
 	
     if (persistentStoreCoordinator != nil) {
         return persistentStoreCoordinator;
     }
 	
-	//NSString* applicationDocumentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];	
-    //NSString *databasePath = [[NSBundle mainBundle] pathForResource:sqliteFileName ofType:@"sqlite"];
-	
-	NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent: sqliteFileWithExtension]];
-	//NSURL *storeUrl = [NSURL fileURLWithPath:databasePath]; 
+	NSURL *storeUrl = [self storeUrlFromBundle];
 	
 	NSError *error = nil;
     persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];

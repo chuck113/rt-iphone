@@ -4,4 +4,6 @@
 rhymeTimeNavigation.xcodeproj/ckubicek.perspectivev3
 build/
 
+rhymeTime.sqlite
+
 .DS_Store

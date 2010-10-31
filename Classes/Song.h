@@ -1,8 +1,8 @@
 //
 //  Song.h
-//  rhymeTimeIPhoneUI
+//  rhymeTimeNavigation
 //
-//  Created by Charles on 27/04/2010.
+//  Created by Charles on 19/09/2010.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
@@ -15,6 +15,7 @@
 }
 
 @property (nonatomic, retain) NSString * title;
+@property (nonatomic, retain) NSString * lwSongName;
 @property (nonatomic, retain) Album * album;
 
 @end

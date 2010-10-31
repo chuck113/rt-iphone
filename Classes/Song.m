@@ -1,8 +1,8 @@
 // 
 //  Song.m
-//  rhymeTimeIPhoneUI
+//  rhymeTimeNavigation
 //
-//  Created by Charles on 27/04/2010.
+//  Created by Charles on 19/09/2010.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
@@ -13,6 +13,7 @@
 @implementation Song 
 
 @dynamic title;
+@dynamic lwSongName;
 @dynamic album;
 
 @end

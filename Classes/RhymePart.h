@@ -2,30 +2,37 @@
 //  RhymePart.h
 //  rhymeTimeNavigation
 //
-//  Created by Charles Kubicek on 07/06/2010.
+//  Created by Charles Kubicek on 01/08/2010.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
 #import <CoreData/CoreData.h>
 
+@class Rhyme;
 @class Song;
 
 @interface RhymePart :  NSManagedObject  
 {
 }
 
-
--(NSArray *)linesDeserialised;
--(NSArray *)partsDeserialised;
+-(NSString *)rhymeLines;
+-(NSString *)rhymeParts;
+-(NSString *)wordsNotInIndex;
+-(NSArray *)deSerializeArray:(NSString*)string;
 -(NSString *)linesDeserialisedAsString;
+-(NSArray *)linesDeserialised;
 -(NSSet *)wordsNotInIndexDeserialised;
+-(NSArray *)partsDeserialised;
 
-@property (nonatomic, retain) NSString * rhymeParts;
-@property (nonatomic, retain) NSString * wordsNotInIndex;
+
 @property (nonatomic, retain) NSNumber * rhymeScore;
-@property (nonatomic, retain) NSString * rhymeLines;
 @property (nonatomic, retain) NSString * word;
+@property (nonatomic, retain) Rhyme * rhyme;
 @property (nonatomic, retain) Song * song;
+
+@property (nonatomic, retain, readonly) NSString* rhymeLines;
+@property (nonatomic, retain, readonly) NSString* rhymeParts;
+@property (nonatomic, retain, readonly) NSString* wordsNotInIndex;
 
 @end
 

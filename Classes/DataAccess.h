@@ -13,17 +13,23 @@
 	NSManagedObjectContext *managedObjectContext;
 	NSPersistentStoreCoordinator *persistentStoreCoordinator;
 	NSManagedObjectModel *managedObjectModel;
+	NSArray* allEntries;
+	NSDictionary* prefixSearchMap;
 }
 
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
+@property (nonatomic, retain) NSArray* allEntries;
+@property (nonatomic, retain) NSDictionary* prefixSearchMap;
 
 
+- (NSString *)randomWord;
 - (NSArray*)findRhymes:(NSString *)toFind;
-//-(BOOL)containsWord:(NSString *)word;
-//-(NSSet *)rhymingWordsContainedIn:(NSString *)words;
 - (void)onApplicationTermination:(UIApplication *)application;
 - (NSArray*)rhymesWithPrefix:(NSString *)prefix;
+- (NSArray *)rhymesWithPrefixCheap:(NSString *)query;
+
+-(void)buildEntriesAsyc;
 
 @end

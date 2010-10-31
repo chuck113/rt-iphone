@@ -6,15 +6,17 @@
 //  Copyright __MyCompanyName__ 2010. All rights reserved.
 //
 
-#import "TableCellView.h"
 #import "HtmlBuilder.h"
+#import "ResultCell.h"
 #import "ActivityView.h"
 #import "NoResultsView.h"
 #import "DataAccess.h"
+#import "Search.h"
+#import "InstructionsView.h"
 
 @protocol HtmlLoadedCallback;
 
-@protocol SearchCallback<NSObject>
+@protocol BeginSearchCallback<NSObject>
 
 @required
 
@@ -23,33 +25,43 @@
 @end
 
 
-@interface RootViewController : UITableViewController<UISearchDisplayDelegate, SearchCallback, UISearchBarDelegate, HtmlLoadedCallback> {
+@interface RootViewController : UITableViewController<UISearchDisplayDelegate, BeginSearchCallback, UISearchBarDelegate, SearchCallback> {
 	NSArray *searchResult;	
 	HtmlBuilder* htmlBuilder;	
-	NSArray* cellCache;
-	UISearchBar* searchBar;
 	NSArray* tableCellPool;
+	NSArray* resultCache;
 	
 	ActivityView *activityView;
 	NoResultsView *noResultsView;
+	InstructionsView *instructionsView;
 	
 	IBOutlet UITableView *searchResultTableView;
-	UISearchDisplayController* searchDisplayController;
+	IBOutlet UISearchDisplayController* searchDisplayController;
 	NSMutableArray* filteredSearchSuggestions;
+	
+	ResultCellFactory* resultCellFactory;
+	IBOutlet DataAccess *dataAccess;
+	Search *search;
+	
 }
 
-- (void)searchWorker:(NSString*)text;
+//-(void)searchWorker:(NSString*)text;
+
+-(void)disableScrolling;
+-(void)enableScrolling;
 
 @property (nonatomic, retain) IBOutlet UITableView *searchResultTableView;
-@property (nonatomic, retain) UISearchBar *searchBar;
 @property (nonatomic, retain) NSArray *searchResult;
-@property (nonatomic, retain) HtmlBuilder *htmlBuilder;
-@property (nonatomic, retain) NSArray *cellCache;
-@property (nonatomic, retain) NSArray *tableCellPool;
+@property (nonatomic, retain) NSArray *resultCache;
 @property (nonatomic, retain) ActivityView *activityView;
+@property (nonatomic, retain) InstructionsView *instructionsView;
 @property (nonatomic, retain) NoResultsView *noResultsView;
 @property (nonatomic, retain) UISearchDisplayController* searchDisplayController;
 @property (nonatomic, retain) NSMutableArray* filteredSearchSuggestions;
+@property (nonatomic, retain, readonly) ResultCellFactory* resultCellFactory;
+@property (nonatomic, retain) IBOutlet DataAccess *dataAccess;
+@property (nonatomic, retain, readonly) Search *search;
+
 
 @end
 

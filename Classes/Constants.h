@@ -5,7 +5,7 @@
 #define kTitleKey				@"title"
 #define kDetailKey				@"detail text"
 
-#define kLinesWidth				300.0
+#define kLinesWidth				280.0
 
 // html styles
 #define kResultTableLineStyle	@"style=\"font-family:Helvetica;font-size:16px;color:white\""
