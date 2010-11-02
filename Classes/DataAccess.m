@@ -121,7 +121,12 @@
 }
 
 -(NSString *)randomWord{
-	if([self.allEntries count] == 0)return @"rap";
+	if([self.allEntries count] == 0){
+		NSArray *firstWords = [[NSArray alloc] initWithObjects:@"rap", @"commit", @"prevention", @"between", @"ringin", @"explain", NULL];
+		NSString *randomWord = [firstWords objectAtIndex:(arc4random() % [firstWords count])];
+		[firstWords release];
+		return randomWord;
+	}
 	return [[self.allEntries objectAtIndex:(arc4random() % [self.allEntries count])]valueForKey:@"word"];
 }
 
